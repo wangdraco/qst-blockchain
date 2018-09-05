@@ -16,4 +16,8 @@ b = json.dumps(a)
 c = json.loads(b)
 print(b,type(b))
 print(c,type(c))
-print()
+
+def str_to_hex(s):
+    return ''.join([hex(ord(c)).replace('0x', '') for c in s])
+print(str_to_hex('list\\000.xkl'))
+
