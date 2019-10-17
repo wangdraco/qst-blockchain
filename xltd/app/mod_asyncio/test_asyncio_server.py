@@ -1,4 +1,36 @@
-import asyncio,time,concurrent
+import asyncio,time,concurrent,threading
+
+async def longtime():
+    print('in long time=====')
+    result = 0
+    #time.sleep(2)
+    #await asyncio.sleep(2)
+    for i in range(1000000):
+        result += i
+    print(f'finished long time {result}')
+    return f'long time result:{result}'
+
+async def longtime2():
+    print('in long time 2----')
+    result = 0
+    #time.sleep(2)
+    #await asyncio.sleep(2)
+
+    for i in range(10000000):
+        result += i
+    print(f'finished long time2 {result}')
+    return f'long time2 result:{result}'
+
+async def longtime3():
+    print('in long time 3----')
+    result = 0
+    #time.sleep(2)
+
+    #await asyncio.sleep(3)
+    for i in range(100000000):
+        result += i
+    print(f'finished long time3 {result}')
+    return f'long time3 result:{result}'
 
 async def phase(i):
     print('in phase {}'.format(i))
@@ -10,6 +42,7 @@ async def handle_echo(reader, writer):
     data = await reader.read(100)
     message = data.decode()
     addr = writer.get_extra_info('peername')
+
 
     print(f"Received {message!r} from {addr!r}")
 
@@ -26,15 +59,15 @@ async def main_test(num_phases):
         phase(i)
         for i in range(num_phases)
     ]
+
     print('waiting for phases to complete')
     completed, pending = await asyncio.wait(phases)
-    print('the pending is {}',completed)
     results = [t.result() for t in completed]
     print('results: {!r}'.format(results))
 
 
 async def main_server():
-    #await asyncio.sleep(1)
+    await asyncio.sleep(0.1)
     server = await asyncio.start_server(
         handle_echo, '127.0.0.1', 8888)
 
@@ -45,7 +78,7 @@ async def main_server():
         await server.serve_forever()
 
 async def main_server2():
-    #await asyncio.sleep(1)
+    await asyncio.sleep(0.1)
     server = await asyncio.start_server(
         handle_echo, '127.0.0.1', 9999)
 
@@ -77,11 +110,22 @@ async def main():
     task = asyncio.create_task(main_test(5))
     task2 = asyncio.create_task(main_server())
     task3 = asyncio.create_task(main_server2())
-    done, pending = await asyncio.wait([task,task2,task3],timeout=50, return_when=concurrent.futures.ALL_COMPLETED)
-    print(done,'--',pending)
+    done, pending = await asyncio.wait([task,task2,task3],timeout=5)
+    #or pass through coroutine function directly
+    #done, pending = await asyncio.wait([longtime(), longtime2(),longtime3()], timeout=3)
+    #
+    print('done task is -----',done)
+    print('pending task is ====',pending)
+
+    for d in done:
+        print('finished task is ',d.result())
+
+    for t in pending:
+        print(f'cancel task is {t}')
+        t.cancel()
 
 
-    # for f in asyncio.as_completed([task,task2],timeout=5):
+    # for f in asyncio.as_completed([task,task2],timeout=10):
     #     earliest_result = await f
     #     print('as complete is ...........',earliest_result)
 
@@ -90,4 +134,32 @@ async def main():
     # for result in gathered_coroutines:
     #     print('result is ',result)
 
-asyncio.run(main())
+async def main_longtime():
+    print(f"started at {time.strftime('%X')}")
+
+    # await longtime2()
+    # await longtime()
+    # await longtime3()
+    gathered = await asyncio.gather(longtime2(), longtime(),longtime3())
+
+    print(f"finished at {time.strftime('%X')},and result is {gathered}")
+
+
+async def main_timeout():
+    # Wait for at most 1 second
+    try:
+        await asyncio.wait_for(longtime3(), timeout=2)
+        await asyncio.wait_for(main_server(), timeout=5)
+        await asyncio.wait_for(main_server2(), timeout=10)
+    except asyncio.TimeoutError:
+        print('timeout!')
+
+#asyncio.run(main_timeout())
+
+
+
+
+
+
+
+

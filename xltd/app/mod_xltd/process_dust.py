@@ -1,17 +1,18 @@
 # coding: utf-8
 import requests,schedule,time,json
+from app import get_memcache
 
-#memcache instance
 
-def run_scheduled_task(**name):
-    print('in xltd dust--------------',name['mc_instance'])
+def run_dust_scheduled_task(**name):
+    print('in xltd dust--------------')
     global mc_instance
-    mc_instance = name['mc_instance']
-    schedule.every(20).seconds.do(run_dustdata)
+    #mc_instance = name['mc_instance']
+    mc_instance = get_memcache()
+    schedule.every(70).seconds.do(run_dustdata)
 
     while 1:
         schedule.run_pending()
-        time.sleep(5)
+        time.sleep(2)
 
 
 
@@ -25,8 +26,8 @@ def run_dustdata():
 
         for i in r.json():
             if i['DevAddr'] == _key and i['devPos'] == '1':
-                _data['pm10'] = i['DevTempValue']
-                _data['pm25'] = i['DevHumiValue']
+                _data['PM10'] = i['DevTempValue']
+                _data['PM25'] = i['DevHumiValue']
 
             if i['DevAddr'] == _key and i['devPos'] == '2':
                 _data['noise'] = i['DevHumiValue']

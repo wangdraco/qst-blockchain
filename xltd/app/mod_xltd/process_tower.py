@@ -1,17 +1,19 @@
 # coding: utf-8
-import requests,schedule,time,json
+import requests,schedule,time,json,threading,memcache
+#from app import  get_memcache
 
 #memcache instance
 
-def run_scheduled_task(**name):
+def run_tower_scheduled_task(**name):
     print('in xltd 塔吊数据--------------',name['mc_instance'])
     global mc_instance
     mc_instance = name['mc_instance']
-    schedule.every(40).seconds.do(run_tower_data)
+    #mc_instance = get_memcache()
+    schedule.every(60).seconds.do(run_tower_data)
 
     while 1:
         schedule.run_pending()
-        time.sleep(5)
+        time.sleep(3)
 
 
 
@@ -22,19 +24,26 @@ def run_tower_data():
 
     try:
         #step1 access tokenKen
+        print('begin request=======================')
         _r = requests.get(_url)
+        print("r.json is ==========",_r.json())
         _accessKey = _r.json()['rows']
 
         #step2 get ProjectID
         _url = 'https://www.safe110.net/API/API.ashx?PostType=GetEngineeringOrEquipmenttList&ForeignKey={}&UserName={}'.format(
             _accessKey, _username)
         _r = requests.get(_url)
+
+        print('dddddddddddddddddddddd====',_r.json())
         _projectid = _r.json()['rows'][0]['ProjectID']
+        print('projectID===================',_projectid)
 
         #step3 assemble devices
         _devices = []
         for d in _r.json()['rows']:
             _devices.append(d['DeviceSN'])
+
+        print('devices=======================',_devices)
 
         #step4 获取塔吊基本信息
         _finaldata = {}
@@ -50,7 +59,15 @@ def run_tower_data():
         mc_instance.set('xltd_tower', json.dumps(_finaldata, ensure_ascii=False))
 
     except Exception as e:
-        print('塔吊信息获取失败',e)
+        print('塔吊信息获取失败11',e)
 
 
+def get_memcache():
+    return memcache.Client(['127.0.0.1:11211'], debug=True)
 
+mc_instance = get_memcache()
+
+t_tower_data = threading.Thread(target=run_tower_scheduled_task, kwargs={'mc_instance': mc_instance})
+t_tower_data.start()
+
+#run_tower_data()

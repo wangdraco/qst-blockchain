@@ -4,22 +4,25 @@ from flask_login import LoginManager,current_user,login_required
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO, emit
 import memcache,socket
-import eventlet
+import eventlet,sys
 from flask_httpauth import HTTPTokenAuth
 import threading
+from datetime import timedelta
 import concurrent.futures
 
-
+#sys.setrecursionlimit(30000)
 # Define the WSGI application object
 app = Flask(__name__)
+#默认缓存控制的最大期限,用于static目录的更新通知,默认12小时
+#app.config['SEND_FILE_MAX_AGE_DEFAULT'] = timedelta(seconds=5)
 
 #有了这个patch,debug就不起作用了
-#eventlet.monkey_patch()
-#socketio = SocketIO(app, async_mode='eventlet',ping_interval=20)
+eventlet.monkey_patch()
+socketio = SocketIO(app, async_mode='eventlet',ping_interval=20)
 #web socket instance,mode='eventlet''threading
 # async_mode='eventlet'导致页面没反应
-#加上eventlet.monkey_patch()就可以了
-socketio = SocketIO(app, async_mode='threading')
+#加上eventlet.monkey_patch()就可以了,但是eventlet不适用于多个socketio的情况，在多线程里不能使用多个socketio对象
+#socketio = SocketIO(app, async_mode='threading')
 
 # import !!  Configurations,access the  config.py
 app.config.from_object('config')
@@ -74,19 +77,29 @@ autodust_t = threading.Thread(target=run_scheduled_task)
 #autodust_t.start()
 
 #中铁建工信联天地项目-青岛, 环境监测数据
-from app.mod_xltd.process_dust import run_scheduled_task
-t_dust_data = threading.Thread(target=run_scheduled_task, kwargs={'mc_instance': mc})
-#t_dust_data.start()
+from app.mod_xltd.process_dust import run_dust_scheduled_task
+t_dust_data = threading.Thread(target=run_dust_scheduled_task, kwargs={'mc_instance': mc})
+t_dust_data.start()
 
 #中铁建工信联天地项目-青岛, 塔吊监测数据
-from app.mod_xltd.process_tower import run_scheduled_task
-t_tower_data = threading.Thread(target=run_scheduled_task, kwargs={'mc_instance': mc})
-t_tower_data.start()
+# from app.mod_xltd.process_tower import run_tower_scheduled_task
+# t_tower_data = threading.Thread(target=run_tower_scheduled_task, kwargs=None)
+# t_tower_data.start()
+#run_tower_data()
+#executor=concurrent.futures.ThreadPoolExecutor(max_workers=3)
+#executor.map(run_tower_data)
+
 
 #中铁建工信联天地项目-青岛, 养护室温湿度数据
-from app.mod_xltd.process_yanghushi import run_scheduled_task
-t_yanghushi_data = threading.Thread(target=run_scheduled_task, kwargs={'mc_instance': mc})
+from app.mod_xltd.process_yanghushi import run_yanghushi_scheduled_task
+t_yanghushi_data = threading.Thread(target=run_yanghushi_scheduled_task, kwargs={'mc_instance': mc})
 #t_yanghushi_data.start()
+
+#中铁建工信联天地项目-青岛, 电表数据
+from app.mod_xltd.process_electronic import run_scheduled_task
+t_elec_data = threading.Thread(target=run_scheduled_task, kwargs={'mc_instance': mc})
+t_elec_data.start()
+
 
 #manualy gc.collect,realease memory
 # from app.mod_tools.gc_thread import run_gc_thread
