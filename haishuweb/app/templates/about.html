@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+	<title>青岛物联网 | 海数物联网</title>
+
+	<!-- CSS includes -->
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/theme.css" rel="stylesheet">
+	<link id="themecss" rel="stylesheet" type="text/css" href="css/all.min.css" />
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="js/html5shiv.min.js"></script>
+		<script src="js/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+	<div class="container">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a href="/index" title="海数物联">
+                <img class="img-responsive" src="images/logo.png" alt="海数物联"/>
+            </a>
+		</div>
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li ><a href="/index" class="smooth-scroll">主页</a></li>
+				<li class="active"><a href="/about">关于</a></li>
+				<li><a href="/services">服务</a></li>
+				<li><a href="/gallery">案例集</a></li>
+				<li><a href="/contact">联系我们</a></li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+</nav>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-7">
+			<img src="images/image3.jpg" class="img-responsive center-block" />
+		</div>
+		<div class="col-md-5">
+			<br/>
+			<br/>
+			<h2>关于我们</h2>
+			<br/>
+			<br/>
+			<p class="text-justify">我们专注于企业物联网设计与应用，结合人工智能和大数据技术，为企业创造价值</p>
+			<br/>
+			<body class="theme-light">
+				<div id="chart">
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<br/>
+			<br/>
+			<h2>我们的团队</h2>
+			<br/>
+			<h4>系统架构师</h4>
+			<p style="color: #999999;">好的架构是一个软件系统的基石，我们希望底座足够的结实......</p>
+			<h4>程序猿&媛</h4>
+			<p style="color: #999999;">编程语言对他们来说就是浮云，java、python、.net，能解决实际问题的就是好语言。</p>
+			<h4>数据分析师</h4>
+			<p style="color: #999999;">在他们眼里，图片，视频，语音都是冷冰冰的数据......</p>
+			<h4>UI设计师</h4>
+			<p style="color: #999999;">和数据分析师刚好相反，他们把冷冰冰的数据转化为栩栩如生的图表。</p>
+			<br/>
+			<button class="btn btn-default btn btn-lg" type="button" style="margin:10px;">READ MORE</button>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="col-md-6 col-sm-6" >
+					<img src="images/image12.jpg" class="img-responsive pull-left" />
+					<br/>
+				</div>
+				<div class="col-md-6 col-sm-6" >
+					<img src="images/image11.jpg" class="img-responsive pull-right" />
+					<br/>
+				</div>
+			</div>
+			<div class="col-md-6" >
+				<div class="col-md-6 col-sm-6" >
+					<img src="images/image13.jpg" class="img-responsive pull-left"/>
+				</div>
+				<div class="col-md-6 col-sm-6" >
+					<img src="images/image10.jpg" class="img-responsive pull-right"/>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-7">
+			<img src="images/image4.jpg" class="img-responsive center-block" />
+		</div>
+		<div class="col-md-5">
+			<br/>
+			<br/>
+			<h2>为什么选择我们？</h2>
+			<br/>
+			<h3>因为我们：</h3>
+			<p class="text-justify" style="color: #999999;">利用物联网产生数据，使用人工智能从大量数据中获取业务洞察，推动新业务模式发展并获得收益。.</p>
+			<br/>
+			<button class="btn btn-default btn btn-lg" type="button" style="margin:10px;">READ MORE</button>
+			<br/>
+			<br/>
+			<br/>
+			<div id="calendar" class="calendar"></div>
+		</div>
+	</div>
+</div>
+
+{% include 'footerbar.html' %}
+
+<script src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/shieldui-all.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#chart").shieldChart({
+            theme: "dark",
+            primaryHeader: {
+                text: "物联网&人工智能发展趋势"
+            },
+            exportOptions: {
+                image: false,
+                print: false
+            },
+            axisX: {
+                categoricalValues: ["2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019"]
+            },
+            tooltipSettings: {
+                chartBound: true,
+                axisMarkers: {
+                    enabled: true,
+                    mode: 'xy'
+                }                    
+            },
+            dataSeries: [{
+                seriesType: 'area',
+                collectionAlias: "物联网",
+                data: [100, 220, 353, 334, 453, 485, 545, 623, 732, 745, 794, 845, 932, 886, 900]
+            },
+            {
+                seriesType: 'line',
+                collectionAlias: "人工智能",
+                data: [30, 70, 120, 180, 150, 212, 246, 290, 321, 332, 390, 410, 520, 610, 790]
+            }]
+        });
+		$("#calendar").shieldCalendar({
+            footer: {
+                enabled: true,
+                footerTemlpate: "{0:dd.MM.yy}"
+            },
+            min: new Date("2009/2/23"),
+            max: new Date("2039/3/1"),
+            value: new Date()
+        });
+    });
+</script>
+</body>
+</html>

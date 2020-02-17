@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="0769761f-14d8-49e4-9328-0669fe221364" name="Default Changelist" comment="">
+      <change afterPath="D:/esp8266/.idea/libraries/MicroPython.xml" afterDir="false" />
+      <change afterPath="D:/esp8266/.idea/misc.xml" afterDir="false" />
+      <change afterPath="D:/esp8266/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="D:/esp8266/config.py" afterDir="false" />
+      <change afterPath="D:/esp8266/config_lora.py" afterDir="false" />
+      <change afterPath="D:/esp8266/main.py" afterDir="false" />
+      <change afterPath="D:/esp8266/my_app.py" afterDir="false" />
+      <change afterPath="D:/esp8266/sx127x.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/haishuweb.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/bootstrap/css/bootstrap.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/bootstrap/css/bootstrap.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/bootstrap/fonts/glyphicons-halflings-regular.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/bootstrap/fonts/glyphicons-halflings-regular.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/bootstrap/fonts/glyphicons-halflings-regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/bootstrap/fonts/glyphicons-halflings-regular.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/bootstrap/fonts/glyphicons-halflings-regular.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/bootstrap/js/bootstrap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/bootstrap/js/bootstrap.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/css/theme.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/css/unite-gallery.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/button-close.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/cover-grid.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/icon-link32.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/icon-play32.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/icon-zoom32.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/lightbox-arrow-left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/lightbox-arrow-right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/lightbox-icon-close-compact.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/lightbox-icon-close-compact2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/lightbox-icon-close.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/loader-black1.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/loader-black2.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/loader-black3.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/loader-black4.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/loader-black5.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/loader-black6.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/loader-black7.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/loader-white1.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/loader-white2.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/loader-white3.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/loader-white4.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/loader-white5.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/loader-white6.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/loader-white7.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/loader.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/loader_bright.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/loader_skype_trans.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/not_loaded.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/play-button-round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/play-button-square.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/images/transparent.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/js/jquery-11.0.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/js/unitegallery.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/js/unitegallery.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/alexis.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/arrows_strip_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/arrows_strip_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/button_fullscreen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/button_playpause.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/button_zoom_back.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/button_zoom_minus.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/button_zoom_plus.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/grid_arrow_down.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/grid_arrow_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/grid_arrow_left_hortype.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/grid_arrow_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/grid_arrow_right_hortype.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/grid_arrow_up.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/grid_handle_down.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/grid_handle_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/grid_handle_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/grid_handle_up.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/slider_arrow_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/slider_arrow_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/alexis/images/slider_bullets.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/arrow_grid_down.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/arrow_grid_up.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/arrows_strip_down.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/arrows_strip_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/arrows_strip_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/arrows_strip_up.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/button_fullscreen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/button_playpause.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/grid_arrow_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/grid_arrow_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/grid_handle_black_bottom.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/grid_handle_black_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/grid_handle_black_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/grid_handle_black_top.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/icon_zoom_back.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/icon_zoom_minus.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/icon_zoom_plus.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/slider_arrow_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/slider_arrow_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/slider_bullets.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/tile_bullets_blue.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/tile_bullets_brown.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/tile_bullets_gray.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/tile_bullets_green.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/tile_bullets_red.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/tile_button_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/tile_button_play_pause.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/skins/default/tile_button_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/carousel/ug-theme-carousel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/compact/ug-theme-compact.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/default/images/arrow_down_up.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/default/images/arrows_strip_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/default/images/arrows_strip_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/default/images/button_fullscreen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/default/images/button_fullscreen_single.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/default/images/button_playpause.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/default/images/button_playpause_single.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/default/ug-theme-default.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/default/ug-theme-default.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/grid/ug-theme-grid.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/slider/ug-theme-slider.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/tiles/ug-theme-tiles.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/tilesgrid/ug-theme-tilesgrid.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/video/images/arrow_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/video/images/arrow_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/video/skin-bottom-text.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/video/skin-right-no-thumb.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/video/skin-right-thumb.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/video/skin-right-title-only.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ext/unitegallery/themes/video/ug-theme-video.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/css/font-awesome.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/css/font-awesome.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/fonts/FontAwesome.otf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/fonts/fontawesome-webfont.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/fonts/fontawesome-webfont.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/fonts/fontawesome-webfont.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/fonts/fontawesome-webfont.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/fonts/fontawesome-webfont.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/less/bordered-pulled.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/less/core.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/less/fixed-width.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/less/font-awesome.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/less/icons.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/less/larger.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/less/list.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/less/mixins.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/less/path.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/less/rotated-flipped.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/less/spinning.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/less/stacked.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/less/variables.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/scss/_bordered-pulled.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/scss/_core.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/scss/_fixed-width.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/scss/_icons.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/scss/_larger.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/scss/_list.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/scss/_mixins.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/scss/_path.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/scss/_rotated-flipped.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/scss/_spinning.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/scss/_stacked.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/scss/_variables.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/fonts/font-awesome/scss/font-awesome.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/carousel1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/carousel2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/carousel3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/gallery/image1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/gallery/image2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/gallery/image3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/gallery/image4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/gallery/image5.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/gallery/image6.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/gallery/image7.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/image1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/image10.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/image11.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/image12.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/image13.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/image2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/image3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/image4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/image5.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/image6.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/image7.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/images/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/js/jquery.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/about.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/contact.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/error_404.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/footerbar.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/gallery.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/navbar.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/services.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/runit.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/colorama/__init__.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/colorama/ansi.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/colorama/ansitowin32.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/colorama/initialise.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/colorama/win32.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/colorama/winterm.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/__init__.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/_ihatexml.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/_inputstream.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/_tokenizer.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/_trie/__init__.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/_trie/_base.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/_trie/datrie.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/_trie/py.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/_utils.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/constants.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/filters/__init__.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/filters/alphabeticalattributes.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/filters/base.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/filters/inject_meta_charset.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/filters/lint.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/filters/optionaltags.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/filters/sanitizer.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/filters/whitespace.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/html5parser.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/serializer.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/treeadapters/__init__.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/treeadapters/genshi.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/treeadapters/sax.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/treebuilders/__init__.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/treebuilders/base.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/treebuilders/dom.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/treebuilders/etree.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/treebuilders/etree_lxml.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/treewalkers/__init__.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/treewalkers/base.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/treewalkers/dom.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/treewalkers/etree.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/treewalkers/etree_lxml.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/html5lib/treewalkers/genshi.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/lockfile/__init__.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/lockfile/linklockfile.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/lockfile/mkdirlockfile.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/lockfile/pidlockfile.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/lockfile/sqlitelockfile.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/lockfile/symlinklockfile.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/packaging/__init__.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/packaging/_structures.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/packaging/markers.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/packaging/requirements.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/packaging/specifiers.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/packaging/utils.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/packaging/version.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/progress/__init__.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/progress/bar.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/progress/counter.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/progress/helpers.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/progress/spinner.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/requests/__init__.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/requests/__version__.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/requests/_internal_utils.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/requests/adapters.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/requests/api.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/requests/auth.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/requests/certs.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/requests/compat.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/requests/cookies.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/requests/exceptions.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/requests/help.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/requests/hooks.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/requests/models.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/requests/packages.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/requests/sessions.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/requests/status_codes.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/requests/structures.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/requests/utils.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/urllib3/contrib/_securetransport/__init__.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/urllib3/packages/__init__.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/urllib3/packages/backports/__init__.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/urllib3/packages/backports/makefile.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/urllib3/packages/ordered_dict.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/urllib3/packages/six.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/urllib3/packages/ssl_match_hostname/__init__.py" afterDir="false" />
+      <change afterPath="D:/odoo-dev/venv/Lib/site-packages/pip-10.0.1-py3.7.egg/pip/_vendor/urllib3/packages/ssl_match_hostname/_implementation.py" afterDir="false" />
+      <change afterPath="D:/pythonweb/app/mod_gui/temp.xkl" afterDir="false" />
+      <change afterPath="D:/pythonweb/app/mod_tools/modbus_model.py" afterDir="false" />
+      <change afterPath="D:/pythonweb/app/mod_tools/temp.xkl" afterDir="false" />
+      <change afterPath="D:/pythonweb/app/mod_xltd/process_water.py" afterDir="false" />
+      <change afterPath="D:/xltd/app/mod_xltd/process_login.py" afterDir="false" />
+      <change afterPath="D:/xltd/app/mod_xltd/user_model.py" afterDir="false" />
+      <change afterPath="D:/xltd/app/templates/dtjk.html" afterDir="false" />
+      <change afterPath="D:/xltd/app/templates/login.html" afterDir="false" />
+      <change afterPath="D:/xltd/app/templates/lssg.html" afterDir="false" />
+      <change afterPath="D:/xltd/app/templates/lwgl.html" afterDir="false" />
+      <change afterPath="D:/xltd/app/templates/sdsj.html" afterDir="false" />
+      <change afterPath="D:/xltd/app/templates/spjk.html" afterDir="false" />
+      <change afterPath="D:/xltd/app/templates/xmgk.html" afterDir="false" />
+      <change beforePath="D:/pythonweb/testclass.py" beforeDir="false" afterPath="D:/pythonweb/testclass.py" afterDir="false" />
+      <change beforePath="D:/xltd/.idea/misc.xml" beforeDir="false" afterPath="D:/xltd/.idea/misc.xml" afterDir="false" />
+      <change beforePath="D:/xltd/.idea/xltd.iml" beforeDir="false" afterPath="D:/xltd/.idea/xltd.iml" afterDir="false" />
+      <change beforePath="D:/xltd/app/__init__.py" beforeDir="false" afterPath="D:/xltd/app/__init__.py" afterDir="false" />
+      <change beforePath="D:/xltd/app/mod_keras/predict_few_images.py" beforeDir="false" afterPath="D:/xltd/app/mod_keras/predict_few_images.py" afterDir="false" />
+      <change beforePath="D:/xltd/app/mod_keras/train_few_images.py" beforeDir="false" afterPath="D:/xltd/app/mod_keras/train_few_images.py" afterDir="false" />
+      <change beforePath="D:/xltd/app/mod_regression/mlp_sales_regression.py" beforeDir="false" afterPath="D:/xltd/app/mod_regression/mlp_sales_regression.py" afterDir="false" />
+      <change beforePath="D:/xltd/app/mod_regression/test2.py" beforeDir="false" afterPath="D:/xltd/app/mod_regression/test2.py" afterDir="false" />
+      <change beforePath="D:/xltd/app/mod_xltd/process_dust.py" beforeDir="false" afterPath="D:/xltd/app/mod_xltd/process_dust.py" afterDir="false" />
+      <change beforePath="D:/xltd/app/mod_xltd/process_tower.py" beforeDir="false" afterPath="D:/xltd/app/mod_xltd/process_tower.py" afterDir="false" />
+      <change beforePath="D:/xltd/app/mod_xltd/process_websocket.py" beforeDir="false" afterPath="D:/xltd/app/mod_xltd/process_websocket.py" afterDir="false" />
+      <change beforePath="D:/xltd/app/static/css/css.css" beforeDir="false" afterPath="D:/xltd/app/static/css/css.css" afterDir="false" />
+      <change beforePath="D:/xltd/app/templates/index.html" beforeDir="false" afterPath="D:/xltd/app/templates/index.html" afterDir="false" />
+      <change beforePath="D:/xltd/app/views.py" beforeDir="false" afterPath="D:/xltd/app/views.py" afterDir="false" />
+      <change beforePath="D:/xltd/config.py" beforeDir="false" afterPath="D:/xltd/config.py" afterDir="false" />
+      <change beforePath="D:/xltd/runit.py" beforeDir="false" afterPath="D:/xltd/runit.py" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="1764444971">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.3" value="2" />
+          <entry key="project.opened" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="html" value="37" />
+          <entry key="js" value="1" />
+          <entry key="py" value="7" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="HTML" value="37" />
+          <entry key="JavaScript" value="1" />
+          <entry key="Python" value="7" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="html" value="4508" />
+          <entry key="py" value="171" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="HTML" value="4508" />
+          <entry key="Python" value="171" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="38">
+              <caret line="2" column="21" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="19">
+              <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+              <folding>
+                <element signature="e#40#101#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/templates/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3192">
+              <caret line="168" selection-start-line="168" selection-end-line="168" selection-end-column="30" />
+              <folding>
+                <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#h2#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#p#1;n#div#1;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/templates/footerbar.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1083">
+              <caret line="57" column="9" selection-start-line="57" selection-start-column="9" selection-end-line="57" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/templates/about.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2489">
+              <caret line="131" column="30" selection-start-line="131" selection-start-column="30" selection-end-line="131" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/templates/gallery.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="874">
+              <caret line="46" column="51" lean-forward="true" selection-start-line="46" selection-start-column="51" selection-end-line="46" selection-end-column="51" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>demo</find>
+      <find>unitegallery</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="D:/" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/runit.py" />
+        <option value="$PROJECT_DIR$/app/__init__.py" />
+        <option value="$PROJECT_DIR$/config.py" />
+        <option value="$PROJECT_DIR$/app/templates/navbar.html" />
+        <option value="$PROJECT_DIR$/app/views.py" />
+        <option value="$PROJECT_DIR$/app/templates/footerbar.html" />
+        <option value="$PROJECT_DIR$/app/templates/index.html" />
+        <option value="$PROJECT_DIR$/app/templates/about.html" />
+        <option value="$PROJECT_DIR$/app/templates/contact.html" />
+        <option value="$PROJECT_DIR$/app/templates/services.html" />
+        <option value="$PROJECT_DIR$/app/templates/gallery.html" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1358" />
+    <option name="y" value="-8" />
+    <option name="width" value="1456" />
+    <option name="height" value="2536" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="haishuweb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="haishuweb" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="last_opened_file_path" value="D:/pythonweb" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\haishuweb\app\templates" />
+      <recent name="D:\haishuweb\app\static" />
+      <recent name="D:\haishuweb\app" />
+      <recent name="D:\haishuweb" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="runit" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="haishuweb" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/runit.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.runit" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\Draco.Wang\AppData\Roaming\Subversion</configuration>
+    <myIsUseDefaultProxy>true</myIsUseDefaultProxy>
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="true" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0769761f-14d8-49e4-9328-0669fe221364" name="Default Changelist" comment="" />
+      <created>1581314919411</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1581314919411</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1358" y="-8" width="1456" height="2536" extended-state="6" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16149506" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32972524" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/static/js/shieldui-all.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="14" column="21881" selection-start-line="14" selection-start-column="21877" selection-end-line="14" selection-end-column="21881" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/navbar.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="6" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="21" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+          <folding>
+            <element signature="e#40#101#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3192">
+          <caret line="168" selection-start-line="168" selection-end-line="168" selection-end-column="30" />
+          <folding>
+            <element signature="n#style#0;n#img#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h2#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#1;n#div#1;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/footerbar.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1083">
+          <caret line="57" column="9" selection-start-line="57" selection-start-column="9" selection-end-line="57" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/about.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2489">
+          <caret line="131" column="30" selection-start-line="131" selection-start-column="30" selection-end-line="131" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/contact.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1691">
+          <caret line="89" column="30" selection-start-line="89" selection-start-column="30" selection-end-line="89" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/services.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2147">
+          <caret line="113" column="30" selection-start-line="113" selection-start-column="30" selection-end-line="113" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/runit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/gallery.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="874">
+          <caret line="46" column="51" lean-forward="true" selection-start-line="46" selection-start-column="51" selection-end-line="46" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

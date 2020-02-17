@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Services | IT Studio Bootstrap Theme</title>
+
+	<!-- CSS includes -->
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/theme.css" rel="stylesheet">
+	<link id="themecss" rel="stylesheet" type="text/css" href="css/all.min.css" />
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="js/html5shiv.min.js"></script>
+		<script src="js/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+	<div class="container">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a href="/index" title="海数物联">
+                <img class="img-responsive" src="images/logo.png" alt="IT Studio Bootstrap Theme"/>
+            </a>
+		</div>
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li ><a href="/index" class="smooth-scroll">主页</a></li>
+				<li><a href="/about">关于</a></li>
+				<li class="active"><a href="/services">服务</a></li>
+				<li><a href="/gallery">案例集</a></li>
+				<li><a href="/contact">联系我们</a></li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+</nav>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-5">
+			<br/>
+			<br/>
+			<h2>我们的服务</h2>
+			<br/>
+			<br/>
+			<p class="text-justify">由众多嵌入传感器的连网设备组成的物联网，形成一个可以收集、监测、分析和提供有价值数据的系统，这些数据可用于更快、更准确地推动业务决策。连网的传感器和执行器使公司能够更快地发现效率低下和问题的原因所在</p>
+			<br/>
+			<ul style="color: #999999;">
+			  <li>数字化连接工厂</li>
+			  <li>设备预测性维护</li>
+			  <li>智能仓储管理</li>
+			  <li>生产流程控制及全程可视化</li>
+			  <li>物流与供应链优化</li>
+			  <li>......</li>
+			</ul> 
+			<br/>
+			<button class="btn btn-default btn btn-lg" type="button" style="margin:10px;">READ MORE</button>
+			<br/>
+		</div>
+		<div class="col-md-7">
+			<img src="images/image5.jpg" class="img-responsive center-block" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-7">
+			<img src="images/image6.jpg" class="img-responsive center-block" />
+		</div>
+		<div class="col-md-5">
+			<br/>
+			<br/>
+			<h2>项目实施流程</h2>
+			<br/>
+			<br/>
+			<div class="outer">
+				<div id="timeline"></div>
+			</div>
+			<br/>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-5">
+			<br/>
+			<br/>
+			<h2>您的企业需要人工智能吗？</h2>
+			<br/>
+			<h3>人工智能的作用</h3>
+			<p class="text-justify" style="color: #999999;">人工智能在企业中的应用规模已经今非昔比。从银行训练人工智能来赋能数字劳动力，到电信公司设置智能聊天机器人来推进客户服务转型，人工智能正在企业层面跨行业扩展。通过收集数据并从中学习，认知系统可以发现趋势并提供洞察，帮助您的团队改进工作流程，缩短响应时间并提升客户体验。有了人工智能，您的企业将能够在 21世纪以及更远的未来实现更大发展。</p>
+			<h3>人工智能和物联网强强联合</h3>
+			<p class="text-justify" style="color: #999999;">人工智能 (AI) 正在彻底重塑业务。通过利用以前孤立存储的大量结构化和非结构化数据，您将能够从根本上实现业务转型，并颠覆行业格局。人工智能不是一项单一的技术，它是一系列技术和构建块，利用数据来解锁各行业和业务职能领域的智能价值，物联网的出现正好弥补了数据缺失的那一环。</p>
+			<button class="btn btn-default btn btn-lg" type="button" style="margin:10px;">READ MORE</button>
+		</div>
+		<div class="col-md-7">
+			<img src="images/image7.jpg" class="img-responsive center-block" />
+		</div>
+	</div>
+</div>
+
+{% include 'footerbar.html' %}
+
+<script src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="js/shieldui-all.min.js"></script>
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        $("#timeline").shieldTimeline({
+            dataSource: {
+                data: [
+                    {
+                        title: '<span class="time">2019-02-15 10:35</span> 项目经理.',
+                        text: "Hey! 所有人, 感谢各位的努力，系统终于顺利上线了<br />庆祝一下吧!",
+                        iconCls: "fa fa-facebook",
+                        collapsed: true
+                    },
+                    {
+                        title: '<span class="time">2019-01-10 12:15</span> 测试员',
+                        text: "数据分析模块测试完成，可以上线了.....",
+                        iconCls: "fa fa-twitter"
+                    },
+                    {
+                        title: '<span class="time">2018-10-19 08:32</span> 程序员.',
+                        text: "Hi 老大,<br />没日没夜的coding，有加班费不 :) " +
+                            "哈哈哈.....!",
+                        iconCls: "fa fa-twitter",
+                        collapsed: true
+                    },
+                    {
+                        title: '<span class="time">2018-10-18 14:20</span> 系统设计',
+                        text: "设计完成，可以编码了",
+                        iconCls: "fa fa-twitter"
+                    },
+                    {
+                        title: '<span class="time">2018-10-10 11:44</span> 系统需求',
+                        text: "需求确认，进入系统设计阶段......",
+                        iconCls: "fa fa-twitter"
+                    }
+                ]
+            },
+            layout: "centered"
+        });
+    });
+</script>
+
+</body>
+</html>

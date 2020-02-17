@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+	<title>青岛物联网 | 海数物联网</title>
+
+	<!-- CSS includes -->
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/theme.css" rel="stylesheet">
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="js/html5shiv.min.js"></script>
+		<script src="js/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+	<div class="container">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a href="/index" title="海数物联">
+                <img class="img-responsive" src="images/logo.png" alt="海数物联"/>
+            </a>
+		</div>
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			{% include 'navbar.html' %}
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+</nav>
+
+<!-- Carousel -->	
+<div id="theme-carousel" class="carousel slide hidden-xs" data-ride="carousel">
+	<!-- Indicators -->
+		<ol class="carousel-indicators">
+			<li data-target="#theme-carousel" data-slide-to="0" class="active"></li>
+			<li data-target="#theme-carousel" data-slide-to="1"></li>
+			<li data-target="#theme-carousel" data-slide-to="2"></li>
+		</ol>
+	<!-- Wrapper for slides -->
+	<div class="carousel-inner" role="listbox">
+		<div class="item active">
+			<img src="images/carousel2.jpg" alt="carousel1" style="width:100%" />
+			<div class="carousel-caption">
+				<div class="row">
+					<div class="col-md-8">
+						<h2 style="font-size:50px;">工业4.0数字工厂</h2>
+						<br/>
+						<br/>
+						<h4>嵌入物联网系统的机器将操作相关的信息传递给原始设备制造商和现场工程师等人员，这种方式使操作管理人员能够远程管理工厂单元。另外，一个数字连接单位也有助于建立更好的指挥系统，能够提前预测可能带来潜在问题的设备和数据。</h4>
+						<br/>
+					</div>
+					<div class="col-md-4">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="item">
+			<img src="images/carousel1.jpg" alt="carousel2" style="width:100%" />
+			<div class="carousel-caption">
+				<div class="row">
+					<div class="col-md-4">
+					</div>
+					<div class="col-md-8">
+						<h2 style="font-size:50px;">物流与供应链优化</h2>
+						<br/>
+						<br/>
+						<h4>通过部署工业物联网系统，可以跟踪运输中的材料、产品和设备在供应链中的移动，提供对实时供应链信息的访问。通过有效的报告，制造商能够收集并将交货信息输入到ERP、PLM等系统中。如果工厂与供应商建立联系，供应链中的所有相关方都可以跟踪相互依赖关系、制造周期时间和物流。因此，这些数据将有助于制造商减少库存，预测潜在问题，并降低资本要求。</h4>
+						<br/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="item">
+			<img src="images/carousel3.jpg" alt="carousel3" style="width:100%">
+			<div class="carousel-caption">
+				<div class="row">
+					<div class="col-md-8">
+						<h2 style="font-size:50px;">库存管理</h2>
+						<br/>
+						<br/>
+						<h4>利用物联网系统对整个供应链的事件进行监控，这些系统允许跟踪库存变化情况。这样，如果与行动计划有任何重大偏差，就会通知用户。这提供了对库存的深远和跨渠道的可视性，有助于管理者对可用材料、正在进行的工作和新材料的估计到达时间作出实际的估计。最终，这将使供应更加优化，并减少价值链中产生的额外和共享成本。</h4>
+						<br/>
+					</div>
+					<div class="col-md-4">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Controls -->
+	<a class="left carousel-control" href="#theme-carousel" role="button" data-slide="prev">
+        <div class="carousel-control-arrow">&#8249;</div>
+	</a>
+	<a class="right carousel-control" href="#theme-carousel" role="button" data-slide="next">
+        <div class="carousel-control-arrow">&#8250;</div>
+	</a>
+</div>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-7" >
+			<img src="images/image1.jpg" class="img-responsive center-block" />
+		</div>
+		<div class="col-md-5">
+			<br/>
+			<br/>
+			<h2>我们的使命</h2>
+			<br/>
+			<br/>
+			<p class="text-justify">借助物联网系统，通过嵌入设备中的传感器与外部环境交互来收集数据，并通过网络进行通信，最终到达云平台；我们开发的物联网应用可以使用这些数据来执行各种任务，如提供洞察、分析和汇总等，企业可以实时访问网络上的所有信息，从而有利于企业改进业务流程提高生产效率。</p>
+			<br/>
+			<p class="text-justify" style="color: #999999;">融合人工智能 (AI)和大数据技术，通过收集以前孤立存储的大量结构化和非结构化数据并从中学习，构建深度学习系统，从而发现趋势并提供洞察，帮助您的团队改进工作流程，缩短响应时间并提升客户体验。有了人工智能，您的企业将能够在 21世纪以及更远的未来实现更大发展. </p>
+			<br/>
+			<ul>
+			  <li>物联网底层架构设计</li>
+			  <li>数据采集、传输、存储及分发</li>
+			  <li>基于人工智能的数据处理和汇总</li>
+			</ul> 
+			<br/>
+			<button class="btn btn-default btn-lg" type="button" style="margin:10px;">READ MORE</button>
+			<br/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-5">
+			<br/>
+			<br/>
+			<h2>系统设计 & 数据处理</h2>
+			<br/>
+			<br/>
+			<p class="text-justify">完全按照您的要求，在物联网架构设计、软件应用开发和智能数据处理方面为您提供专业的技术咨询和定制化开发服务。</br></br>我们现有的工业物联网管理平台融合了人工智能、深度学习等前沿技术，不论您的企业处于转型之旅的哪个阶段，我们的开发人员都能帮助你制定和执行成功的物联网战略，并实施真正适合您的物联网应用和架构。</p>
+			<br/>
+			<p>我们可以为您提供：</p>
+			<ul  style="color: #999999;">
+			  <li>软件系统定制开发</li>
+			  <li>传感器数据和业务数据集成</li>
+			  <li>基于CNN（卷积神经网络）进行图像分类、识别和处理</li>
+			  <li>基于机器学习的数据分析和预测服务，提前进行预警</li>
+			</ul> 
+			<br/>
+			<button class="btn btn-default btn btn-lg" type="button" style="margin:10px;">READ MORE</button>
+			<br/>
+			<br/>
+		</div>
+		<div class="col-md-7">
+			<img src="images/image2.jpg" class="img-responsive center-block" />
+		</div>
+	</div>
+</div>
+
+
+{% include 'footerbar.html' %}
+
+
+
+
+<script src="js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+</body>
+</html>
