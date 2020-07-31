@@ -1,0 +1,62 @@
+Request finalizing failed with an error while handling an error
+Traceback (most recent call last):
+  File "D:\Python37\lib\site-packages\redis\connection.py", line 539, in connect
+    sock = self._connect()
+  File "D:\Python37\lib\site-packages\redis\connection.py", line 596, in _connect
+    raise err
+  File "D:\Python37\lib\site-packages\redis\connection.py", line 584, in _connect
+    sock.connect(socket_address)
+ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python37\lib\site-packages\flask\app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Python37\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    return self.finalize_request(rv)
+  File "D:\Python37\lib\site-packages\flask\app.py", line 1969, in finalize_request
+    response = self.process_response(response)
+  File "D:\Python37\lib\site-packages\flask\app.py", line 2268, in process_response
+    self.session_interface.save_session(self, ctx.session, response)
+  File "D:\Python37\lib\site-packages\flask_session\sessions.py", line 166, in save_session
+    time=total_seconds(app.permanent_session_lifetime))
+  File "D:\Python37\lib\site-packages\redis\client.py", line 1540, in setex
+    return self.execute_command('SETEX', name, time, value)
+  File "D:\Python37\lib\site-packages\redis\client.py", line 836, in execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+  File "D:\Python37\lib\site-packages\redis\connection.py", line 1073, in get_connection
+    connection.connect()
+  File "D:\Python37\lib\site-packages\redis\connection.py", line 544, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 10061 connecting to 127.0.0.1:6379. 由于目标计算机积极拒绝，无法连接。.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python37\lib\site-packages\redis\connection.py", line 539, in connect
+    sock = self._connect()
+  File "D:\Python37\lib\site-packages\redis\connection.py", line 596, in _connect
+    raise err
+  File "D:\Python37\lib\site-packages\redis\connection.py", line 584, in _connect
+    sock.connect(socket_address)
+ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Python37\lib\site-packages\flask\app.py", line 1969, in finalize_request
+    response = self.process_response(response)
+  File "D:\Python37\lib\site-packages\flask\app.py", line 2268, in process_response
+    self.session_interface.save_session(self, ctx.session, response)
+  File "D:\Python37\lib\site-packages\flask_session\sessions.py", line 166, in save_session
+    time=total_seconds(app.permanent_session_lifetime))
+  File "D:\Python37\lib\site-packages\redis\client.py", line 1540, in setex
+    return self.execute_command('SETEX', name, time, value)
+  File "D:\Python37\lib\site-packages\redis\client.py", line 836, in execute_command
+    conn = self.connection or pool.get_connection(command_name, **options)
+  File "D:\Python37\lib\site-packages\redis\connection.py", line 1073, in get_connection
+    connection.connect()
+  File "D:\Python37\lib\site-packages\redis\connection.py", line 544, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 10061 connecting to 127.0.0.1:6379. 由于目标计算机积极拒绝，无法连接。.

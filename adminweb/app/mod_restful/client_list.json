@@ -1,3 +1,4 @@
 {"clients":
   [{"client_id":3001,"client_secret":"56ce7e80-5939-443f-b733-ea7b2175fe68","status":"valid"},
-    {"client_id":3002,"client_secret":"78ce7e80-5939-443f-b733-ea7b2175fe90","status":"valid"}]}
+    {"client_id":3002,"client_secret":"78ce7e80-5939-443f-b733-ea7b2175fe90","status":"valid"},
+  {"client_id":3003,"client_secret":"78ce7e80-3434-tf45-b733-ea7b2175fe90","status":"valid"}]}
