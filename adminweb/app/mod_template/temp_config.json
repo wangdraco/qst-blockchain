@@ -1,0 +1,14 @@
+{"package_name":"app",
+  "model_class":"SysOrg",
+  "table_name" : "sys_org",
+  "var_table":"org",
+  "list_webfile":"orglist.html",
+  "form_webfile":"orgform.html",
+  "class_path" : "D:/adminweb/app/",
+  "web_path" : "D:/adminweb/app/templates/",
+  "relative_path" : "mod_org",
+  "webfile_path" : "org",
+  "weblist_title" : "部门列表",
+  "column_lable" : {"one" : "部门名称", "two" : "所在地址", "three" : "电话" ,"four" : "传真","five" : "是否有效","six" : "备注"},
+  "column_value" : {"one_v" : "NAME", "two_v" : "ADDRESS", "three_v" : "PHONE" ,"four_v" : "FAX","five_v" : "ISACTIVE","six_v" : "DESCRIPTION"}
+}

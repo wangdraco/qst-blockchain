@@ -1,0 +1,48 @@
+<!-- SAMPLE BOX CONFIGURATION MODAL FORM-->
+<div class="tab-pane fade" id="custom-tabs-one-detail" role="tabpanel" aria-labelledby="custom-tabs-one-detail-tab">
+	<form role="form" action="/nbiotdevice/save" method="post">
+		<input type="hidden" name="record_id" value="{{selectdata.id}}">
+                    <div class="row">
+                        <div class="col-sm-6">
+                          <!-- text input -->
+                          <div class="form-group">
+                            <label>设备名称</label>
+                            <input type="text" class="form-control" name="device_name"  value="{{selectdata.device_name}}" placeholder="Enter ...">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label>设备编号</label>
+                            <input type="text" class="form-control" name="device_no" value="{{selectdata.device_no}}" placeholder="Enter ..." >
+                          </div>
+                        </div>
+                     </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                          <!-- text input -->
+                          <div class="form-group">
+                            <label>协议类型</label>
+                            <input type="text" class="form-control" name="protocal_type"  value="{{selectdata.protocal_type}}" placeholder="Enter ...">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label>服务器IP</label>
+                            <input type="text" class="form-control" name="server_ip" value="{{selectdata.server_ip}}" placeholder="Enter ..." >
+                          </div>
+                        </div>
+                     </div>
+
+                    <div class="form-group">
+                          <label class="col-form-label" for="inputSuccess"> 备注信息</label>
+                          <input type="text" class="form-control" id="inputSuccess" placeholder="Enter ...">
+                     </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                          <button type="submit" class="btn btn-primary">保存</button>
+                          <button type="button" onclick="javascript:$('#custom-tabs-one-home-tab').click();" class="btn btn-default float-right">取消/返回</button>
+                        </div>
+    </form>
+</div>
+

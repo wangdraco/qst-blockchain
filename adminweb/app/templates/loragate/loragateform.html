@@ -1,0 +1,127 @@
+<!-- SAMPLE BOX CONFIGURATION MODAL FORM-->
+<div class="tab-pane fade" id="custom-tabs-one-detail" role="tabpanel" aria-labelledby="custom-tabs-one-detail-tab">
+	<form id="form_id" role="form" action="/loragate/save" method="post">
+		<input type="hidden" name="record_id" value="{{selectdata.id}}">
+                    <div class="row">
+                        <div class="col-sm-6">
+                          <!-- text input -->
+                          <div class="form-group">
+                            <label>网关编号</label>
+                            <input type="text" class="form-control" name="gate_no"  value="{{selectdata.gate_no}}" placeholder="Enter ...">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label>网关名称</label>
+                            <input type="text" class="form-control" name="gate_name" value="{{selectdata.gate_name}}" placeholder="Enter ..." >
+                          </div>
+                        </div>
+                     </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                          <!-- text input -->
+                          <div class="form-group">
+                            <label>网关地址</label>
+                            <input type="text" class="form-control" name="gate_addr"  value="{{selectdata.gate_addr}}" placeholder="Enter ...">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label>本地IP</label>
+                            <input type="text" class="form-control" name="local_ip" value="{{selectdata.local_ip}}" placeholder="Enter ..." >
+                          </div>
+                        </div>
+                     </div>
+
+                    <div class="form-group">
+                          <label class="col-form-label" for="inputSuccess"> 备注信息</label>
+                          <input type="text" class="form-control" name="comment" id="inputSuccess" placeholder="Enter ...">
+                     </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                          <button type="button" onclick="saveOneRecord();" class="btn btn-primary">保存</button>
+                          <button type="button" onclick="javascript:cancel();" class="btn btn-default float-right">取消/返回</button>
+                        </div>
+    </form>
+</div>
+<script>
+$(function() {
+    $('#pickdate1').daterangepicker({  
+      showDropdowns: true,
+     showWeekNumbers: false,
+     timePicker: false,
+     timePickerIncrement: 2,
+     singleDatePicker: true,
+     timePicker24Hour: true,
+        autoUpdateInput: false, //必须设置为false,否则会自动填充，把原有的数据冲掉，然后再修改源代码，在合适的地方设为true
+     startDate: moment(),//moment().add(1,'days')表示今天的基础上加一天
+        locale: {
+	    	    	format: "YYYY-MM-DD",
+	    	    	separator: " - ",
+	    	    	daysOfWeek: ["日","一","二","三","四","五","六"],
+	    	    	monthNames: ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]
+	    	   }
+          
+      })
+
+      //launch save message for user
+    toastr.options = {
+        closeButton: false,
+        debug: false,
+        positionClass: "toast-top-right ",
+        onclick: null,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "1500",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut"
+    };
+
+    {% for msg in get_flashed_messages(category_filter=['save_info'])  %}
+      toastr.success('{{msg}}');
+    {% endfor %}
+
+
+});
+
+
+
+//save one record
+  function saveOneRecord()
+  {
+		$.ajax({
+			url: '/loragate/save',
+			type: 'POST',
+			cache:false,
+			dataType: 'html',
+			data: $('#form_id').serialize(),
+			success: function (response) {
+				var result = $('#custom-tabs-one-detail').append(response).find('#custom-tabs-one-detail').html();
+				$('#custom-tabs-one-detail').html(result);
+				$("#custom-tabs-one-detail-tab").click();
+			},
+			error:function(response){
+			  alert('save error');
+			}
+		});
+  }
+
+  function cancel(){
+    $.ajax({
+			url: '/loragate/list',
+			type: 'GET',
+			cache:false,
+			dataType: 'html',
+			success: function (response) {
+			    var result = $('#custom-tabs-one-home').append(response).find('#custom-tabs-one-home').html();
+				$('#custom-tabs-one-home').html(result);
+				$('#custom-tabs-one-home-tab').click();
+			}
+		});
+
+  }
+</script>

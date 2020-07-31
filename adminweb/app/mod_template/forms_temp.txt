@@ -1,0 +1,59 @@
+# coding: utf-8
+from app import app
+from flask_login import login_required
+from flask import render_template,request,redirect,flash,session
+import $package_name$.$relative_path$.service as c
+from $package_name$.$relative_path$.models import $model_class$
+import datetime,copy
+
+
+#导航页面里的href上使用 <a class="" href="{{ url_for('list_all_$var_table$') }}"> 或  href="/$var_table$/list"都可以路由到这里
+@app.route('/$var_table$/list')
+@login_required
+def list_all_$var_table$():
+    _listdata = c.get_all_data()
+    return render_template("$webfile_path$/$list_webfile$",listdata= _listdata)
+
+
+@app.route('/$var_table$/edit/<int:id>')
+@login_required
+def edit_$var_table$(id):
+    selectdata = $model_class$()
+    if (id != 0):
+        selectdata = c.select_by_id(id)
+    else:
+        selectdata.id = 0
+    return render_template("$webfile_path$/$form_webfile$",selectdata= selectdata)
+
+@app.route('/$var_table$/save',methods=['POST'])
+@login_required
+def save_$var_table$():
+    record = $model_class$()
+    record.id = int(request.form.get('record_id'))
+
+    #better using dict.get() than form[key] ,coz get(key) returns None if no key found.....
+    #or use request.form.get('abc','default value').
+    record.$one_v$ = request.form.get('$one_v$')
+
+    record.$two_v$ = request.form.get('$two_v$')
+    record.$three_v$ = request.form.get('$three_v$')
+    record.$four_v$ = request.form.get('$four_v$')
+    record.$five_v$ = request.form.get('$five_v$')
+    record.$six_v$ = request.form.get('$six_v$')
+
+    _selectdata = copy.copy(record)
+
+    _selectdata.id = c.update_insert_data(record)
+    flash('用户保存成功!!', 'save_info')
+
+    #listdata = c.get_all_data()
+    #return render_template("$webfile_path$/$list_webfile$", listdata=listdata)
+    #return redirect('/$var_table$/list')
+    return render_template("/$var_table$/$form_webfile$", selectdata= _selectdata)
+
+@app.route('/$var_table$/delete/<int:id>')
+@login_required
+def delete_$var_table$(id):
+    c.delete_by_id(id)
+    flash('信息删除成功!!', 'delete_info')
+    return redirect('/$var_table$/list')

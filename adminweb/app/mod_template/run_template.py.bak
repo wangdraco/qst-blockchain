@@ -1,0 +1,65 @@
+from flask import json
+import os
+
+jsonconf = json.load(open('temp_config.json',encoding='utf-8'))
+
+#create folder first
+if not os.path.exists(jsonconf['class_path'] +jsonconf['relative_path']):
+    os.mkdir(jsonconf['class_path'] +jsonconf['relative_path'])
+if not os.path.exists(jsonconf['web_path']  + jsonconf['webfile_path']):
+    os.mkdir(jsonconf['web_path']  + jsonconf['webfile_path'])
+
+#create models.py first, use flask-sqlacodegen (pip install flask-sqlacodegen first)
+#生成models文件后，必须马上修改，db变量引用自app
+_cmd = 'flask-sqlacodegen --flask --tables '+jsonconf['table_name']+' --outfile '\
+       +jsonconf['class_path'] +jsonconf['relative_path']+'/'+'models.py'+\
+       ' mysql+mysqlconnector://energy:energy168@127.0.0.1/clouddata'
+os.system(_cmd)
+#os.system是阻塞的，可以使用os.popen(cmd)
+
+#open template files
+with open('forms_temp.txt', 'r',encoding='utf-8') as f:
+    forms = f.read()
+
+with open('controllers_temp.txt', 'r',encoding='utf-8') as f:
+    controller = f.read()
+
+with open('weblist_temp.txt', 'r',encoding='utf-8') as f:
+    weblist = f.read()
+
+with open('webform_temp.txt', 'r',encoding='utf-8') as f:
+    webform = f.read()
+
+for k, v in jsonconf.items():
+    print(k,v)
+    forms = forms.replace('$'+str(k)+'$',str(v))
+    controller = controller.replace('$'+str(k)+'$',str(v))
+
+    weblist = weblist.replace('$'+str(k)+'$',str(v))
+    webform = webform.replace('$' + str(k) + '$', str(v))
+
+    if k == 'column_lable' or k == 'column_value':
+        for kk,vv in v.items():
+            forms = forms.replace('$' + str(kk) + '$', vv)
+            weblist = weblist.replace('$' + str(kk) + '$', vv)
+            webform = webform.replace('$' + str(kk) + '$', vv)
+
+
+
+#生成 forms.py
+with open(jsonconf['class_path'] +jsonconf['relative_path']+ '/' +'forms.py','x',encoding='utf-8') as f:
+    f.write(forms)
+
+#生成 controllers.py
+with open(jsonconf['class_path'] + jsonconf['relative_path'] + '/' + 'controllers.py','x',encoding='utf-8') as f:
+    f.write(controller)
+
+#生成 weblist 文件
+with open(jsonconf['web_path']  + jsonconf['webfile_path'] + '/' + jsonconf['list_webfile'], 'x',encoding='utf-8') as f:
+    f.write(weblist)
+
+#生成 webform 文件
+with open(jsonconf['web_path']  + jsonconf['webfile_path'] + '/' + jsonconf['form_webfile'], 'x',encoding='utf-8') as f:
+    f.write(webform)
+
+print('生成成功-----------------------------------')
