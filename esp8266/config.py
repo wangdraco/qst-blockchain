@@ -43,7 +43,7 @@ uart1 = False
 uart1_dict = {"tx":25,"rx":26,"baudrate":115200,"data_bits":8,"stop_bits":1,"parity":None}
 
 uart2 = True
-uart2_dict = {"tx":17,"rx":16,"baudrate":9600,"data_bits":8,"stop_bits":1,"parity":None}
+uart2_dict = {"tx":17,"rx":16,"baudrate":115200,"data_bits":8,"stop_bits":1,"parity":None}
 
 #modbus tcp
 modbus_tcp = True

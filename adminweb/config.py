@@ -9,6 +9,9 @@ import os
 # from sqlalchemy import create_engine,pool
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
+#redis host
+REDIS_HOST = "127.0.0.1"
+REDIS_PORT = 6379
 # Define the database - we are working with
 # SQLite for this example
 #SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'clouddata.db')
@@ -65,7 +68,7 @@ SECRET_KEY = "!@#qwer$%^"
 from redis import Redis
 
 SESSION_TYPE = "redis" #session的存储类型为redis，也可以为null，则什么都没有
-SESSION_REDIS = Redis(host="127.0.0.1", port=6379)
+SESSION_REDIS = Redis(host=REDIS_HOST, port=REDIS_PORT)
 SESSION_USE_SIGNER = True ##是否强制加盐，混淆session, 使用的话必须要有secret_key
 SESSION_PERMANENT =False #sessons是否长期有效，false，则关闭浏览器，session失效
 PERMANENT_SESSION_LIFETIME = 3600 #session长期有效，则设定session生命周期，整数秒，默认大概不到3小时
@@ -81,7 +84,7 @@ TEMPLATES_AUTO_RELOAD = True
 JSON_CONFIG_PATH = BASE_DIR+"\\app\\data\\appconfig.json"
 
 #配置Celery 分布式的消息队列处理系统
-CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
-CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
+CELERY_BROKER_URL = "redis://{}:{}/0".format(REDIS_HOST, REDIS_PORT)
+CELERY_RESULT_BACKEND = "redis://{}:{}/0".format(REDIS_HOST, REDIS_PORT)
 
 

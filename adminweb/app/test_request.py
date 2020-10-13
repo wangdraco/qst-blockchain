@@ -52,22 +52,27 @@ def access_token():
 
 #读取设备列表
 def device_list():
-    headers = {'Authorization': 'Bearer 397d6e436ab6c78ae9f642b39c1edcafe3e2ef6beca4a6f381e5bf6edf249705',"ContentType": "application/x-www-form-urlencoded"}
+    headers = {'Authorization': 'Bearer 62e2bafd86900ffc0d1ae1fe8aa72eff43a51abe33a0b59d0cf1b6addcfc3456',"ContentType": "application/x-www-form-urlencoded"}
     devicelist = 'https://apioffice.zhijiaiot.com/api/ClientDevice/List'
-    devicelist = 'http://139.129.200.70:8091/api/ClientDevice/List'
+    #devicelist = 'http://139.129.200.70:8091/api/ClientDevice/List'
     _payload = {'projectId':'ce35d6ef-18d3-43bc-ad6f-c58ad159be7e'}
 
-    request_device = requests.post(devicelist, headers=headers, data=_payload)
+    devicelist = 'https://apioffice.zhijiaiot.com/api/ClientDevice/List' + '?projectId=ce35d6ef-18d3-43bc-ad6f-c58ad159be7e' +'&original=1'
+
+    request_device = requests.post(devicelist, headers=headers)
+
+    #request_device = requests.post(devicelist, headers=headers, data=_payload)
     print(request_device.json())
 
 #获取单个设备
 def get_device():
-    headers = {'Authorization' : 'Bearer 91a3830c6d31571f5de65a7fb821b9a1a4251c2a6a6020c531770d3bd131bd34',"ContentType": "application/x-www-form-urlencoded"}
+    headers = {'Authorization' : 'Bearer 62e2bafd86900ffc0d1ae1fe8aa72eff43a51abe33a0b59d0cf1b6addcfc3456',"ContentType": "application/x-www-form-urlencoded"}
     device =  'https://apioffice.zhijiaiot.com/api/ClientDevice/Get'
     _payload = {'device_id':'------------'}
     r =  requests.post(device, headers=headers, data=_payload)
     print(r.json())
 
+#access_token()
 device_list()
 
 # headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IkpvaG4xMSJ9._kWlCBIsJ2dHDlKr0z6M--fjraPwXmJAeapJznSS23c'}

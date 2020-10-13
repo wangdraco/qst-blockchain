@@ -81,7 +81,7 @@ def do_login_do():
 
 
     if user:
-        login_user(user)
+        login_user(user)# user类里的isactive=true
         session['userid'] = user.id
         # set session timeout
         session.permanent = True
@@ -106,6 +106,7 @@ def unauthorized_handler():
     return render_template("500.html")
 
 
+#设置login-user，确保user类里的isactive=true
 @login.user_loader
 def user_loader(_id):
     return c.select_by_id(_id)

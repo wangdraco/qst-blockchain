@@ -44,7 +44,7 @@ def save_$var_table$():
     _selectdata = copy.copy(record)
 
     _selectdata.id = c.update_insert_data(record)
-    flash('用户保存成功!!', 'save_info')
+    flash('数据保存成功!!', 'save_info')
 
     #listdata = c.get_all_data()
     #return render_template("$webfile_path$/$list_webfile$", listdata=listdata)

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>智能灯列表</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+ <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="../../plugins/daterangepicker/daterangepicker.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="../../dist/css/ionicons.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="../../dist/css/google-fonts-css.css" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  <!-- Navbar -->
+{% include 'navbar.html' %}
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+{% include 'leftsidebar.html' %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-12">
+
+          <!-- /.card -->
+            <!-- /.card-header -->
+          <div class="card card-primary card-tabs">
+            <div class="card-header p-0 pt-1">
+                <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">智能灯列表</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" style="pointer-events: none;" id="custom-tabs-one-detail-tab" data-toggle="pill" href="#custom-tabs-one-detail" role="tab" aria-controls="custom-tabs-one-detail" aria-selected="false">详细信息</a>
+                  </li>
+                </ul>
+              </div>
+
+            <div class="card-body">
+              <div class="tab-content" id="custom-tabs-one-tabContent">
+                <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                  <table id="datalist" class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                          <th>名称</th>
+                          <th>所在位置</th>
+                          <th >ip地址</th>
+                      <th>当前状态</th>
+                           <th class="hidden-xs">操作</th>
+                          <th class="hidden-xs">编辑</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for data in listdata %}
+                      <tr>
+                        <td>{{data.power_name}}</td>
+						<td>{{data.position}}</td>
+                        <td>{{data.ip_address}}</td>
+                        <td> {{data.status}}</td>
+
+                        <td>
+                          {% if data.status == '关' %}
+                            <button type="button"  class="btn btn-block btn-success btn-sm">开</button>
+                          {% else  %}
+                           <button type="button"   class="btn btn-block btn-danger btn-sm">关</button>
+                           {% endif %}
+                        </td>
+                        <td class="text-center py-0 align-middle">
+                          <div class="btn-group btn-group-sm">
+                            <a href="#" class="btn btn-info" ><i class="fas fa-eye"></i></a>
+                            &nbsp;&nbsp;
+                            <a href="#" onclick="javascript: return confirm('确定要删除吗?')" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                          </div>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="tab-pane fade" id="custom-tabs-one-detail" role="tabpanel" aria-labelledby="custom-tabs-one-detail-tab">
+
+                 </div>
+              </div>
+            </div>
+           </div>
+            <!-- /.card-body -->
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<!-- InputMask -->
+<script src="../../plugins/moment/moment.min.js"></script>
+<script src="../../plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+<!-- date-range-picker -->
+<script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Toastr -->
+<script src="../../plugins/toastr/toastr.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- Bootstrap Switch -->
+<script src="../../plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+<!-- page script -->
+<script>
+
+
+  $(function () {
+
+    //launch delete message for user
+    toastr.options = {
+        closeButton: false,
+        debug: false,
+        positionClass: "toast-top-right ",
+        onclick: null,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "1500",
+        extendedTimeOut: "1000",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut"
+    };
+    {% for msg in get_flashed_messages(category_filter=['delete_info'])  %}
+      toastr.error('{{msg}}');
+    {% endfor %}
+    {% for msg in get_flashed_messages(category_filter=['save_info'])  %}
+      toastr.success('{{msg}}');
+    {% endfor %}
+
+    //hilight left menu when clicked
+    var current_path = window.location.pathname;
+    $('.nav-sidebar a').each(function(){
+          var href = $(this).attr('href');
+          if (href === current_path)
+          {
+             $(this).addClass('active');
+              $(this).parent().parent().parent().addClass('menu-open');
+              return false;
+          }
+      })
+
+    //initialize data table
+      $('#datalist').DataTable({
+         "dom": '<f<rt>lp>',
+         "lengthMenu": [[20, 30, 50, -1], [20, 30, 50, "All"]],
+        "select": true,
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": true,
+        "info": false,
+        "autoWidth": false,
+        "processing": true,
+        "language": {
+             "processing": "数据正在处理....",
+             "lengthMenu": "显示 _MENU_ 条记录",
+             "info": "当前显示 _PAGE_ of _PAGES_",
+             "emptyTable": "没有数据可显示",
+             "search" : "全文检索",
+             "paginate": {
+                      "first": "第一页",
+                      "last": "最后一页",
+                      "next": "下一页",
+                      "previous": "上一页"
+                  }
+         }
+      });
+
+      //在table的左上角增加一个新建按钮
+      var b = '<button type="button" onclick="javascript:selectOneRecord(0);" class="btn btn-default float-left">新建</button>'
+      $('#datalist_wrapper').find('div').eq(1).append(b);
+
+    $("input[data-bootstrap-switch]").each(function(){
+      $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    });
+
+
+  });
+
+
+/** row selected event
+  $(document).ready(function() {
+    var table = $('#datalist').DataTable();
+    table.on( 'select', function ( e, dt, type, indexes ) {
+          if ( type === 'row' ) {
+              var data = table.rows( indexes ).data();
+              alert(data[0][0]);
+              console.log(data);
+              //跳转到详细页面
+              $("#custom-tabs-one-messages-tab").click();
+
+              // do something with the ID of the selected items
+          }
+        } );
+  });
+  */
+
+
+  //edit one record
+  function selectOneRecord(id)
+  {
+		$.ajax({
+			url: '/light/edit'+'/'+id,
+			contentType: 'application/json;charset=UTF-8',
+			cache:false,
+			dataType: 'html',
+			success: function (response) {
+				var result = $('#custom-tabs-one-detail').append(response).find('#custom-tabs-one-detail').html();
+				$('#custom-tabs-one-detail').html(result);
+				$("#custom-tabs-one-detail-tab").click();
+			}
+		});
+  }
+
+  function operate_light(ip,port,unitid, regaddress, value)
+  {
+    alert(ip+'---'+value);
+
+      $.ajax({
+              url: '/post'+'/'+ip+'/'+port+'/'+unitid+'/'+regaddress+'/'+value,
+              type:'POST',
+              contentType: 'application/json;charset=UTF-8',
+              cache:false,
+              dataType: 'html',
+              success: function (response) {
+                  alert('success');
+              }
+      });
+  }
+
+
+</script>
+</body>
+</html>

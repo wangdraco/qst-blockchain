@@ -9,7 +9,7 @@ if not os.path.exists(jsonconf['class_path'] +jsonconf['relative_path']):
 if not os.path.exists(jsonconf['web_path']  + jsonconf['webfile_path']):
     os.mkdir(jsonconf['web_path']  + jsonconf['webfile_path'])
 
-#马上修改models.py文件,
+#马上修改models.py文件,注意里面的主键id必须是小写的！
 def alter_models():
     file_data = ""
     model_file = jsonconf['class_path'] +jsonconf['relative_path']+'/'+'models.py'
