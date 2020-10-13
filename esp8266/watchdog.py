@@ -5,7 +5,7 @@ import uasyncio
 #在boot.py中，先初始化pin27为无上拉和下拉模式
 '''
 from machine import Pin
-pin = Pin(4)
+pin = Pin(27)
 pin.init(mode=Pin.OUT,pull=None)
 print('value = ',pin.value())
 '''
