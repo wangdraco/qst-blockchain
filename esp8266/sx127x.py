@@ -258,7 +258,7 @@ class RADIO:
                        'fixed': False,  # fixed packet size or variable
                        'dcfree': 0},  # 0=None, 1=Manchester or 2=Whitening
                  gpio={'led': 2,  # blue LED GPIO number on board
-                       'reset': 5,  # reset pin from GPIO5 (or may be None)
+                       'reset': 22,  # original reset pin from GPIO5 (or may be None),now is 22
                        'dio0': 21,  # DIO0 line to GPIO4,new to GPIO21
                        'cs': 15,  # SPI CS
                        'sck': 14,  # SPI SCK
