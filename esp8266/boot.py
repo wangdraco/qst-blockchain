@@ -12,12 +12,12 @@ pin = Pin(27)
 pin.init(mode=Pin.OUT,pull=None)
 
 import utime,_thread
-def feedfood(p4, period_ms):
+def feedfood(p, period_ms):
     while True:
-        p4.value(1)
+        p.value(1)
         #print('value +++++ ',p4.value())
         utime.sleep_ms(period_ms)
-        p4.value(0)
+        p.value(0)
         #print('value ==== ',p4.value())
         utime.sleep_ms(period_ms)
 

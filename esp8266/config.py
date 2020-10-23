@@ -9,11 +9,11 @@ mac_id = str(ubinascii.hexlify(machine.unique_id()),'utf-8')
 gc_collect = True
 
 sta_mode = True
-#SSID = 'tw-gelou'
-#PASSWORD = 'netgear168'
+SSID = 'tw-gelou'
+PASSWORD = 'netgear168'
 
-SSID = 'HUAWEI-400Q0S'
-PASSWORD = 'zhimakaimen1203'
+# SSID = 'HUAWEI-400Q0S'
+# PASSWORD = 'zhimakaimen1203'
 
 #enable Access Point mode
 #ap_if = network.WLAN(network.AP_IF)

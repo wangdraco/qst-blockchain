@@ -273,7 +273,7 @@ class RADIO:
         self.led(0)  # LED off
         if gpio['reset'] != None:
             self.pin_reset = Pin(gpio['reset'], Pin.OUT, Pin.PULL_UP)
-            self.pin_reset.value(1)
+            self.pin_reset.value(0)
         else:
             self.pin_reset = None
         self.pin_dio0 = Pin(gpio['dio0'], Pin.IN, Pin.PULL_UP)
@@ -342,11 +342,11 @@ class RADIO:
         """hard reset SX127x chip"""
         if self.pin_reset:
             for i in range(times):
-                self.pin_reset.value(1)
-                sleep_ms(high_ms)
                 self.pin_reset.value(0)
-                sleep_ms(low_ms)
+                sleep_ms(high_ms)
                 self.pin_reset.value(1)
+                sleep_ms(low_ms)
+                self.pin_reset.value(0)
                 sleep_ms(high_ms)
 
     def version(self):
