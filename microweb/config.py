@@ -1,29 +1,24 @@
 # -*- coding: UTF8 -*-
 # Micropython global config files
 # Author: Draco.Wang <1599980410@qq.com>
-import ubinascii,machine
-mac_id = str(ubinascii.hexlify(machine.unique_id()),'utf-8')
-
+# import ubinascii,machine
+# mac_id = str(ubinascii.hexlify(machine.unique_id()),'utf-8')
+mac_id = 'localtest222'
 
 #gc collect
 gc_collect = True
 
 #web username&password
-web_server = True
 web_username = 'admin'
 web_password = '1234'
 
-sta_mode = False
+sta_mode = True
 SSID = 'tw-gelou'
 PASSWORD = 'netgear168'
 
-# SSID = 'HUAWEI-400Q0S'
-# PASSWORD = 'zhimakaimen1203'
-
-
 ap_mode = True
 ap_essid = "lora-"+mac_id
-ap_password = "yunwei168" #因为authmode=network.AUTH_WPA_WPA2_PSK,所以密码至少8位
+ap_password = "yunwei168"
 
 #mqtt config
 mqtt = False
@@ -35,20 +30,20 @@ mqtt_user = None
 mqtt_password = None
 
 #beat heart config
-beat_heart = False
+beat_heart = True
 heart_address = '139.129.200.70'
 heart_port = 9997
-heart_content = mac_id+"-"+"bbb"
+# heart_content = mac_id+"-"+"bbb"
 
 #UART config
 uart1 = False
 uart1_dict = {"tx":33,"rx":32,"baudrate":115200,"data_bits":8,"stop_bits":1,"parity":None}
 
-uart2 = False
+uart2 = True
 uart2_dict = {"tx":17,"rx":16,"baudrate":115200,"data_bits":8,"stop_bits":1,"parity":None}
 
 #modbus tcp
-modbus_tcp = False
+modbus_tcp = True
 modbus_tcp_dict = {"ip":"139.129.200.70","port":9996,"timeout":5}
 
 lora=False

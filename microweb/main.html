@@ -1,0 +1,91 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>网关配置</title>
+    <meta name="description" content="Login - Register Template">
+    <meta name="author" content="Lorenzo Angelino aka MrLolok">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/main.css">
+    <style>
+        body {
+            background-color: #F2F2F2;
+        }
+    </style>
+    <script>
+            function getCookie(name) {
+                var value = "; " + document.cookie;
+                alert(value);
+                var parts = value.split("; " + name + "=");
+                alert(parts);
+                if (parts.length == 2)
+                alert(parts.pop().split(";").shift());
+                    return parts.pop().split(";").shift();
+            }
+            function showMessage() {
+                document.getElementById('message').innerHTML = getCookie('user_cookies');
+            }
+            function onLoad() {
+                showMessage();
+             }
+     </script>
+</head>
+
+<body onload="onLoad();">
+    <div id="container-register">
+        <div id="title">
+            <h6>当前配置</h6>
+
+        </div>
+
+
+        <form>
+            <div class="input">
+                <div class="input-addon">
+                   波特率
+                </div>
+                <select name="pin" id="pin"  class="validate">
+                        <option>115200</option>
+                        <option>1</option>
+                        <option>2</option>
+
+                    </select>
+
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="input">
+                <div class="input-addon">
+                    <i class="material-icons">face</i>
+                </div>
+                <input id="username" placeholder="Username" type="text" required class="validate" autocomplete="off">
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="input">
+                <div class="input-addon">
+                    <i class="material-icons">vpn_key</i>
+                </div>
+                <input id="password" placeholder="Password" type="password" required class="validate" autocomplete="off">
+            </div>
+
+            <div class="remember-me">
+                <input type="checkbox">
+                <span style="color: #757575">I accept Terms of Service</span>
+            </div>
+
+            <input type="submit" value="Register" />
+        </form>
+
+
+
+        <div class="register">
+            <span style="color: #657575">Do you already have an account?</span>
+            <a href="#"><button id="register-link">Log In here</button></a>
+        </div>
+    </div>
+</body>
+
+</html>

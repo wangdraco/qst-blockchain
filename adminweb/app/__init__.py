@@ -77,5 +77,6 @@ from app.mod_client import forms
 from app.mod_org import forms
 from app.mod_role import forms
 from app.mod_light import forms
+from app.mod_modbus import modbus_request
 
 

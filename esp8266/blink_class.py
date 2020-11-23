@@ -1,5 +1,5 @@
 from machine import Pin
-from time import sleep_ms
+from utime import sleep_ms
 
 def blink(gpio=2, times=1, on_ms=100, off_ms=20):
     pin_led = Pin(gpio, Pin.OUT)

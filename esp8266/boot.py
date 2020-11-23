@@ -5,7 +5,7 @@
 #esp.osdebug(None)
 #import webrepl
 #webrepl.start()
-
+#旧模式，已经不使用了，现在是在inisetup.py里直接生成boot.py文件
 
 from machine import Pin
 pin = Pin(27)

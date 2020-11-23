@@ -6,6 +6,10 @@ if conf.sta_mode:
     wifi = WiFi()
     wifi.connect()
 
+# if conf.ap_mode:
+#     from my_app import WiFi
+#     wifi = WiFi()
+#     wifi.ap()
 
 async def main_task(duration):
     from my_app import Multitask
@@ -13,6 +17,11 @@ async def main_task(duration):
     if conf.gc_collect:
         _gc = Multitask(600) #10分钟gc.collect()
         asyncio.create_task(_gc.gc_collect())
+
+    if conf.ap_mode: #begin wifi connection......
+        from  my_app import WiFi
+        w = WiFi()
+        asyncio.create_task(w.wifi_ap_task(None,10))
 
     if conf.lora:
         from  lora_class import LoRa

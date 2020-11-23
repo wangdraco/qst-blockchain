@@ -1,24 +1,23 @@
 # -*- coding: UTF8 -*-
 # Micropython global config files
 # Author: Draco.Wang <1599980410@qq.com>
-
+import config as conf
 class WiFi:
 
-    def __init__(self):
-        pass
+    def __init__(self,ssid = conf.SSID, password = conf.PASSWORD):
+        self.SSID = ssid
+        self.PASSWORD = password
     def connect(self):
         import network
-        import config
 
         sta = network.WLAN(network.STA_IF)
-        ap_if = network.WLAN(network.AP_IF)
-        ap_if.active(config.ap_mode)
-        ap_if.config(essid=config.ap_essid, channel=11, password=config.ap_password)
+
         if not sta.isconnected():
             try:
                 sta.active(True)
                 sta.scan()
-                sta.connect(config.SSID, config.PASSWORD)
+                sta.connect(self.SSID, self.PASSWORD)
             except Exception as e:
                 print('connect error !!!!',e)
         print('network config:', sta.ifconfig())
+        return sta

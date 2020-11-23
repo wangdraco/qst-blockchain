@@ -1,12 +1,14 @@
 from machine import Pin
 import utime,_thread
 
+
+
 pin = Pin(27)
-pin.init(mode=Pin.OUT,pull=None)  #pull = Pin.PULL_DOWN or Pin.PULL_UP
+pin.init(mode=Pin.IN,pull=None)  #pull = Pin.PULL_DOWN or Pin.PULL_UP
 
 
 def feedfood(p4, period_ms):
-    print('value +++++ ', p4.value())
+    print('feed dog pin27 value +++++ ', p4.value())
     while True:
         p4.value(1)
         #print('value +++++ ',p4.value())

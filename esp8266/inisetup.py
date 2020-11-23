@@ -36,18 +36,6 @@ def setup():
     uos.VfsLfs2.mkfs(bdev)
     vfs = uos.VfsLfs2(bdev)
     uos.mount(vfs, "/")
-    with open("boot.py", "w") as f:
-        f.write(
-            """\
-# This file is executed on every boot (including wake-boot from deepsleep)
-#import esp
-#esp.osdebug(None)
-#import webrepl
-#webrepl.start()
-
-import feeddog
-"""
-        )
 
     with open("config.py", "w") as f:
         f.write(
@@ -59,19 +47,24 @@ mac_id = str(ubinascii.hexlify(machine.unique_id()),'utf-8')
 #gc collect
 gc_collect = True
 
+#hardware watchdog
+watchdog = True
+
+#web username&password
+web_server = True
+web_username = 'admin'
+web_password = '1234'
+
 sta_mode = True
-# SSID = 'tw-gelou'
-# PASSWORD = 'netgear168'
+SSID = 'tw-gelou'
+PASSWORD = 'netgear168'
 
-SSID = 'HUAWEI-400Q0S'
-PASSWORD = 'zhimakaimen1203'
+# SSID = 'HUAWEI-400Q0S'
+# PASSWORD = 'zhimakaimen1203'
 
-#enable Access Point mode
-#ap_if = network.WLAN(network.AP_IF)
-#ap_if.active(True)
-#ap_if.config(essid="yunwei-lora",channel=11,password="")
+
 ap_mode = True
-ap_essid = "lora"+mac_id
+ap_essid = "lora-"+mac_id
 ap_password = "yunwei168"
 
 #mqtt config
@@ -84,20 +77,20 @@ mqtt_user = None
 mqtt_password = None
 
 #beat heart config
-beat_heart = True
+beat_heart = False
 heart_address = '139.129.200.70'
 heart_port = 9997
 heart_content = mac_id+"-"+"bbb"
 
 #UART config
 uart1 = False
-uart1_dict = {"tx":25,"rx":26,"baudrate":115200,"data_bits":8,"stop_bits":1,"parity":None}
+uart1_dict = {"tx":33,"rx":32,"baudrate":115200,"data_bits":8,"stop_bits":1,"parity":None}
 
-uart2 = True
+uart2 = False
 uart2_dict = {"tx":17,"rx":16,"baudrate":115200,"data_bits":8,"stop_bits":1,"parity":None}
 
 #modbus tcp
-modbus_tcp = True
+modbus_tcp = False
 modbus_tcp_dict = {"ip":"139.129.200.70","port":9996,"timeout":5}
 
 lora=False
@@ -106,5 +99,38 @@ lora_frequency = 433000
 high_power = True  #add +3 dB (up to +20 dBm power on PA_BOOST pin)
 """
         )
+
+    with open("boot.py", "w") as f:
+        f.write(
+            """\
+# This file is executed on every boot (including wake-boot from deepsleep)
+#import esp
+#esp.osdebug(None)
+#import webrepl
+#webrepl.start()
+import config as conf
+import _thread
+
+if conf.watchdog:
+    import feeddog
+
+#start ap mode
+if conf.ap_mode:
+    import run_ap
+
+#start web server
+if conf.web_server:
+    import run_web
+#import network
+#import config as conf
+#ap_if = network.WLAN(network.AP_IF)
+#ap_if.active(conf.ap_mode)
+#ap_if.config(essid=conf.ap_essid,authmode=network.AUTH_WPA_WPA2_PSK, password=conf.ap_password)
+
+#generate web static files
+#import make_webfiles
+"""
+        )
+
 
     return vfs

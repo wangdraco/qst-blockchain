@@ -4,7 +4,7 @@
 # Licenced by GPLv3
 
 from machine import Pin, SPI
-from time import sleep_ms
+from utime import sleep_ms
 
 import gc
 
@@ -888,7 +888,7 @@ class RADIO:
 
     def onReceive(self, callback):
         """set callback on receive packet (Lora/FSK/OOK)"""
-        print('on Receive mode----------------------------')
+        print('Initialized completed ,in onReceive method----------------------------')
         self._onReceive = callback
         if callback:
             self.pin_dio0.irq(trigger=Pin.IRQ_RISING, handler=self._handleOnReceive)

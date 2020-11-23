@@ -117,7 +117,7 @@ class WiFi:
         import network
         ap_if = network.WLAN(network.AP_IF)
         ap_if.active(conf.ap_mode)
-        ap_if.config(essid=conf.ap_essid, password=conf.ap_password)
+        ap_if.config(essid=conf.ap_essid, channel=11, password=conf.ap_password)
         print('ap status is ',ap_if.status())
 
     async def wifi_connect_task(self,_point, time_ms):# 暂时不用，路由器重启后，其他程序会自动连接的
@@ -134,16 +134,6 @@ class WiFi:
             else:
                 print('connected,',sta.status())
             await asyncio.sleep(time_ms)
-    async def wifi_ap_task(self,_point, time_ms):# 启动ap活动程序，
-        import network
-        ap = network.WLAN(network.AP_IF)
-        ap.active(True)
-        ap.config(essid=conf.ap_essid, authmode=network.AUTH_WPA_WPA2_PSK, password=conf.ap_password)
-
-        while not ap.isconnected():
-            print('AP not actived yet--------,')
-            await asyncio.sleep(time_ms)
-        print('AP actived--------,', ap.isconnected())
 
 class Multitask():
     def __init__(self,_sleep = 10):
