@@ -18,15 +18,8 @@ app.config['DEBUG'] = False
 #create the SQLAlchemy object by passing it the application.
 db = SQLAlchemy(app)
 
-#use redis as socketio MQ
-try:
-    from redis import Redis
-    r = Redis(host=app.config["REDIS_HOST"], port=app.config["REDIS_PORT"])
-    r.ping()
-    socketio = SocketIO(app, message_queue='redis://{}:{}'.format(app.config["REDIS_HOST"], app.config["REDIS_PORT"]),
-                        manage_session=False)
-except:
-    socketio = SocketIO(app, async_mode='eventlet',ping_interval=20)
+#socketio = SocketIO(app, async_mode='eventlet',ping_interval=20)
+socketio = SocketIO(app, message_queue='redis://127.0.0.1:6379', manage_session=False)
 
 #也可以从外部进程发出event，例如从Celery worker内发出，可以使用下面的方式
 #这种方式中，app实例就不需要传递给socketIO了
@@ -82,8 +75,5 @@ from app.mod_nbiot import forms
 from app.mod_loragate import forms
 from app.mod_client import forms
 from app.mod_org import forms
-from app.mod_role import forms
-from app.mod_light import forms
-from app.mod_modbus import modbus_request
 
 

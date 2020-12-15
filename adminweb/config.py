@@ -16,7 +16,7 @@ REDIS_PORT = 6379
 # SQLite for this example
 #SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'clouddata.db')
 #SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://energy:energy168@139.129.200.70/clouddata?charset=utf8'
-SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://energy:energy168@127.0.0.1/xuzhou?charset=utf8'
+SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://energy:energy168@127.0.0.1/clouddata?charset=utf8'
 #SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://energy:adminwqc168@139.129.200.70/i-yunwei?charset=utf8'
 
 DATABASE_CONNECT_OPTIONS = {}
@@ -67,9 +67,16 @@ SECRET_KEY = "!@#qwer$%^"
 
 #session configuration part
 from redis import Redis
+try:
+    SESSION_TYPE = "redis" #session的存储类型为redis，也可以为null，则什么都没有
+    SESSION_REDIS = Redis(host=REDIS_HOST, port=REDIS_PORT)
+    SESSION_REDIS.ping()
+    print('redis is ',SESSION_REDIS)
+except:
+    SESSION_TYPE = 'filesystem'
+    SESSION_FILE_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)),'sessions')
+    print('-----------------------', SESSION_FILE_DIR)
 
-SESSION_TYPE = "redis" #session的存储类型为redis，也可以为null，则什么都没有
-SESSION_REDIS = Redis(host=REDIS_HOST, port=REDIS_PORT)
 SESSION_USE_SIGNER = True ##是否强制加盐，混淆session, 使用的话必须要有secret_key
 SESSION_PERMANENT =False #sessons是否长期有效，false，则关闭浏览器，session失效
 PERMANENT_SESSION_LIFETIME = 3600 #session长期有效，则设定session生命周期，整数秒，默认大概不到3小时
