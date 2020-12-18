@@ -41,9 +41,9 @@ class modbus:
 
 if __name__ == "__main__":
     try:
-        m = modbus(1,0,20)
-        m.modbus_tcp('192.168.3.155',502)
-        print(m.read_discrete_inputs())
+        m = modbus(1, 0, 10)
+        m.modbus_tcp('192.168.2.4', 6001)
+        print(m.read_holding_registers())
     except Exception as e:
         print(e)
 

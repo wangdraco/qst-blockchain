@@ -22,12 +22,8 @@ ap_password = "yunwei168"
 
 #mqtt config
 mqtt = False
-topic = b'/will/client'
-last_will = b'dead'
-broker_address = '139.129.200.70'
-broker_port = 9883
-mqtt_user = None
-mqtt_password = None
+mqtt_dict = {'topic': b'/will/client', 'last_will': b'dead', 'broker_address': '139.129.200.70', 'broker_port': 9883, 'mqtt_user': None, 'mqtt_password': None}
+
 
 #beat heart config
 beat_heart = True
@@ -40,11 +36,13 @@ uart1 = False
 uart1_dict = {"tx":33,"rx":32,"baudrate":115200,"data_bits":8,"stop_bits":1,"parity":None}
 
 uart2 = True
-uart2_dict = {"tx":17,"rx":16,"baudrate":115200,"data_bits":8,"stop_bits":1,"parity":None}
+uart2_dict = {'tx': 17, 'rx': 16, 'baudrate': 115200, 'data_bits': 8, 'stop_bits': 1, 'parity': None}
+modbus_rtu_list = [{'device': 'u001', 'slave_id': 1, 'address': 0, 'quantity': 10, 'function': '03', 'timeout': 5}, {'device': 'u002', 'slave_id': 2, 'address': 0, 'quantity': 10, 'function': '03', 'timeout': 5}]
 
 #modbus tcp
 modbus_tcp = True
-modbus_tcp_dict = {"ip":"139.129.200.70","port":9996,"timeout":5}
+modbus_tcp_dict = {'device': '003', 'ip': '139.129.299.79', 'port': 323, 'slave_id': 1, 'address': 2, 'quantity': 12, 'function': '03', 'timeout': 5}
+modbus_tcp_list = [{'device': '001', 'ip': '192.168.3.2', 'port': 502, 'slave_id': 1, 'address': 0, 'quantity': 10, 'function': '03', 'timeout': 5}, {'device': '002', 'ip': '192.168.2.4', 'port': 6001, 'slave_id': 1, 'address': 0, 'quantity': 10, 'function': '03', 'timeout': 5}]
 
 lora=False
 lora_mode = 2  #1=transmitter, 2=receiving ,3=morse transimit,4=beeper

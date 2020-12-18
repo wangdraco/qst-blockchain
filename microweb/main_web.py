@@ -1,5 +1,5 @@
 from microdot import Microdot, Response,send_file,redirect
-import time,json
+import json,time
 import config as conf
 app = Microdot()
 
@@ -75,6 +75,13 @@ def index(request):
             machine_cookie = conf.mac_id
             response.set_cookie('ssid_c', conf.SSID)
             response.set_cookie('wifi_c', conf.PASSWORD)
+            response.set_cookie('frequency', conf.lora_frequency)
+            response.set_cookie('baundrate', conf.uart2_dict['baudrate'])
+            response.set_cookie('mqttip', conf.mqtt_dict["broker_address"])
+            response.set_cookie('mqttport', conf.mqtt_dict["broker_port"])
+            response.set_cookie('mqtttopic', conf.mqtt_dict["topic"].decode())
+            response.set_cookie('mqttuser', "" if conf.mqtt_dict["mqtt_user"] is None else conf.mqtt_dict["mqtt_user"])
+            response.set_cookie('mqttpassword', "" if conf.mqtt_dict["mqtt_password"] is None else conf.mqtt_dict["mqtt_password"])
 
         else:
             response = send_file('login.html')
@@ -96,20 +103,6 @@ def index(request):
 
     return response
 
-htmldoc = """<!DOCTYPE html>
-<html>
-    <head>
-        <title>Microdot Example Page</title>
-        <link rel="stylesheet"  href="bootstrap.css" crossorigin="anonymous">
-    </head>
-    <body>
-        <div>
-            <h1>Microdot Example Page</h1>
-            <p>Hello from Microdot!</p>
-        </div>
-    </body>
-</html>
-"""
 
 @app.route("/post/connect/wifi", methods=["POST"])
 def connect_wifi(request):
@@ -118,18 +111,18 @@ def connect_wifi(request):
     _p = _response["wifipassword"]
     _result = {}
     _result['connected'] = 'False'
-    # from wifi_class import WiFi
-    # wifi = WiFi(ssid=_ssid, password=_p)
-    # _sta = wifi.connect()
-    #
-    # start = time.time()
-    #
-    # while time.time() < start + 30:
-    #     time.sleep(1)
-    #     print('wifi connecting......,', _sta.ifconfig())
-    #     if _sta.isconnected():
-    #         _result['connected'] = 'True'
-    #         break
+    from wifi_class import WiFi
+    wifi = WiFi(ssid=_ssid, password=_p)
+    _sta = wifi.connect()
+
+    start = time.time()
+
+    while time.time() < start + 30:
+        time.sleep(1)
+        print('wifi connecting......,', _sta.ifconfig())
+        if _sta.isconnected():
+            _result['connected'] = 'True'
+            break
 
     #return "ssss"
     return Response(body=_result, headers={"Content-Type": "application/json"})
@@ -200,6 +193,142 @@ def connect_modbus_rtu(request):
 
     return Response(body=_result, headers={"Content-Type": "application/json"})
 
+
+@app.route("/post/save/modbus", methods=["POST"])
+def save_modbus(request):
+    _response = json.loads(request.body.decode())
+    _device = str(_response["device_no"])
+    _ip = str(_response["slaveip"])
+    _port = int(_response["slaveport"])
+    _slaveaddr = int(_response["slaveaddr"])
+    _startaddr = int(_response["startaddr"])
+    _readquantity = int(_response["readquantity"])
+    _ft03 = _response["ft03"]
+    _ft02 = _response["ft02"]
+
+    _function_code = None
+    if _ft03:
+        _function_code = "03"
+    elif _ft02:
+        _function_code = "02"
+
+    _result = {}
+    _result['connected'] = 'True'
+
+    modbus_tcp_dict = {"device":_device, "ip":_ip,"port":_port,"slave_id":_slaveaddr, "address":_startaddr,
+                       "quantity":_readquantity, "function":_function_code, "timeout":5}
+
+    modbus_tcp_list = conf.modbus_tcp_list
+    modbus_tcp_list.append(modbus_tcp_dict)
+
+    try:
+        alter('config.py',"modbus_tcp_dict = ", modbus_tcp_dict)
+        alter('config.py', "modbus_tcp_list = ", modbus_tcp_list)
+    except Exception as e:
+        print(e)
+        _result['connected'] = 'False'
+
+    return Response(body=_result, headers={"Content-Type": "application/json"})
+
+@app.route("/get/load/modbus", methods=["GET"])
+def load_modbus(request):
+    _tcp_dict = {}
+    _tcp_dict["data"] = conf.modbus_tcp_list
+
+    _result = json.dumps(_tcp_dict,ensure_ascii=False)
+    return Response(body=_result, headers={"Content-Type": "application/json"})
+
+@app.route("/get/load/modbus_rtu", methods=["GET"])
+def load_modbus_rtu(request):
+    _tcp_dict = {}
+    _tcp_dict["data"] = conf.modbus_rtu_list
+
+    _result = json.dumps(_tcp_dict,ensure_ascii=False)
+    return Response(body=_result, headers={"Content-Type": "application/json"})
+
+@app.route("/post/delete/modbus", methods=["POST"])
+def delete_modbus(request):
+    _response = json.loads(request.body.decode())
+    _id = int(_response["id"])
+    modbus_tcp_list = conf.modbus_tcp_list
+    modbus_tcp_list.pop(_id)
+    alter('config.py', "modbus_tcp_list = ", modbus_tcp_list)
+
+    return Response(body=None, headers={"Content-Type": "application/json"})
+
+@app.route("/post/delete/modbus_rtu", methods=["POST"])
+def delete_modbus(request):
+    _response = json.loads(request.body.decode())
+    _id = int(_response["id"])
+    modbus_rtu_list = conf.modbus_rtu_list
+    modbus_rtu_list.pop(_id)
+    alter('config.py', "modbus_rtu_list = ", modbus_rtu_list)
+
+    return Response(body=None, headers={"Content-Type": "application/json"})
+
+@app.route("/post/save/modbus_rtu", methods=["POST"])
+def save_modbus_rtu(request):
+    _response = json.loads(request.body.decode())
+    _baundrate = int(_response["baundrate"])
+
+    _device = str(_response["device_rtu_no"])
+    _slaveaddr = int(_response["rtu_slaveaddr"])
+    _startaddr = int(_response["rtu_startaddr"])
+    _readquantity = int(_response["rtu_readquantity"])
+    _ft03 = _response["fr03"]
+    _ft02 = _response["fr02"]
+
+    _function_code = None
+    if _ft03:
+        _function_code = "03"
+    elif _ft02:
+        _function_code = "02"
+
+    _result = {}
+    _result['connected'] = 'True'
+
+    uart2_dict = {"tx": 17, "rx": 16, "baudrate": _baundrate, "data_bits": 8, "stop_bits": 1, "parity": None}
+
+    modbus_rtu_dict = {"device": _device, "slave_id": _slaveaddr, "address": _startaddr,
+                       "quantity": _readquantity, "function": _function_code, "timeout": 5}
+
+    modbus_rtu_list = conf.modbus_rtu_list
+    modbus_rtu_list.append(modbus_rtu_dict)
+
+    try:
+        alter('config.py',"uart2_dict = ", uart2_dict)
+        alter('config.py', "modbus_rtu_list = ", modbus_rtu_list)
+    except Exception as e:
+        print(e)
+        _result['connected'] = 'False'
+
+    return Response(body=_result, headers={"Content-Type": "application/json"})
+
+@app.route("/post/save/lora", methods=["POST"])
+def save_lora(request):
+    _response = json.loads(request.body.decode())
+    _fre = _response["frequency"]
+
+    alter('config.py',"lora_frequency = ", "{}".format(_fre))
+
+    return Response(body={'connected':'True'}, headers={"Content-Type": "application/json"})
+
+@app.route("/post/save/mqtt", methods=["POST"])
+def save_lora(request):
+    _response = json.loads(request.body.decode())
+    _mqttip = _response["mqttip"]
+    _mqttport = int(_response['mqttport']) if _response['mqttport'] != "" else 0
+    _mqtttopic = _response['mqtttopic']
+    _mqttuser = None if _response['mqttuser'] == "" else _response['mqttuser']
+    _mqttpassword = None if _response['mqttpassword'] == "" else _response['mqttpassword']
+
+    mqtt_dict = {"topic":_mqtttopic.encode(), "last_will": b'dead', "broker_address": _mqttip,
+                 "broker_port": _mqttport, "mqtt_user": _mqttuser, "mqtt_password": _mqttpassword}
+
+    alter('config.py',"mqtt_dict = ",mqtt_dict)
+
+    return Response(body={'connected':'True'}, headers={"Content-Type": "application/json"})
+
 #alter config.py file
 def alter(file,key_str,value_str):
     file_data = ""
@@ -207,9 +336,10 @@ def alter(file,key_str,value_str):
         for line in f:
             if key_str in line:
                 #line.partition(old_str) #return key_str
-                line = key_str + value_str +"\n"
+                line = key_str + str(value_str) +"\n"
             file_data += line
 
     with open(file, "w", encoding="utf-8") as f:
         f.write(file_data)
+
 # app.run(debug=True)

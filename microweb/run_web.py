@@ -10,9 +10,10 @@ try:
     threading.Thread(target=run_web).start()
 except:
     print('import threading error!!!')
-else:
     import _thread
-    #_thread.start_new_thread(run_web, ())
+    _thread.start_new_thread(run_web, ())
+
+
 # import _thread,threading
 #
 #
