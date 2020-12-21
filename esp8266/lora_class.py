@@ -1,6 +1,5 @@
 # -*- coding: UTF8 -*-
-import gc,ubinascii,machine
-import time
+import gc
 import config
 import sx127x
 gc.collect()

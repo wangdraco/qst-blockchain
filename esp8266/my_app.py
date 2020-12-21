@@ -10,11 +10,11 @@ client_id = conf.mac_id
 
 
 def mqtt_pub(_payload):
-    broker_address = conf.broker_address
-    broker_port = conf.broker_port
-    topic = conf.topic
+    broker_address = conf.mqtt_dict["broker_address"]
+    broker_port = conf.mqtt_dict["broker_port"]
+    topic = conf.mqtt_dict["topic"]
     client = MQTTClient(client_id, broker_address,port=broker_port)
-    client.set_last_will(topic, conf.last_will)
+    client.set_last_will(topic, conf.mqtt_dict["last_will"])
     client.connect()
     client.publish(topic, str(client_id+','+_payload),qos=1)
     print('send MQTT ')
@@ -210,14 +210,6 @@ class Multitask():
             print('value ==== ', p4.value())
             await asyncio.sleep_ms(self.sleep)
 
-
-def run_multi_task():
-    _task = Multitask()
-    loop = asyncio.get_event_loop()
-    loop.call_soon(_task.beat(), 3)
-    loop.call_later(2, _task.mqtt(), 5)
-    # loop.create_task(test.beat()) # Schedule ASAP
-    loop.run_forever()
 
 
 

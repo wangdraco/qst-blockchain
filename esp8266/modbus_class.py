@@ -14,6 +14,11 @@ class modbus:
         register_value = self.modbus_obj.read_holding_registers(self.slave_addr, self.starting_address, self.register_quantity, self.signed)
 
         return register_value
+    def read_discrete_inputs(self):
+
+        discrete_value = self.modbus_obj.read_discrete_inputs(self.slave_addr, self.starting_address,self.register_quantity)
+        return discrete_value
+
 
     def modbus_serial(self,_baudrate):
         from serial import Serial
@@ -35,9 +40,13 @@ class modbus:
         return self.modbus_obj
 
 if __name__ == "__main__":
-    m = modbus(1,0,20)
-    m.modbus_tcp('192.168.3.155',502)
-    print(m.read_holding_registers())
+    try:
+        m = modbus(1,0,10)
+        m.modbus_tcp('192.168.2.4',6001)
+        print(m.read_holding_registers())
+    except Exception as e:
+        print(e)
+
 
 
 

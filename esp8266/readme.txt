@@ -73,4 +73,18 @@ phy_init, data, phy,     0xf000,  0x1000,
 factory,  app,  factory, 0x10000, 0x200000,
 vfs,      data, fat,     0x220000, 0x170000,
 
+原来的是：
+nvs,      data, nvs,     0x9000,  0x6000,
+phy_init, data, phy,     0xf000,  0x1000,
+factory,  app,  factory, 0x10000, 0x180000,
+vfs,      data, fat,     0x200000, 0x200000,
+
 具体参照： https://blog.csdn.net/toopoo/article/details/107327828
+
+
+import os
+>>> fs_stat = os.statvfs('/')
+>>> fs_size = fs_stat[0] * fs_stat[2]
+>>> fs_free = fs_stat[0] * fs_stat[3]
+>>> print("File system size {:,} - Free space {:,}".format(fs_size, fs_free))
+File system size 2,097,152 - Free space 2,080,768
