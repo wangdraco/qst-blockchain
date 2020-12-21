@@ -74,6 +74,9 @@
            <input type="radio" id="fr02" name="project">
           <label for="fr02">读离散输入(02)</label>
      </span>
+      <br/>
+      <input type="checkbox"  id="lora_rtu"><label for="lora_rtu">LoRa传输</label>
+         <input type="checkbox"  id="mqtt_rtu"><label for="mqtt_rtu">MQTT传输</label>
      <br/>
               <input type="button" value="测试" onclick="operate_modbus_rtu('connect')"> &nbsp;&nbsp;&nbsp;&nbsp;
               <input type="button" onclick="operate_modbus_rtu('save')" value="保存"> &nbsp;&nbsp;&nbsp;&nbsp;
@@ -100,13 +103,15 @@
 
      <span id="check2">
 
-
            <input type="radio" id="ft03"  name="project">
           <label for="ft03">功能码03</label>
 
            <input type="radio" id="ft02" value="ft02" name="project">
           <label for="ft02">功能码02</label>
      </span>
+      <br/>
+      <input type="checkbox"  id="lora_tcp"><label for="lora_tcp">LoRa传输</label>
+         <input type="checkbox"  id="mqtt_tcp"><label for="mqtt_tcp">MQTT传输</label>
     <br/>
               <input type="button" value="测试" onclick="operate_modbus('connect')"> &nbsp;&nbsp;&nbsp;&nbsp;
               <input type="button" onclick="operate_modbus('save')" value="保存"> &nbsp;&nbsp;&nbsp;&nbsp;
@@ -162,17 +167,22 @@
 <script>
 
 $(function(){
-    $( "#accordion" ).accordion();
-    $( "button, input, a" ).button();
-    $( "select" ).selectmenu();
-    $( "#check" ).buttonset();
-    $( "#check2" ).buttonset();
-    $( "#shuffle" ).button();
-    $( "#shuffle2" ).button();
-    $( "#shuffle3" ).button();
+    $("#accordion").accordion();
+    $("button, input, a" ).button();
+    $("select").selectmenu();
+    $("#check").buttonset();
+    $("#check2").buttonset();
+    $("#shuffle").button();
+    $("#shuffle2").button();
+    $("#shuffle3").button();
+    $("#lora_tcp").button();
+    $("#mqtt_tcp").button();
+     $("#lora_rtu").button();
+    $("#mqtt_rtu").button();
 
     //$("#ft02").attr("checked","checked");
     onLoad();
+
 
    });
 
@@ -327,7 +337,9 @@ function operate_modbus(p)
              'startaddr': $('#startaddr').val(),
              'readquantity': $('#readquantity').val(),
              'ft03': $('#ft03').is(':checked'),
-             'ft02': $('#ft02').is(':checked')
+             'ft02': $('#ft02').is(':checked'),
+             'lora_tcp': $('#lora_tcp').is(':checked'),
+             'mqtt_tcp': $('#mqtt_tcp').is(':checked')
            });
 
      alert(json_data);
@@ -417,6 +429,7 @@ function load_modbus(p)
 {
       if (p == 'tcp')
      {
+
         $("#modbustcplist").empty();
         $("#progressbar2").css("display","none");
          $.ajax({
@@ -426,9 +439,26 @@ function load_modbus(p)
                dataType:"json",//设置返回数据的格式
                //请求成功后的回调函数 data为html格式
                success:function(res){
+               alert(res.model.lora)
+               //填充最后一次保存的数据
+               $("#device_no").val(res.model.device);
+               $("#slaveip").val(res.model.ip);
+               $("#slaveport").val(res.model.port);
+               $("#slaveaddr").val(res.model.slave_id);
+               $("#startaddr").val(res.model.address);
+               $("#readquantity").val(res.model.quantity);
+               $("#mqtt_tcp").prop("checked",res.model.mqtt);
+               $("#mqtt_tcp" ).button();
+               $("#lora_tcp").prop("checked",res.model.lora);
+               $("#lora_tcp" ).button();
+               $("#ft03").prop("checked",res.model.function=='03'? true:false);
+               $("#ft03" ).button();
+               $("#ft02").prop("checked",res.model.function=='02'? true:false);
+               $("#ft02" ).button();
+
                    var str = "<ul>";
                    $.each(res.data, function(idx,val) {
-                    str +="<li>"+val.device+","+val.ip+","+val.port+","+"id:"+val.slave_id+","+val.function+","+val.address+","+val.quantity+ "&nbsp;&nbsp;"+"<input type='button' onclick='delete_modbus("+idx+")' value='删除' >"+"</li>";
+                    str +="<li>"+val.device+","+val.ip+","+val.port+",F="+val.function+","+"id="+val.slave_id+","+val.address+","+val.quantity+ ",MQTT="+val.mqtt+", LoRa="+val.lora+ "&nbsp;&nbsp;"+"<input type='button' onclick='delete_modbus("+idx+")' value='删除' >"+"</li>";
                   });
                   str += "</ul>";
                   $('#modbustcplist').append(str);
@@ -455,7 +485,7 @@ function load_modbus(p)
                success:function(res){
                    var str = "<ul>";
                    $.each(res.data, function(idx,val) {
-                    str +="<li>"+val.device+","+"id:"+val.slave_id+","+val.function+","+val.address+","+val.quantity+ "&nbsp;&nbsp;"+"<input type='button' onclick='delete_modbus_rtu("+idx+")' value='删除' >"+"</li>";
+                    str +="<li>"+val.device+",F="+val.function+","+"id:"+val.slave_id+","+val.address+","+val.quantity+ ",MQTT="+val.mqtt+", LoRa="+val.lora+"&nbsp;&nbsp;"+"<input type='button' onclick='delete_modbus_rtu("+idx+")' value='删除' >"+"</li>";
                   });
                   str += "</ul>";
                   $('#modbusrtulist').append(str);
@@ -538,7 +568,9 @@ function operate_modbus_rtu(p)
              'rtu_startaddr': $('#rtu_startaddr').val(),
              'rtu_readquantity': $('#rtu_readquantity').val(),
              'fr03': $('#fr03').is(':checked'),
-             'fr02': $('#fr02').is(':checked')
+             'fr02': $('#fr02').is(':checked'),
+             'lora_rtu': $('#lora_rtu').is(':checked'),
+             'mqtt_rtu': $('#mqtt_rtu').is(':checked')
            });
 
      alert(json_data);

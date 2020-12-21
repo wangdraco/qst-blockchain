@@ -205,6 +205,8 @@ def save_modbus(request):
     _readquantity = int(_response["readquantity"])
     _ft03 = _response["ft03"]
     _ft02 = _response["ft02"]
+    lora_tcp = _response["lora_tcp"]
+    mqtt_tcp =  _response["mqtt_tcp"]
 
     _function_code = None
     if _ft03:
@@ -216,7 +218,9 @@ def save_modbus(request):
     _result['connected'] = 'True'
 
     modbus_tcp_dict = {"device":_device, "ip":_ip,"port":_port,"slave_id":_slaveaddr, "address":_startaddr,
-                       "quantity":_readquantity, "function":_function_code, "timeout":5}
+                       "quantity":_readquantity, "function":_function_code, "timeout":5, "lora":lora_tcp, "mqtt":mqtt_tcp}
+
+    conf.modbus_tcp_dict = modbus_tcp_dict
 
     modbus_tcp_list = conf.modbus_tcp_list
     modbus_tcp_list.append(modbus_tcp_dict)
@@ -233,6 +237,8 @@ def save_modbus(request):
 @app.route("/get/load/modbus", methods=["GET"])
 def load_modbus(request):
     _tcp_dict = {}
+
+    _tcp_dict['model'] = conf.modbus_tcp_dict
     _tcp_dict["data"] = conf.modbus_tcp_list
 
     _result = json.dumps(_tcp_dict,ensure_ascii=False)
@@ -278,6 +284,9 @@ def save_modbus_rtu(request):
     _ft03 = _response["fr03"]
     _ft02 = _response["fr02"]
 
+    lora_rtu = _response["lora_rtu"]
+    mqtt_rtu =  _response["mqtt_rtu"]
+
     _function_code = None
     if _ft03:
         _function_code = "03"
@@ -290,7 +299,9 @@ def save_modbus_rtu(request):
     uart2_dict = {"tx": 17, "rx": 16, "baudrate": _baundrate, "data_bits": 8, "stop_bits": 1, "parity": None}
 
     modbus_rtu_dict = {"device": _device, "slave_id": _slaveaddr, "address": _startaddr,
-                       "quantity": _readquantity, "function": _function_code, "timeout": 5}
+                       "quantity": _readquantity, "function": _function_code, "timeout": 5, "lora":lora_rtu, "mqtt": mqtt_rtu}
+
+    conf.modbus_rtu_dict = modbus_rtu_dict
 
     modbus_rtu_list = conf.modbus_rtu_list
     modbus_rtu_list.append(modbus_rtu_dict)
