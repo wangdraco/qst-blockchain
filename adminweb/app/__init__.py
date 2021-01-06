@@ -25,7 +25,9 @@ try:
     r.ping()
     socketio = SocketIO(app, message_queue='redis://{}:{}'.format(app.config["REDIS_HOST"], app.config["REDIS_PORT"]),
                         manage_session=False)
-except:
+    print('redis starting...............',r)
+except Exception as e:
+    print(e)
     socketio = SocketIO(app, async_mode='eventlet',ping_interval=20)
 
 #也可以从外部进程发出event，例如从Celery worker内发出，可以使用下面的方式

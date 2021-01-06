@@ -3,7 +3,8 @@ import redis,pickle
 class Redis:
     @staticmethod
     def connect():
-        r = redis.Redis(host='localhost', port=6379, db=0)
+        pool = redis.ConnectionPool(host='localhost', port=6379, decode_responses=True)
+        r = redis.Redis(connection_pool=pool, db=0)
         return r
 
     #将内存数据二进制通过序列号转为文本流，再存入redis
