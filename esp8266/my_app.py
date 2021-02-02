@@ -7,8 +7,6 @@ from umqtt.simple import MQTTClient
 
 client_id = conf.mac_id
 
-
-
 def mqtt_pub(_payload):
     broker_address = conf.mqtt_dict["broker_address"]
     broker_port = conf.mqtt_dict["broker_port"]
@@ -23,9 +21,9 @@ def mqtt_pub(_payload):
 def beat_heart():
 
     sock = socket.socket()
-    sock.connect((conf.heart_address, conf.heart_port))
-    sock.send((conf.heart_content).encode('utf-8'))  # data+'\n'
-    print('send beat ',conf.heart_content)
+    sock.connect((conf.beat_heart_dict["heart_address"], conf.beat_heart_dict["heart_port"]))
+    sock.send((client_id+conf.beat_heart_dict["heart_content"]).encode('utf-8'))  # data+'\n'
+    print('send beat ',conf.beat_heart_dict["heart_content"])
     sock.close()
 
 def uart():

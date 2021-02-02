@@ -1,6 +1,7 @@
 import uasyncio as asyncio
 import socket as socket
 
+
 def beat_heart():
 
     sock = socket.socket()
@@ -53,4 +54,4 @@ def run(duration=10):
         asyncio.new_event_loop()
         print('asyncio run again.')
 
-run()
+# run()

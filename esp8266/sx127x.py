@@ -239,7 +239,7 @@ class RADIO:
                  mode=LORA,  # 0 - LoRa, 1 - FSK, 2 - OOK
                  pars={'freq_kHz': 433000,  # kHz
                        'freq_Hz': 0,  # Hz
-                       'power': 10,  # 2...17 dBm
+                       'power': 20,  # 2...17 dBm,默认是10
                        'crc': True,  # CRC on/off
                        # LoRa mode:
                        'bw': 125,  # BW: 7.8...500 kHz
@@ -960,6 +960,12 @@ class RADIO:
         for i in range(packetLen):
             payload[i] = self.readReg(REG_FIFO)
         payload = bytes(payload)
+
+        # _pay = []
+        # for i in range(packetLen):
+        #     _pay.append(self.readReg(REG_FIFO))
+        # print("original result is ",_pay)
+
         self.collect()
 
         # run callback

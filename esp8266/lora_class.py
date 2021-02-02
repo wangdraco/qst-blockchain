@@ -2,6 +2,7 @@
 import gc
 import config
 import sx127x
+from mqtt_class import Mqtt
 gc.collect()
 
 # implicit header (LoRa) or fixed packet length (FSK/OOK)
@@ -45,10 +46,12 @@ class LoRa:
 
         self.tr.blink()
         print('send messages is ====--{}---{}'.format(self.u_id,_payload))
-        self.tr.send(self.u_id + "$" + _payload, FIXED)
+        # self.tr.send(self.u_id + "$" + _payload, FIXED)
+        self.tr.send(_payload, FIXED)
 
     def on_receive(self,tr, payload, crcOk):
         tr.blink()
+        print('before decode is = ',payload)
         payload_string = payload.decode()
         # payload_string = str(payload)
         rssi = tr.getPktRSSI()
@@ -56,6 +59,13 @@ class LoRa:
         print("*** Received message:")
         print(payload_string)
         print("^^^ CrcOk={}, size={}, RSSI={}, SNR={}\n".format(crcOk, len(payload), rssi, snr))
+
+        if config.lora_receive_mode: #网关接收模式，需要处理收到的信息
+            try:
+                self.process_result(payload_string)
+            except Exception as ee:
+                print(ee)
+
 
     def receive(self):
         # reseiver
@@ -78,6 +88,22 @@ class LoRa:
             except Exception as e:
                 print('lora receive  error-------------------', e)
             await asyncio.sleep(time_ms)
+
+    def process_result(self,_payload):
+        if config.lora_receive_dict['mqtt']: #接收到的数据需要通过mqtt转发到上位机
+            mqtt = Mqtt()
+            mqtt.pub("", _payload)
+
+        if config.lora_receive_dict['uart2']: #接收到的数据需要通过uart2串口转发到上位机,uart2是外部串口
+            from machine import UART
+            uart = UART(2, baudrate=config.uart2_dict['baudrate'], tx=config.uart2_dict['tx'], rx=config.uart2_dict['rx'],
+                        bits=config.uart2_dict['data_bits'], parity=config.uart2_dict['parity'], stop=config.uart2_dict['stop_bits'])
+
+            uart.write(_payload+"\n")
+
+
+
+
 
 
 

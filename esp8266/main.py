@@ -19,33 +19,24 @@ async def main_task(duration):
         _gc = Multitask(600) #10分钟gc.collect()
         asyncio.create_task(_gc.gc_collect())
 
-    # if conf.ap_mode: #begin wifi connection......
-    #     from  my_app import WiFi
-    #     w = WiFi()
-    #     asyncio.create_task(w.wifi_ap_task(None,10))
-
-    if conf.lora:
+    if conf.lora_receive_mode:#true表明是数据接收网关，
         from  lora_class import LoRa
         lora = LoRa()
+        lora.tr.setFrequency(conf.lora_receive_dict['frequency'])
         asyncio.create_task(lora.lora_receive_task(None,duration))
 
     if conf.beat_heart:
-        beat_task = Multitask(3)
+        beat_task = Multitask(conf.beat_heart_dict['interval'])
         asyncio.create_task(beat_task.beat())
 
-    if conf.mqtt:
-        mq = Multitask(10)
-        asyncio.create_task(mq.mqtt())
-
+    # if conf.mqtt:
+    #     mq = Multitask(10)
+    #     asyncio.create_task(mq.mqtt())
+    #任何一个有效说明就是数据采集终端
     if conf.uart2 or conf.modbus_tcp:
         import modbus_task as m
         asyncio.create_task(m.main_task(20))
 
-    # if conf.modbus_tcp:
-    #     t = Multitask(6)
-    #     asyncio.create_task(t.modbustcp_send())
-
-    #await asyncio.sleep(2)  # 加上这个，可以让不同的任务之间有5秒的间隔
     while True:
         await asyncio.sleep(1)
 
@@ -61,6 +52,4 @@ def run(duration=20):
 
 if conf.main_run:
     run()
-
-
 

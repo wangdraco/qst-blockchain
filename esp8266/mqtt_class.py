@@ -18,10 +18,10 @@ class Mqtt:
         self.password = password
         self.client = MQTTClient(self.client_id, self.broker_address, port=self.broker_port,user=self.username, password=self.password)
 
-    def pub(self,_payload):
+    def pub(self,_prefix,_payload):
         self.client.connect()
-        self.client.publish(self.topic, str(self.client_id + '$' + _payload), qos=1)
-        print('send MQTT message== ',str(self.client_id + '$' + _payload))
+        self.client.publish(self.topic, str(_prefix + _payload), qos=1)
+        print('send MQTT message== ',str(_prefix + _payload))
         self.client.disconnect()
 
     # Received messages from subscriptions will be delivered to this callback
@@ -46,3 +46,7 @@ class Mqtt:
         self.client.disconnect()
 
 
+if __name__ == '__main__':
+
+    m = Mqtt(sub_topic='/lora/data/receive')
+    m.sub()
