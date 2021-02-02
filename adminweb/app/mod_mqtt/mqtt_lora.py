@@ -1,9 +1,9 @@
 import paho.mqtt.client as mqtt
-import threading,time,json,datetime
+import threading,time,json
 from app.mod_redis.redis_class import Redis
 
 
-class MqttClass():
+class MqttLoraClass():
     def __init__(self,broker_address = "139.129.200.70",broker_port = 9883,topic = None, qos = 1,username='lora', password='lora1qaz',
                  socketio=None,client_id='', multiple_sub=False):
         self.broker_address = broker_address
@@ -72,21 +72,41 @@ class MqttClass():
         #   self.client.publish(self.topic, temperature, self.qos)
 
     def process_message(self,**params):
-
-        print('write to msg.txt====================',params)
-        with open('msg.txt',mode='a',encoding='utf-8') as f:
-            f.write(params['topic']+'--'+params['content']+'--'+str(datetime.datetime.now())+'\n')
         #write to redis
-        if True: #根据配置文件来决定是否写入redis，
+        if True: #根据配置文件来决定是否写入redis，一般是modbus设备的数据都有macid和deviceid，格式为macid$deviceID$result
+
+            #有$的版本，需要用$来区分macid和deviceid
+            # _payload = params['content']
+            # mac_id = _payload[:_payload.index('$',0,len(_payload))]
+            # r = Redis.connect()
+            # if mac_id:
+            #     device_id = _payload[_payload.index('$', 0, len(_payload)) + 1:_payload.rindex('$', 0, len(_payload))]
+            #     result = _payload[_payload.rindex('$', 0, len(_payload)) + 1:]
+            #     if device_id:
+            #         r.hset(mac_id, device_id, result)
+            #     else:
+            #         r.hset(mac_id, '-', result)
+            # else:#普通的数据
+            #     r.set('lora-data',_payload)
             _payload = params['content']
+            _payload = json.loads(_payload)
+            mac_id = _payload.get('mac_id')
             r = Redis.connect()
-            r.set('mqtt-data', _payload)
+            if mac_id:
+                device_id = _payload.get('device')
+                result = _payload.get('result')
+                if device_id:
+                    r.hset(mac_id, device_id, result)
+                else:
+                    r.hset(mac_id, '-', result)
+            else:  # 普通的数据
+                r.set('lora-data', params['content'])
 
 
 def thread_sub(**topiclist):
     topic_list = topiclist['topic']
 
-    m3 = MqttClass(topic=topic_list, socketio=None, multiple_sub=True)
+    m3 = MqttLoraClass(topic=topic_list, socketio=None, multiple_sub=True)
     m3.run_sub()
 
 

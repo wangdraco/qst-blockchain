@@ -1,10 +1,10 @@
-import redis,pickle
+import redis,pickle,config
 
 class Redis:
     @staticmethod
     def connect():
-        pool = redis.ConnectionPool(host='localhost', port=6379, decode_responses=True)
-        r = redis.Redis(connection_pool=pool, db=0)
+        pool = redis.ConnectionPool(host=config.REDIS_HOST, port=config.REDIS_PORT, decode_responses=True)
+        r = redis.StrictRedis(connection_pool=pool, db=0)
         return r
 
     #将内存数据二进制通过序列号转为文本流，再存入redis
@@ -32,6 +32,8 @@ class Redis:
         return data
 
 
-
+if __name__ == '__main__':
+    r=Redis.connect()
+    print(r)
 
 

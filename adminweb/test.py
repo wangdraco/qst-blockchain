@@ -1,4 +1,4 @@
-import _thread,time,struct
+import _thread,time,struct,json
 
 def test_print(s,t):
     while True:
@@ -18,4 +18,18 @@ print(len(_b))
 # print(struct.unpack('BBBBB', bytes(['xb8',49,49,49,49])))
 print(bytearray('111111111'.encode('ascii')))
 
+_dict = {'status':'ok','result':[1,2,3,4,5]}
 
+_payload = '12345abc$'+"001$"+json.dumps(_dict)
+print(_payload)
+
+print(_payload[:_payload.index('$',0,len(_payload))])
+
+print(_payload[_payload.index('$',0,len(_payload))+1:_payload.rindex('$',0,len(_payload))])
+print('result=',_payload[_payload.rindex('$',0,len(_payload))+1:])
+_result = json.loads(_payload[_payload.rindex('$',0,len(_payload))+1:])
+print(_result['result'])
+
+real_data = {'result' :[1,2,3], 'status': 'ok', 'device': '001'}
+real_data['mac_id']= '3434343'
+print('8888,',real_data.get('mac_id'))
