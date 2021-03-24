@@ -17,7 +17,18 @@ def user_info(user_name):
 
 
 
+@app.route("/image")
+def main_image():
+    return  "<img src='https://flask.palletsprojects.com/en/1.1.x/_images/flask-logo.png'>"
 
+@app.route('/data')
+def main_data():
+
+    data = [
+        {"id": 1, "username": "zhang", "age": 18},
+        {"id": 2, "username": "ligang", "age": 17}
+    ]
+    return jsonify(data)
 
 
 
