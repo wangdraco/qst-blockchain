@@ -30,7 +30,9 @@ def main_data():
     ]
     return jsonify(data)
 
-
+@app.route("/login")
+def for_index():
+    return redirect(url_for("index"))
 
 
 
