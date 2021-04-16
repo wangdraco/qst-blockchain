@@ -1,5 +1,6 @@
 from app import app
 from pymodbus.client.sync import ModbusTcpClient
+import time
 
 
 @app.route('/post/<string:ip>/<int:port>/<int:unitid>/<int:regaddress>/<int:value>', methods=['POST'])
@@ -28,6 +29,7 @@ def process_read_registers(ip,port,unitid,regaddress):
     try:
         client = ModbusTcpClient(ip, port=port)
         result = client.read_holding_registers(regaddress, 1, unit=unitid, signed=True)
+        time.sleep(0.1)
         #print('result is ', result)
         r_result = result.registers[0]
         print('result is ', r_result)

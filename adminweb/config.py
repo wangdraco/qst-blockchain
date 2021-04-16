@@ -15,8 +15,8 @@ REDIS_PORT = 6379
 # Define the database - we are working with
 # SQLite for this example
 #SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'clouddata.db')
-#SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://energy:energy168@139.129.200.70/clouddata?charset=utf8'
-SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://energy:energy168@127.0.0.1/clouddata?charset=utf8'
+SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://energy:adminwqc168@139.129.200.70/i-yunwei?charset=utf8'
+#SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://energy:energy168@127.0.0.1/clouddata?charset=utf8'
 #SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://energy:adminwqc168@139.129.200.70/i-yunwei?charset=utf8'
 
 DATABASE_CONNECT_OPTIONS = {}
