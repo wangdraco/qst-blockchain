@@ -4,25 +4,6 @@ from app.mod_modbus.water_electronic_devices import device_list
 
 r =  Redis.connect()
 
-'''
-device_list = {"devices":[{"building_no":"LDSS-1","device_no":"water6001","device_name":"西水表","ip":"192.168.7.104","port":6001,
-                           "unit_id":1,"begin":0,"length":2,"formate":"ABCD"},
-                            {"building_no":"LDSS-1","device_no":"water6002","device_name":"东水表","ip":"192.168.7.104","port":6002,
-                           "unit_id":1,"begin":0,"length":2,"formate":"ABCD"},
-                          {"building_no":"LDSS-1","device_no": "electric6003", "device_name": "电表", "ip": "192.168.7.104", "port": 6003,
-                           "unit_id": 1, "begin": 38, "length": 2, "formate": "CDAB"},
-                          {"building_no":"TXCK","device_no":"water6001","device_name":"东水表","ip":"192.168.7.103","port":6001,
-                           "unit_id":1,"begin":0,"length":2,"formate":"ABCD"},
-                          {"building_no":"TXCK","device_no":"water6002","device_name":"西水表","ip":"192.168.7.103","port":6002,
-                           "unit_id":1,"begin":0,"length":2,"formate":"ABCD"},
-                          {"building_no":"TXCK","device_no": "electric6003", "device_name": "电表", "ip": "192.168.7.103", "port": 6003,
-                           "unit_id": 1, "begin": 38, "length": 2, "formate": "CDAB"}
-                          ]}
-'''
-
-
-
-
 def generate_redis_data(_device,_value):
     _data = {"data":[{"client_id":_device["client_id"],"equipmentTableName":_device["equipmentTableName"],"id":1,"equipment_id":_device["equipment_id"],
                       "equipmentName":_device["equipmentName"],"community_status":"true","startstop_status":"true",

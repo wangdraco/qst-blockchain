@@ -2,7 +2,7 @@ from app.mod_protocalchannel.service import *
 import app.mod_channelunit.service as cu_service
 import app.mod_channeldevice.service as cd_service
 from app.mod_redis.redis_class import Redis
-from pymodbus.client.sync import ModbusTcpClient
+from pymodbus.client.sync import ModbusTcpClient,ModbusUdpClient, ModbusSerialClient,ModbusSocketFramer,ModbusRtuFramer
 import asyncio,threading,time,json
 from decimal import Decimal
 from app.mod_modbus import modbus_tools as mt
@@ -59,7 +59,7 @@ def process_error_message(channel=None,channel_unit_list=None,channel_unit=None,
             Redis.set_data(r, f'channel:{channel.id}:{channel_unit.id}', redis_data)
 
 
-def process_holding_registers(channel,channel_unit,channel_devices,_result):
+def process_modbus_results(channel,channel_unit,channel_devices,_result):
     #先过滤出channel_unit对应的channel_device
     _devices = []
     for cd in channel_devices:
@@ -110,16 +110,44 @@ def process_channelunit(channel,channel_units,channel_devices,m_client):
 
     #开始遍历channel_unit，执行modbus操作
     for cu in channel_units:
-        if cu.function_code == '03':
-            try:
+        try:
+            if cu.function_code == '03':
                 result = m_client.read_holding_registers(cu.startfrom, cu.quantity,
                                                          unit=cu.unit_id, signed=True)
                 print(f'{channel.channel_name}---{cu.device_name},process complete..........,result={result.registers}')
-                process_holding_registers(channel,cu,channel_devices,result.registers)
-            except Exception as e:
-                #m_client.close()
-                process_error_message(channel, None, cu, channel_devices)
-                print(f'{channel.channel_name}---{cu.device_name},...读取错误...failure!!!!!!!!!!!',e)
+                process_modbus_results(channel, cu, channel_devices, result.registers)
+            elif cu.function_code == '02':
+                result = m_client.read_discrete_inputs(cu.startfrom,cu.quantity,unit=cu.unit_id)
+                process_modbus_results(channel, cu, channel_devices, result.bits)
+            elif cu.function_code == '01':
+                result = m_client.read_coils(cu.startfrom,cu.quantity,unit=cu.unit_id)
+                process_modbus_results(channel, cu, channel_devices, result.bits)
+            elif cu.function_code == '04':
+                result = m_client.read_input_registers(cu.startfrom,cu.quantity,unit=cu.unit_id)
+                process_modbus_results(channel, cu, channel_devices, result.registers)
+
+        except Exception as e:
+            # m_client.close()
+            process_error_message(channel, None, cu, channel_devices)
+            print(f'{channel.channel_name}---{cu.device_name},...读取错误...failure!!!!!!!!!!!', e)
+
+
+def get_connect(channel):
+    client = None
+    try:
+        if channel.protocal_id == 1:  # 串口连接
+            client = ModbusSerialClient(method='rtu',port=channel.port,stopbits=channel.stopbit,
+                                        baudrate=channel.baudrate,bytesize=channel.databit)
+        elif channel.protocal_id == 2:  # TCP/IP
+            client = ModbusTcpClient(channel.ipaddress, port=int(channel.port), framer=ModbusSocketFramer)
+        elif channel.protocal_id == 3: #UDP
+            client = ModbusUdpClient(channel.ipaddress, port=int(channel.port), framer=ModbusSocketFramer)
+        elif channel.protocal_id == 4:  # TCP/IP over RTU
+            client = ModbusTcpClient(channel.ipaddress, port=int(channel.port), framer=ModbusRtuFramer)
+    except Exception as e:
+        pass
+
+    return client
 
 
 def protocalchannel_threading(**name):
@@ -128,9 +156,8 @@ def protocalchannel_threading(**name):
     channel_devices = name['channel_device']
 
     try:
-        client = ModbusTcpClient(channel.ipaddress, port=channel.port)
-        result = client.connect()
-        if result:#connected successful
+        client = get_connect(channel)
+        if client and client.connect():#connected successful
             process_channelunit(channel,channel_units,channel_devices,client)
         else:
             #pass
