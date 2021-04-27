@@ -5,7 +5,7 @@ from flask_session import Session
 from flask_socketio import SocketIO
 from .process_logs import log_class
 from .process_celery import make_celery,MyTask,CallbackTask
-import pickle
+import pickle,threading
 
 app = Flask(__name__)
 
@@ -18,6 +18,8 @@ app.config['DEBUG'] = False
 #create the SQLAlchemy object by passing it the application.
 db = SQLAlchemy(app)
 
+#config global connected 4G client socket
+client_socket = {}
 #use redis as socketio MQ
 try:
     from redis import Redis
@@ -47,9 +49,24 @@ Session(app)
 # )
 
 #log to files
-log = log_class(app, app.config['DEBUG'], 'logs', 'app.logs', 10240, 200)
+# log = log_class(app, app.config['DEBUG'], 'logs', 'app.logs', 10240, 200)
+
+#启动一些定时任务
+# from app.mod_protocalchannel.modbus_tcp_task import schedule_tcpip_task
+# t = threading.Thread(target=schedule_tcpip_task)
+# t.start()
+
+from app.mod_protocalchannel.modbus_gprs_task import schedule_gprs_task
+t = threading.Thread(target=schedule_gprs_task)
+t.start()
+
+# from app.mod_protocalchannel.modbus_gprs_task import run_protocal_socket
+# tt = threading.Thread(target=run_protocal_socket)
+# tt.start()
 
 print('begin in app.__init__ ===============================')
+
+
 
 @app.route('/set/')
 def set():
@@ -87,5 +104,6 @@ from app.mod_org import forms
 from app.mod_role import forms
 from app.mod_light import forms
 from app.mod_modbus import modbus_request
+from app.mod_protocalchannel import forms
 
 
