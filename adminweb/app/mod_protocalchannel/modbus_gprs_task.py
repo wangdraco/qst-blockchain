@@ -5,13 +5,13 @@ import app.mod_channelunit.service as cu_service
 import app.mod_channeldevice.service as cd_service
 from app.mod_redis.redis_class import Redis
 from pymodbus.client.sync import ModbusTcpClient,ModbusUdpClient, ModbusSerialClient,ModbusSocketFramer,ModbusRtuFramer
-import asyncio,threading,time,json,socket,struct,schedule,gc
+import asyncio,threading,time,json,socket,struct
 from decimal import Decimal
 from app.mod_modbus import modbus_tools as mt
-from concurrent import futures as cf
+
 from app import client_socket
 from app.mod_modbus.modbus_tools import  calculateCRC
-from app.mod_socket.socket_listener import MyStreamRequestHandlerr,GprsServer
+
 
 p_channels_list = select_by_clientAndIsactive(3,'Y')
 # p_channels_list = select_by_ids([1])
@@ -122,6 +122,7 @@ def process_modbus_read(channelunit,socket_client):
     _command = calculateCRC(e, len(e), 0)
     while True:
         socket_client.sendall(bytes(_command))
+        time.sleep(0.5)
         received = socket_client.recv(512)
         if received and len(received) > 5:
             print('received original data -----------------', received)
@@ -159,7 +160,7 @@ def process_channelunit(channel,channel_units,channel_devices,m_client):
                     _result.append(struct.unpack('>H', bytes([result[i], result[i + 1]]))[0])
 
                 process_modbus_results(channel, cu, channel_devices, _result)
-                time.sleep(1.5)
+
             elif cu.function_code == '02' or cu.function_code == 'READ_DISCRETE_INPUTS':
                 pass
             elif cu.function_code == '01' or cu.function_code == 'READ_COILS':
@@ -171,6 +172,10 @@ def process_channelunit(channel,channel_units,channel_devices,m_client):
             # m_client.close()
             process_error_message(channel, None, cu, channel_devices)
             print(f'{channel.channel_name}---{cu.device_name},...读取错误...failure!!!!!!!!!!!', e)
+        time.sleep(1)
+    # if m_client:
+    #     m_client.close()
+
 
 
 
@@ -194,6 +199,7 @@ def protocalchannel_threading(**name):
     try:
         client = get_connect(channel)
         if client:#connected successful
+            client.settimeout(3)
             process_channelunit(channel,channel_units,channel_devices,client)
         else:
             #pass
@@ -225,75 +231,9 @@ async def process_protocalchannels(channel):
                              kwargs={'channel': channel,'channel_unit': _unit_list,'channel_device':_device_list})
 
         t.start()
+        time.sleep(0.2)
     except Exception as e:
         print(t.name,'-thread error--',e)
-
-def get_connected_client(client_sock,address):
-    print('the address is ==========',address)
-    _sock = {}
-    _sock['time'] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
-    _sock['status'] = True
-    _sock['sock'] = client_sock
-    client_socket['gprs-socket' + str(client_sock.getsockname()[1])] = _sock
-    print('put in the global var is ==================', client_socket)
-
-
-def process_socket_server(**name):
-    channel = name['channel']
-    # MyStreamRequestHandlerr.channel = channel
-    # server = GprsServer((channel.ipaddress, int(channel.port)), MyStreamRequestHandlerr)
-    # server.channel = channel
-    # server.timeout = 23
-    # while True:
-    #     server.handle_request()
-    #     time.sleep(1)
-    servsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    servsock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) #关闭端口后立即释放
-    print(f'{channel.ipaddress}================{channel.port}')
-    servsock.bind((channel.ipaddress, int(channel.port)))
-    servsock.listen(2)
-    servsock.settimeout(24)
-    with cf.ThreadPoolExecutor(2) as e:
-        try:
-            # while True:,not while means just connecting once.
-            # while True:
-
-
-            print('in while-----------------------------------------------999')
-            new_sock, address = servsock.accept()
-            print('连接上了---------------', channel.port, new_sock)
-            e.submit(get_connected_client, new_sock, address)
-            # _sock = {}
-            # _sock['time'] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
-            # _sock['status'] = True
-            # _sock['sock'] = new_sock
-            # client_socket['gprs-socket' + str(channel.port)] = _sock
-            # print('put in the global var is ==================', client_socket)
-
-        except KeyboardInterrupt:
-            pass
-        except socket.timeout:
-            print(f'port={channel.port}---serversocket timeout', socket.timeout)
-            _sock = {}
-            _sock['time'] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
-            _sock['status'] = False
-            _sock['sock'] = None
-            client_socket['gprs-socket' + str(channel.port)] = _sock
-            # servsock.shutdown()
-            # wait_connect()
-        except socket.error:
-            _sock = {}
-            _sock['time'] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
-            _sock['status'] = False
-            _sock['sock'] = None
-            client_socket['gprs-socket' + str(channel.port)] = _sock
-            print('serversocket error', socket.error)
-            # servsock.close()
-        except Exception as ee:
-            print('excetion occured', channel.port, ee)
-        finally:
-            # servsock.close()
-            print('in the finally================')
 
 
 #function code to number
@@ -321,26 +261,14 @@ async def main_gprs_task():
             await asyncio.gather(
                 process_protocalchannels(p))
 
-def socket_thread():
-    gc.collect()
-    for p in p_channels_list:
-        gprs_socket = threading.Thread(name=str(f'gprs{p.id}'), target=process_socket_server,
-                                   kwargs={'channel': p})
-        gprs_socket.start()
-
 
 def schedule_gprs_task():
     # socket_thread()
     print('---------------------------------')
     while 1:
         asyncio.run(main_gprs_task())
-        time.sleep(10)
+        time.sleep(126)
 
-def run_protocal_socket():
-    schedule.every(60).seconds.do(socket_thread)
-    while 1:
-        schedule.run_pending()
-        time.sleep(2)
 
 
 if __name__ == "__main__":
