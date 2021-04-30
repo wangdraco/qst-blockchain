@@ -8,11 +8,12 @@ from pymodbus.client.sync import ModbusTcpClient,ModbusUdpClient, ModbusSerialCl
 import asyncio,threading,time,json
 from decimal import Decimal
 from app.mod_modbus import modbus_tools as mt
+from app import client_id
 
-p_channels_list = select_by_clientAndIsactive(3,'Y')
+p_channels_list = select_by_clientAndIsactive(client_id,'Y')
 # p_channels_list = select_by_ids([1])
-channel_unit_list = cu_service.select_by_ClientAndIsactive(3,'Y')
-channel_device_list = cd_service.select_by_ClientAndIsactive(3,'Y')
+channel_unit_list = cu_service.select_by_ClientAndIsactive(client_id,'Y')
+channel_device_list = cd_service.select_by_ClientAndIsactive(client_id,'Y')
 
 r = Redis.connect()
 

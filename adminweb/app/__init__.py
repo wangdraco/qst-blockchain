@@ -12,6 +12,7 @@ app = Flask(__name__)
 # login management
 login = LoginManager(app)
 
+client_id = 21 #公司id
 # import !!  Configurations,access the  config.py
 app.config.from_object('config')
 app.config['DEBUG'] = False
@@ -49,7 +50,7 @@ Session(app)
 # )
 
 #log to files
-# log = log_class(app, app.config['DEBUG'], 'logs', 'app.logs', 10240, 200)
+log = log_class(app, app.config['DEBUG'], 'logs', 'app.logs', 10240, 200)
 
 #启动一些定时任务
 # from app.mod_protocalchannel.modbus_tcp_task import schedule_tcpip_task
@@ -60,9 +61,18 @@ from app.mod_protocalchannel.modbus_gprs_task import schedule_gprs_task
 t = threading.Thread(target=schedule_gprs_task)
 t.start()
 
-# from app.mod_protocalchannel.modbus_gprs_task import run_protocal_socket
-# tt = threading.Thread(target=run_protocal_socket)
-# tt.start()
+# from app.mod_socket.gprs_long_socket import run_gprs_connect
+# t = threading.Thread(target=run_gprs_connect)
+# t.start()
+
+from app.mod_socket.gprs_long_socket import schedule_long_gprs_task
+t = threading.Thread(target=schedule_long_gprs_task)
+t.start()
+
+
+from app.mod_socket.gprs_long_socket import schedule_socket_status
+t = threading.Thread(target=schedule_socket_status)
+t.start()
 
 print('begin in app.__init__ ===============================')
 
