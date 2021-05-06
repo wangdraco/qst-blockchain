@@ -9,14 +9,14 @@ import asyncio,threading,time,json,socket,struct
 from decimal import Decimal
 from app.mod_modbus import modbus_tools as mt
 
-from app import client_socket
+from app import client_socket,client_id
 from app.mod_modbus.modbus_tools import  calculateCRC
 
 
-p_channels_list = select_by_clientAndIsactive(3,'Y')
+p_channels_list = select_by_clientAndIsactive(client_id,'Y')
 # p_channels_list = select_by_ids([1])
-channel_unit_list = cu_service.select_by_ClientAndIsactive(3,'Y')
-channel_device_list = cd_service.select_by_ClientAndIsactive(3,'Y')
+channel_unit_list = cu_service.select_by_ClientAndIsactive(client_id,'Y')
+channel_device_list = cd_service.select_by_ClientAndIsactive(client_id,'Y')
 
 from app import r
 # r = Redis.connect()
@@ -123,7 +123,7 @@ def process_modbus_read(channelunit,socket_client):
     while True:
         socket_client.sendall(bytes(_command))
         time.sleep(0.5)
-        received = socket_client.recv(512)
+        received = socket_client.recv(1024)
         if received and len(received) > 5:
             print('received original data -----------------', received)
             temp = []  # convert to bytes array
@@ -132,7 +132,6 @@ def process_modbus_read(channelunit,socket_client):
                 temp.append(j)
             # 确保返回的数据是正确的modbus顺序 [unitid,functionCode,readNumber,......]
             if temp.index(_command[1]) - temp.index(_command[0]) == 1:  # unitid 和functioncode紧挨着
-                print('command[1]=',_command[1],' and _command[0]=',_command[0])
                 real_temp = temp[temp.index(_command[2]):]
 
             print('send command is =================', _command)
@@ -199,16 +198,16 @@ def protocalchannel_threading(**name):
     try:
         client = get_connect(channel)
         if client:#connected successful
-            client.settimeout(3)
+            client.settimeout(3) #设置读写超时为3秒
             process_channelunit(channel,channel_units,channel_devices,client)
         else:
             #pass
             #连接错误，先看redis里有没有值，有的话找到后更新status=False，没有的话组装一个
-            print(channel.channel_name, '--连接错误 failure-',name['channel_unit'])
+            print(channel.channel_name, '--socket链路未连接或连接错误 failure-',name['channel_unit'])
             process_error_message(channel,channel_units,None,channel_devices)
 
     except Exception as e:
-        print(channel.channel_name, '--failure----', e)
+        print(channel.channel_name, '--超时或处理出错了----', e)
 
 
 async def process_protocalchannels(channel):

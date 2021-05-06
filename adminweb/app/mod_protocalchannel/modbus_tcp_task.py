@@ -143,11 +143,11 @@ def get_connect(channel):
             client = ModbusSerialClient(method='rtu',port=channel.port,stopbits=channel.stopbit,
                                         parity=channel.parity,baudrate=channel.baudrate,
                                         bytesize=channel.databit)
-        elif channel.protocal_id == 2 and channel.connettype == 'tcp/ip':  # modbus TCP/IP
+        elif channel.protocal_id == 2:  # modbus TCP/IP
             client = ModbusTcpClient(channel.ipaddress, port=int(channel.port), framer=ModbusSocketFramer)
-        elif channel.protocal_id == 3 and channel.connettype == 'tcp/ip': #modbus UDP
+        elif channel.protocal_id == 3: #modbus UDP
             client = ModbusUdpClient(channel.ipaddress, port=int(channel.port), framer=ModbusSocketFramer)
-        elif channel.protocal_id == 4 and channel.connettype == 'tcp/ip':  # modbus TCP/IP over RTU
+        elif channel.protocal_id == 4:  # modbus TCP/IP over RTU
             client = ModbusTcpClient(channel.ipaddress, port=int(channel.port), framer=ModbusRtuFramer)
 
     except Exception as e:
@@ -201,9 +201,11 @@ async def process_protocalchannels(channel):
 
 async def main_tcpip_task():
     for p in p_channels_list:
-        await asyncio.gather(
-            process_protocalchannels(p)
-        )
+        if p.connettype == 'tcp' or p.connettype == 'tcp/ip' or p.protocal_id == 1:  # 只处理有线tcp或串口连接的方式
+
+            await asyncio.gather(
+                process_protocalchannels(p)
+            )
 
 # asyncio.run(main_task())
 

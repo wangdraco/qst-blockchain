@@ -15,7 +15,7 @@ def process_socket_server(**name):
     print(f'================',channel.ipaddress,'--',channel.port)
     servsock.bind((channel.ipaddress, int(channel.port)))
     servsock.listen(2)
-    servsock.settimeout(6)
+    servsock.settimeout(6) #超时等待时间为6秒
     with cf.ThreadPoolExecutor(1) as e:
         try:
             # while True:,not while means just connecting once.

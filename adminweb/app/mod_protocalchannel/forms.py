@@ -6,6 +6,7 @@ from app.mod_protocalchannel.service import *
 from app.mod_protocalchannel.models import protocalchannel
 from app.mod_modbus.modbus_tools import calculateCRC
 import json,struct,time
+from pymodbus.client.sync import ModbusTcpClient,ModbusUdpClient, ModbusSerialClient,ModbusSocketFramer,ModbusRtuFramer
 
 
 
@@ -35,6 +36,7 @@ def get_redis_data(channel_id,channel_unit):
         result['result'] = False
         return json.dumps(result)
 
+#根据channel_id，获取当前gprs通道的状态
 @app.route('/get/status/<int:channel_id>')
 def get_channel_status(channel_id):
     message = ''
@@ -72,8 +74,8 @@ def process_modbus_read(socket_client,unit_id,code,start,quantity):
     _command = calculateCRC(e, len(e), 0)
     while True:
         socket_client.sendall(bytes(_command))
-        time.sleep(0.5)
-        received = socket_client.recv(512)
+        time.sleep(0.8)
+        received = socket_client.recv(1024)
         if received and len(received) > 5:
             print('received original data -----------------', received)
             temp = []  # convert to bytes array
@@ -102,33 +104,71 @@ def get_connect_fromport(port):
 
     return client
 
+#下发modbus指令获取返回值，目前支持4G链接类型的modbus RTU设备
 @app.route('/get/modbus/<int:channel_id>/<int:unit_id>,<int:code>,<int:start>,<int:quantity>')
 def read_modbus(channel_id,unit_id,code,start,quantity):
     from app import client_socket
     result = {}
     channel = select_by_id(channel_id)
     if channel:
-        _status = get_channel_status(channel_id)
-        status = json.loads(_status)
+        if channel.connettype == 'gprs' or channel.connettype == 'gprs-l':#gprs，4G等链接从缓存中取client
+            _status = get_channel_status(channel_id)
+            status = json.loads(_status)
 
-        result['protocal'] = channel.protocal.protocal_name + channel.protocal.protocal_type
-        result['address'] = channel.ipaddress
-        result['port'] = channel.port
+            result['protocal'] = channel.protocal.protocal_name + channel.protocal.protocal_type
+            result['address'] = channel.ipaddress
+            result['port'] = channel.port
 
-        _sock = client_socket['gprs-socket' + str(channel.port)]
-        if status['status']:
+            _sock = client_socket['gprs-socket' + str(channel.port)]
+            if status['status']:
+                try:
+                    _socket = _sock['sock']
+                    _socket.settimeout(3)
+                    _result = process_modbus_read(_socket, unit_id, code, start, quantity)
+                    result['data'] = _result
+                except Exception as e:
+                    result['message'] = '读取设备出错了'
+            else:
+                result['message'] = '设备不在线'
+        elif channel.connettype == 'tcp' or channel.connettype == 'tcp/ip' or channel.protocal_id == 1:#处理有线tcp或串口连接的方式
+            client = None
             try:
-                _socket = _sock['sock']
-                _socket.settimeout(3)
-                _result = process_modbus_read(_socket, unit_id, code, start, quantity)
-                result['data'] = _result
+                if channel.protocal_id == 1:  # 串口连接ModbusSerialClient(method='rtu', port='COM2', baudrate=9600,stopbits=1,parity='N'||'O'||'E',bytesize=8, timeout=1)
+                    client = ModbusSerialClient(method='rtu', port=channel.port, stopbits=channel.stopbit,
+                                                parity=channel.parity, baudrate=channel.baudrate,
+                                                bytesize=channel.databit)
+                elif channel.protocal_id == 2:  # modbus TCP/IP
+                    client = ModbusTcpClient(channel.ipaddress, port=int(channel.port), framer=ModbusSocketFramer)
+                elif channel.protocal_id == 3:  # modbus UDP
+                    client = ModbusUdpClient(channel.ipaddress, port=int(channel.port), framer=ModbusSocketFramer)
+                elif channel.protocal_id == 4:  # modbus TCP/IP over RTU
+                    client = ModbusTcpClient(channel.ipaddress, port=int(channel.port), framer=ModbusRtuFramer)
+
+                if code == 3: #READ_HOLDING_REGISTERS
+                    _result = client.read_holding_registers(start, count=quantity, unit=unit_id, signed=True)
+                    time.sleep(0.2)
+                    # print('result is ', result)
+                    result['data'] = _result.registers
+                elif code == 2: #READ_DISCRETE_INPUTS
+                    _result = client.read_discrete_inputs(start,quantity,unit=unit_id)
+                    time.sleep(0.2)
+                    result['data'] = result.bits
+                elif code == 1:#READ_COILS
+                    _result = client.read_coils(start, quantity, unit=unit_id)
+                    time.sleep(0.2)
+                    result['data'] = result.bits
+                elif code == 4:#READ_INPUT_REGISTERS
+                    _result = client.read_input_registers(start, count=quantity, unit=unit_id, signed=True)
+                    time.sleep(0.2)
+                    # print('result is ', result)
+                    result['data'] = _result.registers
+
             except Exception as e:
-                result['message'] = '读取设备出错了'
-        else:
-            result['message'] = '设备不在线'
+                result['message'] = '连接设备出错了'
+                print(e)
 
     else:
-        result['message'] = '设备存在'
+        result['message'] = '设备不存在'
 
 
     return json.dumps(result,ensure_ascii=False)

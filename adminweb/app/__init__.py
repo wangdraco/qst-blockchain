@@ -65,11 +65,12 @@ t.start()
 # t = threading.Thread(target=run_gprs_connect)
 # t.start()
 
+#系统启动的时候，自动启动一次gprs连接
 from app.mod_socket.gprs_long_socket import schedule_long_gprs_task
 t = threading.Thread(target=schedule_long_gprs_task)
 t.start()
 
-
+#定期检查gprs的连接状态
 from app.mod_socket.gprs_long_socket import schedule_socket_status
 t = threading.Thread(target=schedule_socket_status)
 t.start()
