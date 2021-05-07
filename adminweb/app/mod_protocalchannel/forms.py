@@ -3,9 +3,11 @@ from app import app,r
 from flask_login import login_required
 from flask import render_template,request,redirect,flash
 from app.mod_protocalchannel.service import *
+from app.mod_protocal.service import get_all_protocals,select_by_id as getProtocal
+from app.mod_channelunit.service import select_by_protocalchannel_id
 from app.mod_protocalchannel.models import protocalchannel
 from app.mod_modbus.modbus_tools import calculateCRC
-import json,struct,time
+import json,struct,time,copy
 from pymodbus.client.sync import ModbusTcpClient,ModbusUdpClient, ModbusSerialClient,ModbusSocketFramer,ModbusRtuFramer
 
 
@@ -19,12 +21,49 @@ def list_all_protocaldevice():
 @app.route('/protocalchannel/edit/<int:id>')
 @login_required
 def edit_protocalchannel(id):
+    #下拉框选择协议类型protocals
+    protocals = get_all_protocals()
+
+    channel_units = []
     selectdata = protocalchannel()
     if (id != 0):
         selectdata = select_by_id(id)
+        channel_units = select_by_protocalchannel_id(id)
     else:
         selectdata.id = 0
-    return render_template("protocalchannel/protocalchannelform.html",selectdata= selectdata)
+    return render_template("protocalchannel/protocalchannelform.html",selectdata= selectdata,protocals=protocals,channel_units=channel_units)
+
+@app.route('/protocalchannel/save',methods=['POST'])
+@login_required
+def save_protocalchannel():
+    record = protocalchannel()
+    record.id = int(request.form.get('record_id'))
+
+    #better using dict.get() than form[key] ,coz get(key) returns None if no key found.....
+    #or use request.form.get('abc','default value').
+    record.channel_name = request.form.get('device_name')
+
+    record.protocal_id = request.form.get('protocal_id')
+    record.port = request.form.get('protocal_port')
+    record.ipaddress = request.form.get('server_ip')
+    record.isactive = request.form.get('isactive') if request.form.get('isactive')=='Y' else "N"
+    record.comment = request.form.get('comment')
+
+    _selectdata = copy.copy(record)
+
+    _selectdata.id = update_insert_data(record)
+    _selectdata.protocal = getProtocal(record.protocal_id)
+    flash('数据保存成功!!', 'save_info')
+    # 下拉框选择协议类型protocals
+    protocals = get_all_protocals()
+
+    #得到所有的channel_units
+    channel_units = select_by_protocalchannel_id(record.id)
+
+    #listdata = c.get_all_data()
+    #return render_template("client/clientlist.html", listdata=listdata)
+    #return redirect('/client/list')
+    return render_template("protocalchannel/protocalchannelform.html", selectdata= _selectdata,protocals=protocals,channel_units=channel_units)
 
 
 @app.route('/redis/<int:channel_id>/<int:channel_unit>')
@@ -48,14 +87,24 @@ def get_channel_status(channel_id):
         result['address'] = channel.ipaddress
         result['port']= channel.port
 
-        from app import client_socket
-        for k, v in client_socket.items():
-            if k == 'gprs-socket'+str(channel.port):
-                message = '设备在线' if v['status'] else '设备离线了！'
-                status = v['status']
-                break
+        if channel.connettype == 'gprs' or channel.connettype == 'gprs-l':
+
+            from app import client_socket
+            for k, v in client_socket.items():
+                if k == 'gprs-socket'+str(channel.port):
+                    message = '设备在线' if v['status'] else '设备离线了！'
+                    status = v['status']
+                    break
+                else:
+                    message = '设备未启用'
+        elif channel.connettype == 'tcp' or channel.connettype == 'tcp/ip' or channel.protocal_id == 1:#处理有线tcp或串口连接
+            client = get_connect(channel)
+            if client and client.connect():
+                message = '设备在线'
+                status = True
             else:
-                message = '设备未启用'
+                message = '设备无法连接'
+                status = False
 
     else:
         message = '没有此设备！'
@@ -104,7 +153,7 @@ def get_connect_fromport(port):
 
     return client
 
-#下发modbus指令获取返回值，目前支持4G链接类型的modbus RTU设备
+#下发modbus指令获取返回值，目前支持4G链接类型的modbus RTU设备,MODBUS TCP终端等
 @app.route('/get/modbus/<int:channel_id>/<int:unit_id>,<int:code>,<int:start>,<int:quantity>')
 def read_modbus(channel_id,unit_id,code,start,quantity):
     from app import client_socket
@@ -123,7 +172,7 @@ def read_modbus(channel_id,unit_id,code,start,quantity):
             if status['status']:
                 try:
                     _socket = _sock['sock']
-                    _socket.settimeout(3)
+                    _socket.settimeout(2)
                     _result = process_modbus_read(_socket, unit_id, code, start, quantity)
                     result['data'] = _result
                 except Exception as e:
@@ -133,16 +182,11 @@ def read_modbus(channel_id,unit_id,code,start,quantity):
         elif channel.connettype == 'tcp' or channel.connettype == 'tcp/ip' or channel.protocal_id == 1:#处理有线tcp或串口连接的方式
             client = None
             try:
-                if channel.protocal_id == 1:  # 串口连接ModbusSerialClient(method='rtu', port='COM2', baudrate=9600,stopbits=1,parity='N'||'O'||'E',bytesize=8, timeout=1)
-                    client = ModbusSerialClient(method='rtu', port=channel.port, stopbits=channel.stopbit,
-                                                parity=channel.parity, baudrate=channel.baudrate,
-                                                bytesize=channel.databit)
-                elif channel.protocal_id == 2:  # modbus TCP/IP
-                    client = ModbusTcpClient(channel.ipaddress, port=int(channel.port), framer=ModbusSocketFramer)
-                elif channel.protocal_id == 3:  # modbus UDP
-                    client = ModbusUdpClient(channel.ipaddress, port=int(channel.port), framer=ModbusSocketFramer)
-                elif channel.protocal_id == 4:  # modbus TCP/IP over RTU
-                    client = ModbusTcpClient(channel.ipaddress, port=int(channel.port), framer=ModbusRtuFramer)
+                client = get_connect(channel)
+
+                result['protocal'] = channel.protocal.protocal_name + channel.protocal.protocal_type
+                result['address'] = channel.ipaddress
+                result['port'] = channel.port
 
                 if code == 3: #READ_HOLDING_REGISTERS
                     _result = client.read_holding_registers(start, count=quantity, unit=unit_id, signed=True)
@@ -173,6 +217,27 @@ def read_modbus(channel_id,unit_id,code,start,quantity):
 
     return json.dumps(result,ensure_ascii=False)
 
+#得到tcp或串口的连接
+def get_connect(channel):
+    client = None
+    try:
+        if channel.protocal_id == 1:  # 串口连接ModbusSerialClient(method='rtu', port='COM2', baudrate=9600,stopbits=1,parity='N'||'O'||'E',bytesize=8, timeout=1)
+            client = ModbusSerialClient(method='rtu',port=channel.port,stopbits=channel.stopbit,
+                                        parity=channel.parity,baudrate=channel.baudrate,
+                                        bytesize=channel.databit)
+        elif channel.protocal_id == 2:  # modbus TCP/IP
+            client = ModbusTcpClient(channel.ipaddress, port=int(channel.port), framer=ModbusSocketFramer)
+        elif channel.protocal_id == 3: #modbus UDP
+            client = ModbusUdpClient(channel.ipaddress, port=int(channel.port), framer=ModbusSocketFramer)
+        elif channel.protocal_id == 4:  # modbus TCP/IP over RTU
+            client = ModbusTcpClient(channel.ipaddress, port=int(channel.port), framer=ModbusRtuFramer)
+
+    except Exception as e:
+        print(e)
+
+    return client
+
+
 @app.route('/get/<int:port>/config')
 def get_port_config(port):
     _sock = get_connect_fromport(str(port))
@@ -180,7 +245,7 @@ def get_port_config(port):
     _command = {}
     _command['Function'] = 'ConfigInquire'
     _sock.sendall(bytes(json.dumps(_command),encoding='utf-8'))
-    time.sleep(0.7)
+    time.sleep(0.8)
     received = _sock.recv(1024)
     if len(received)>5:
         result = json.loads(received,encoding='utf-8')

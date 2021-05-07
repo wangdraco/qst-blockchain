@@ -1,4 +1,5 @@
 from app.mod_protocalchannel.models import protocalchannel
+from app import db
 
 
 def get_all_protocalchannels():
@@ -20,6 +21,23 @@ def select_by_isactive(_isactive):
 
 def select_by_clientAndIsactive(_clientid,_isactive):
     return protocalchannel.query.filter_by(client_id=_clientid,isactive=_isactive).all()
+
+#update or insert data
+def update_insert_data(data):
+    _id = data.id
+    if (_id == 0):
+        delattr(data, "id")
+        db.session.add(data)
+        db.session.commit()
+        #get inserted ID
+        _id = data.id
+    else:
+        _data = data.__dict__
+        #update接受的参数是个字典，里面有要更新的字段和对应的值，所以要把无用的数据pop掉
+        _data.pop('_sa_instance_state')
+        protocalchannel.query.filter_by(id=data.id).update(_data)
+        db.session.commit()
+    return _id
 
 
 

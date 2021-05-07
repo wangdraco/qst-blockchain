@@ -100,7 +100,7 @@ async def check_socket_status():
             except Exception as e:
                 log.error(f'{k},重新连接失败 ,错误={e},时间={time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))}')
 
-    print('get socket status -----------------------------')
+    # print('get socket status -----------------------------')
 
 async def socket_status_task():
     await asyncio.gather(
