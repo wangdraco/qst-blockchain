@@ -69,13 +69,13 @@ def index2():
 def about():
     return render_template("about.html")
 
-@app.route('/services')
+@app.route('/echart')
 def services():
-    return render_template("services.html")
+    return render_template("echart.html")
 
-@app.route('/contact')
+@app.route('/main')
 def contact():
-    return render_template("contact.html")
+    return render_template("main.html")
 
 @app.route('/gallery')
 def gallery():

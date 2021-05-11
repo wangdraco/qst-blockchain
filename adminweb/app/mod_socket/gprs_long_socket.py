@@ -1,6 +1,6 @@
 from concurrent import futures as cf
 import time,threading,schedule,socket,asyncio
-from app import client_socket,client_id,log
+from app import client_socket,client_id,log,socketio,app
 from app.mod_protocalchannel.service import *
 
 
@@ -107,7 +107,21 @@ async def socket_status_task():
         check_socket_status())
 
 def schedule_socket_status():
+
     while 1:
+        '''#测试socketio
+        try:
+            time.sleep(2)
+            # socketio.send('alert_data', {'data': 'foo'}, namespace='/ws/main')
+            # print('begin socket io emit ................................',socketio.request)
+            # _client = socketio.test_client(app,namespace='/ws/main')
+            # print('the connect status is ============',_client.is_connected())
+            # socketio.emit('temp_data', {'data': 'dddddd'}, namespace='/ws/main')
+            print('in gprs_long_socket while...........................')
+            # pass
+        except Exception as e:
+            print(e)
+        '''
         asyncio.run(socket_status_task())
         time.sleep(10)#这个时间要大于重新连接的timeout时间，否则容易堵塞
 

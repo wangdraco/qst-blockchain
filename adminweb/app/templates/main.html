@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <title>数据展示</title>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="dist/css/google-fonts-css.css" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+   <!-- Navbar -->
+  {% include 'navbar.html' %}
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  {% include 'leftsidebar.html' %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" id="content-id">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">数据展示</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard v2</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="container-fluid">
+        <!-- Info boxes -->
+        <div class="row">
+          <div class="col-lg-4 col-1">
+            <div class="small-box bg-blank">
+               <div class="card-header">
+                  <h5 class="card-title">
+                    <i class="fas fa-chart-line mr-1"></i>
+                    当前温度
+                  </h5>
+               </div>
+                <div class="chart tab-pane" id="main"  style="position: relative;width: 350px;height:300px;"></div>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-lg-4 col-1"  >
+            <div class="small-box bg-blank">
+              <div class="card-header">
+                  <h5 class="card-title">
+                    <i class="fas fa-chart-pie mr-1"></i>
+                    当前湿度
+                  </h5>
+              </div>
+              <div class="chart tab-pane" id="main2" style="position: relative;width: 350px; height: 300px;"></div>
+            </div>
+
+          </div>
+          <!-- /.col -->
+
+          <!-- fix for small devices only -->
+          <div class="clearfix hidden-md-up"></div>
+
+
+          <!-- /.col -->
+        </div>
+
+
+        <!-- /.row -->
+      </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 3.0.2
+    </div>
+  </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Bootstrap -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.js"></script>
+
+<!-- OPTIONAL SCRIPTS -->
+<script src="dist/js/demo.js"></script>
+
+<!-- PAGE PLUGINS -->
+<!-- jQuery Mapael -->
+<script src="plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+<script src="plugins/raphael/raphael.min.js"></script>
+<script src="plugins/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="plugins/jquery-mapael/maps/usa_states.min.js"></script>
+<!-- socket.io -- SCRIPT -->
+<script src="dist/js/socket.io.js"></script>
+<!-- echart -- SCRIPT -->
+<script src="dist/js/echarts.min.js"></script>
+
+
+<script>
+var socket;
+$(function () {
+    var current_path = window.location.pathname;
+      $('.nav-sidebar a').each(function(){
+            var href = $(this).attr('href');
+            if (href === current_path)
+            {
+               $(this).addClass('active');
+                $(this).parent().parent().parent().addClass('menu-open');
+                return false;
+            }
+        });
+       connet_ws();
+})
+
+//connect ws
+function connet_ws(){
+  namespace = '/ws/main';
+  socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace,{'reconnection delay': 2000});
+
+  //监听某个通道的数据
+  socket.on('temp_data', function(msg) {
+    alert(msg.data);
+    var json_data = JSON.parse(msg.data);
+    for(var key in json_data){
+       //alert(key+':'+json_data[key]);
+       //$("#"+key).text(json_data[key]);
+     }
+
+   });
+
+   socket.on('alert_data', function(msg) {
+    alert(msg.data);
+    var json_data = JSON.parse(msg.data);
+    for(var key in json_data){
+       //alert(key+':'+json_data[key]);
+       //$("#"+key).text(json_data[key]);
+     }
+
+   });
+
+}
+
+
+// 基于准备好的dom，初始化echarts实例
+
+        var myChart = echarts.init(document.getElementById('main'));
+var option;
+        // 指定图表的配置项和数据
+       option = {
+    series: [{
+            type: 'gauge',
+            center: ["50%", "60%"],
+            startAngle: 200,
+            endAngle: -20,
+            min: -20,
+            max: 60,
+            splitNumber: 8,
+            itemStyle: {
+                color: '#FFAB91'
+            },
+            progress: {
+                show: true,
+                width: 30
+            },
+
+            pointer: {
+                show: false,
+            },
+            axisLine: {
+                lineStyle: {
+                    width: 30
+                }
+            },
+            axisTick: {
+                distance: -45,
+                splitNumber: 5,
+                lineStyle: {
+                    width: 2,
+                    color: '#999'
+                }
+            },
+            splitLine: {
+                distance: -52,
+                length: 14,
+                lineStyle: {
+                    width: 3,
+                    color: '#999'
+                }
+            },
+            axisLabel: {
+                distance: -20,
+                color: '#999',
+                fontSize: 20
+            },
+            anchor: {
+                show: false
+            },
+            title: {
+                show: false
+            },
+            detail: {
+                valueAnimation: true,
+                width: '60%',
+                lineHeight: 40,
+                height: '15%',
+                borderRadius: 8,
+                offsetCenter: [0, '-15%'],
+                fontSize: 30,
+                fontWeight: 'bolder',
+                formatter: '{value} °C',
+                color: 'auto'
+            },
+            data: [{
+                value: 20
+            }]
+        },
+
+        {
+            type: 'gauge',
+            center: ["50%", "60%"],
+            startAngle: 200,
+            endAngle: -20,
+            min: 0,
+            max: 60,
+            itemStyle: {
+                color: '#FD7347',
+            },
+            progress: {
+                show: true,
+                width: 8
+            },
+
+            pointer: {
+                show: false
+            },
+            axisLine: {
+                show: false
+            },
+            axisTick: {
+                show: false
+            },
+            splitLine: {
+                show: false
+            },
+            axisLabel: {
+                show: false
+            },
+            detail: {
+                show: false
+            },
+            data: [{
+                value: 20,
+            }]
+
+        }
+    ],
+};
+
+setInterval(function() {
+    let random = (Math.random() * 60).toFixed(2) - 0;
+    option.series[0].data[0].value = random;
+    option.series[1].data[0].value = random;
+    myChart.setOption(option, true);
+}, 2000);
+
+var myChart2 = echarts.init(document.getElementById('main2'));
+var option2;
+
+option2 = {
+    series: [{
+        type: 'gauge',
+        progress: {
+            show: true,
+            width: 18
+        },
+        axisLine: {
+            lineStyle: {
+                width: 18
+            }
+        },
+        axisTick: {
+            show: false
+        },
+        splitLine: {
+            length: 15,
+            lineStyle: {
+                width: 2,
+                color: '#999'
+            }
+        },
+        axisLabel: {
+            distance: 25,
+            color: '#999',
+            fontSize: 15
+        },
+        anchor: {
+            show: true,
+            showAbove: true,
+            size: 20,
+            itemStyle: {
+                borderWidth: 10
+            }
+        },
+        title: {
+            show: false
+        },
+        detail: {
+            valueAnimation: true,
+            fontSize: 30,
+            offsetCenter: [0, '70%'],
+            formatter: '{value} %',
+        },
+        data: [{
+            value: 70
+        }]
+    }]
+};
+//myChart2.setOption(option2, true);
+
+setInterval(function() {
+    let random = (Math.random() * 60).toFixed(2) - 0;
+    option2.series[0].data[0].value = random;
+    myChart2.setOption(option2, true);
+}, 3000);
+
+</script>
+</body>
+</html>

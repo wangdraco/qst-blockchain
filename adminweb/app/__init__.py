@@ -32,6 +32,8 @@ try:
 except Exception as e:
     print(e)
     socketio = SocketIO(app, async_mode='eventlet',ping_interval=20)
+    # runit的主程序里，必须使用以下的方式运行：
+    # socketio.run(app, host='127.0.0.1', debug=False, port=5000, socket_timeout=30, custom_pool=pool)
 
 #也可以从外部进程发出event，例如从Celery worker内发出，可以使用下面的方式
 #这种方式中，app实例就不需要传递给socketIO了
@@ -49,8 +51,11 @@ Session(app)
 #     CELERY_RESULT_SERIALIZER = 'json',
 # )
 
+
 #log to files
 log = log_class(app, app.config['DEBUG'], 'logs', 'app.logs', 10240, 200)
+
+
 
 #启动一些定时任务
 # from app.mod_protocalchannel.modbus_tcp_task import schedule_tcpip_task
@@ -107,6 +112,7 @@ def test():
 
 #page navigation,所有有导航的模块,都必须在这里引入一下,否则没法注册app.route()
 from app  import views, process_fileupload
+from app.mod_socket import process_websocket
 from app.mod_user import forms
 from app.mod_nbiot import forms
 from app.mod_loragate import forms
