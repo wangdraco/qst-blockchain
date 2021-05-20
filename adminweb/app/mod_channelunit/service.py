@@ -11,5 +11,6 @@ def select_by_protocalchannel_id(_id):
     return channelunit.query.filter_by(protocalchannel_id=_id).all()
 
 def select_by_ClientAndIsactive(_clientid,_isactive):
+    # return channelunit.query.filter(channelunit.client_id == _clientid).filter(channelunit.isactive == _isactive).all()
     return channelunit.query.filter_by(client_id=_clientid,isactive=_isactive).all()
 

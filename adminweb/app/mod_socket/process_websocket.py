@@ -42,6 +42,6 @@ def background_temp_thread():
 @app.route('/test/socketio')
 def test_socket():
     socketio.emit('temp_data', {'data': 'dddddd'}, namespace='/ws/main')
-    socketio.sleep(2)#同时发送消息的时候，必须有个时间间隔
-    socketio.emit('alert_data', {'data': 'eeee'}, namespace='/ws/main')
+    # socketio.sleep(3)#同时发送消息的时候，必须有个时间间隔
+    # socketio.emit('alert_data', {'data': 'eeee'}, namespace='/ws/main')
     return 'send socket successful'

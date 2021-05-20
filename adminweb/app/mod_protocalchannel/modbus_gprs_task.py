@@ -4,7 +4,6 @@ from app.mod_protocalchannel.service import *
 import app.mod_channelunit.service as cu_service
 import app.mod_channeldevice.service as cd_service
 from app.mod_redis.redis_class import Redis
-from pymodbus.client.sync import ModbusTcpClient,ModbusUdpClient, ModbusSerialClient,ModbusSocketFramer,ModbusRtuFramer
 import asyncio,threading,time,json,socket,struct
 from decimal import Decimal
 from app.mod_modbus import modbus_tools as mt
@@ -12,11 +11,19 @@ from app.mod_modbus import modbus_tools as mt
 from app import client_socket,client_id
 from app.mod_modbus.modbus_tools import  calculateCRC
 
+p_channels_list =[]
+channel_unit_list =[]
+channel_device_list = []
+try:
+    p_channels_list = select_by_clientAndIsactive(client_id, 'Y')
+    # p_channels_list = select_by_ids([1])
+    channel_unit_list = cu_service.select_by_ClientAndIsactive(client_id, 'Y')
+    channel_device_list = cd_service.select_by_ClientAndIsactive(client_id, 'Y')
+except Exception as e:
+    print("出错了0000000000",e)
 
-p_channels_list = select_by_clientAndIsactive(client_id,'Y')
-# p_channels_list = select_by_ids([1])
-channel_unit_list = cu_service.select_by_ClientAndIsactive(client_id,'Y')
-channel_device_list = cd_service.select_by_ClientAndIsactive(client_id,'Y')
+
+print('-------------------',channel_unit_list)
 
 from app import r
 # r = Redis.connect()
@@ -224,15 +231,18 @@ async def process_protocalchannels(channel):
             for d in channel_device_list:
                 if d.channelunit_id == channel_unit.id:
                     _device_list.append(d)
+    #如果有channelunit和channeldevice，则启动线程进行读取操作
+    if len(_unit_list)>0 and len(_device_list)>0:
+        try:
+            t = threading.Thread(name=str(channel.id), target=protocalchannel_threading,
+                                 kwargs={'channel': channel, 'channel_unit': _unit_list,
+                                         'channel_device': _device_list})
 
-    try:
-        t = threading.Thread(name=str(channel.id), target=protocalchannel_threading,
-                             kwargs={'channel': channel,'channel_unit': _unit_list,'channel_device':_device_list})
+            t.start()
+            #time.sleep(0.2)
+        except Exception as e:
+            print(t.name, '-thread error--', e)
 
-        t.start()
-        time.sleep(0.2)
-    except Exception as e:
-        print(t.name,'-thread error--',e)
 
 
 #function code to number
@@ -265,8 +275,9 @@ def schedule_gprs_task():
     # socket_thread()
     print('---------------------------------')
     while 1:
+        time.sleep(126)  # m每隔126秒执行一下modbus读取命令 ,等gprs设备第一次连接以后再执行
         asyncio.run(main_gprs_task())
-        time.sleep(126)
+
 
 
 

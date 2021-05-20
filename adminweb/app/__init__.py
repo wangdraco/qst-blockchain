@@ -12,7 +12,7 @@ app = Flask(__name__)
 # login management
 login = LoginManager(app)
 
-client_id = 21 #公司id
+client_id = 3 #公司id
 # import !!  Configurations,access the  config.py
 app.config.from_object('config')
 app.config['DEBUG'] = False
@@ -58,27 +58,25 @@ log = log_class(app, app.config['DEBUG'], 'logs', 'app.logs', 10240, 200)
 
 
 #启动一些定时任务
+#schedule_tcpip_task是针对有线modbus TCP
 # from app.mod_protocalchannel.modbus_tcp_task import schedule_tcpip_task
-# t = threading.Thread(target=schedule_tcpip_task)
-# t.start()
+# t1 = threading.Thread(target=schedule_tcpip_task)
+# t1.start()
 
+#schedule_gprs_task是针对 4G/gprs的DTU透传设备
 from app.mod_protocalchannel.modbus_gprs_task import schedule_gprs_task
-t = threading.Thread(target=schedule_gprs_task)
-t.start()
-
-# from app.mod_socket.gprs_long_socket import run_gprs_connect
-# t = threading.Thread(target=run_gprs_connect)
-# t.start()
+t2 = threading.Thread(target=schedule_gprs_task)
+t2.start()
 
 #系统启动的时候，自动启动一次gprs连接
 from app.mod_socket.gprs_long_socket import schedule_long_gprs_task
-t = threading.Thread(target=schedule_long_gprs_task)
-t.start()
+t3 = threading.Thread(target=schedule_long_gprs_task)
+t3.start()
 
 #定期检查gprs的连接状态
-from app.mod_socket.gprs_long_socket import schedule_socket_status
-t = threading.Thread(target=schedule_socket_status)
-t.start()
+# from app.mod_socket.gprs_long_socket import schedule_socket_status
+# t4 = threading.Thread(target=schedule_socket_status)
+# t4.start()
 
 print('begin in app.__init__ ===============================')
 

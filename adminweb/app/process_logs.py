@@ -24,3 +24,4 @@ class log_class():
         self.file_handler.setLevel(logging.ERROR)
         self.file_handler.setFormatter(logging.Formatter(
             '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+        self._app.logger.error(_error)

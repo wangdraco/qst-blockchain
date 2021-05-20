@@ -9,20 +9,22 @@ p_channels_list = select_by_clientAndIsactive(client_id,'Y')
 
 def process_socket_server(**name):
     channel = name['channel']
+    # servsock = None
 
     servsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     servsock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) #关闭端口后立即释放
-    print(f'================',channel.ipaddress,'--',channel.port)
-    servsock.bind((channel.ipaddress, int(channel.port)))
-    servsock.listen(2)
-    servsock.settimeout(6) #超时等待时间为6秒
+    print(f'====等待建立连接============',channel.ipaddress,'--',channel.port)
+
     with cf.ThreadPoolExecutor(1) as e:
         try:
             # while True:,not while means just connecting once.
             # while True:
+            servsock.bind((channel.ipaddress, int(channel.port)))
+            servsock.listen(2)
+            servsock.settimeout(6)  # 超时等待时间为6秒
 
             new_sock, address = servsock.accept()
-            print('连接上了---------------', channel.port, new_sock)
+            print('---连接上了---------------', channel.port, new_sock)
             # e.submit(get_connected_client, new_sock, address)
             _sock = {}
             _sock['time'] = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
@@ -56,9 +58,8 @@ def process_socket_server(**name):
         except Exception as ee:
             print('excetion occured', channel.port, ee)
         finally:
-            # servsock.close()
+            servsock.close()
             print('in the finally================')
-
 
 
 async def process_long_gprs(channel):
@@ -67,16 +68,15 @@ async def process_long_gprs(channel):
                              kwargs={'channel': channel})
 
         t.start()
-        time.sleep(0.1)
+        # time.sleep(0.1)
     except Exception as e:
-        print('in process_long_gprs,',e)
+        print('启动gprs连接线程的时候出错........,',e)
 
 
 async def main_long_gprs_task():
     for p in p_channels_list:
         if p.connettype == 'gprs' or p.connettype == 'gprs-l':
-            await asyncio.gather(
-                process_long_gprs(p))
+            await asyncio.gather(process_long_gprs(p))
 
 
 def schedule_long_gprs_task():
@@ -86,8 +86,26 @@ def schedule_long_gprs_task():
 async def check_socket_status():
 
     for k,v in client_socket.items():
-        if v["sock"] and not v["sock"]._closed:
-            print(f'key={k},status={not v["sock"]._closed},保持连接状态....')
+        _socket = v["sock"]
+        if _socket:
+            print(f'当前的sock===={_socket}')
+            try:
+                _socket.settimeout(1)
+                _socket.sendall(b'b')
+                print(f'key={k},status={not v["sock"]._closed},保持连接状态....')
+            except Exception as ee:
+                print(f'发送心跳失败--------------key={k}.')
+                # 启动一个线程重新链接
+                try:
+                    t = threading.Thread(target=process_socket_server,
+                                         kwargs={'channel': v["channel"]})
+
+                    t.start()
+                except Exception as e:
+                    log.error(
+                        f'{k},重新连接失败 ,错误={e},时间={time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))}')
+
+
         else:
             print(f'socket {k},连接失败，，sock={v["sock"]}')
             log.error(f'socket {k},连接失败 ,时间={time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))}')
@@ -100,7 +118,6 @@ async def check_socket_status():
             except Exception as e:
                 log.error(f'{k},重新连接失败 ,错误={e},时间={time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))}')
 
-    # print('get socket status -----------------------------')
 
 async def socket_status_task():
     await asyncio.gather(
@@ -109,21 +126,9 @@ async def socket_status_task():
 def schedule_socket_status():
 
     while 1:
-        '''#测试socketio
-        try:
-            time.sleep(2)
-            # socketio.send('alert_data', {'data': 'foo'}, namespace='/ws/main')
-            # print('begin socket io emit ................................',socketio.request)
-            # _client = socketio.test_client(app,namespace='/ws/main')
-            # print('the connect status is ============',_client.is_connected())
-            # socketio.emit('temp_data', {'data': 'dddddd'}, namespace='/ws/main')
-            print('in gprs_long_socket while...........................')
-            # pass
-        except Exception as e:
-            print(e)
-        '''
+        time.sleep(10)  # 每隔10秒检查一下gprs连接状态,这个时间要大于重新连接的timeout时间，否则容易堵塞
         asyncio.run(socket_status_task())
-        time.sleep(10)#这个时间要大于重新连接的timeout时间，否则容易堵塞
+
 
 if '__main__' == __name__:
     pass
