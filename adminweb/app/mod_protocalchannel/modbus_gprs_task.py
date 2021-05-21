@@ -138,8 +138,8 @@ def process_modbus_read(channelunit,socket_client):
             for j in received:
                 temp.append(j)
             # 确保返回的数据是正确的modbus顺序 [unitid,functionCode,readNumber,......]
-            if temp.index(_command[1]) - temp.index(_command[0]) == 1:  # unitid 和functioncode紧挨着
-                real_temp = temp[temp.index(_command[2]):]
+            if temp[0]==_command[0] and temp[1]==_command[1]:  # unitid 和functioncode紧挨着
+                real_temp = temp[3:] #前三位分别是unitid，funcode，读取数量
 
             print('send command is =================', _command)
             print(f' received real data is {temp}, {real_temp}')
