@@ -58,20 +58,20 @@ log = log_class(app, app.config['DEBUG'], 'logs', 'app.logs', 10240, 200)
 
 
 #启动一些定时任务
-#schedule_tcpip_task是针对有线modbus TCP
-# from app.mod_protocalchannel.modbus_tcp_task import schedule_tcpip_task
-# t1 = threading.Thread(target=schedule_tcpip_task)
-# t1.start()
+#schedule_tcpip_task是针对有线modbus TCP或直接串口连接的设备
+from app.mod_protocalchannel.modbus_tcp_task import schedule_tcpip_task
+t1 = threading.Thread(target=schedule_tcpip_task)
+t1.start()
 
 #schedule_gprs_task是针对 4G/gprs的DTU透传设备
-from app.mod_protocalchannel.modbus_gprs_task import schedule_gprs_task
-t2 = threading.Thread(target=schedule_gprs_task)
-t2.start()
+# from app.mod_protocalchannel.modbus_gprs_task import schedule_gprs_task
+# t2 = threading.Thread(target=schedule_gprs_task)
+# t2.start()
 
 #系统启动的时候，自动启动一次gprs连接
-from app.mod_socket.gprs_long_socket import schedule_long_gprs_task
-t3 = threading.Thread(target=schedule_long_gprs_task)
-t3.start()
+# from app.mod_socket.gprs_long_socket import schedule_long_gprs_task
+# t3 = threading.Thread(target=schedule_long_gprs_task)
+# t3.start()
 
 #定期检查gprs的连接状态
 # from app.mod_socket.gprs_long_socket import schedule_socket_status

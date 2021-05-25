@@ -9,6 +9,12 @@ import asyncio,threading,time,json
 from decimal import Decimal
 from app.mod_modbus import modbus_tools as mt
 from app import client_id
+from apscheduler.schedulers.blocking import BlockingScheduler
+
+
+
+scheduler = BlockingScheduler()
+
 
 p_channels_list = select_by_clientAndIsactive(client_id,'Y')
 # p_channels_list = select_by_ids([1])
@@ -110,7 +116,6 @@ def process_modbus_results(channel,channel_unit,channel_devices,_result):
 
 
 def process_channelunit(channel,channel_units,channel_devices,m_client):
-    print('begin---------------')
 
     #开始遍历channel_unit，执行modbus操作
     for cu in channel_units:
@@ -135,7 +140,6 @@ def process_channelunit(channel,channel_units,channel_devices,m_client):
             process_error_message(channel, None, cu, channel_devices)
             print(f'{channel.channel_name}---{cu.device_name},...读取错误...failure!!!!!!!!!!!', e)
 
-
 def get_connect(channel):
     client = None
     try:
@@ -151,7 +155,7 @@ def get_connect(channel):
             client = ModbusTcpClient(channel.ipaddress, port=int(channel.port), framer=ModbusRtuFramer)
 
     except Exception as e:
-        print(e)
+        print('get connect 出错了.',e)
 
     return client
 
@@ -163,17 +167,31 @@ def protocalchannel_threading(**name):
 
     try:
         client = get_connect(channel)
+
         if client and client.connect():#connected successful
             process_channelunit(channel,channel_units,channel_devices,client)
+
+            #用完就关闭连接，如果不关闭，串口连接的时候会出问题，但tcp没问题
+            client.close()
         else:
             #pass
             #连接错误，先看redis里有没有值，有的话找到后更新status=False，没有的话组装一个
-            print(channel.channel_name, '--连接错误 failure-',name['channel_unit'])
+            print(channel.channel_name, '--连接错误 failure-',name['channel_unit'],' client is ',client.__dict__,' status=',client.connect())
             process_error_message(channel,channel_units,None,channel_devices)
 
     except Exception as e:
         print(channel.channel_name, '--failure----', e)
 
+def schedule_jobs(**name):
+    channel = name['channel']
+    _unit_list = name['channel_unit']
+    _device_list = name['channel_device']
+
+    t = threading.Thread(name=str(channel.id), target=protocalchannel_threading,
+                         kwargs={'channel': channel, 'channel_unit': _unit_list,
+                                 'channel_device': _device_list})
+
+    t.start()
 
 async def process_protocalchannels(channel):
 
@@ -190,29 +208,41 @@ async def process_protocalchannels(channel):
                 if d.channelunit_id == channel_unit.id:
                     _device_list.append(d)
 
-    try:
-        t = threading.Thread(name=str(channel.id), target=protocalchannel_threading,
-                             kwargs={'channel': channel,'channel_unit': _unit_list,'channel_device':_device_list})
+    if len(_unit_list) > 0:
+        try:
+            # t = threading.Thread(name=str(channel.id), target=protocalchannel_threading,
+            #                      kwargs={'channel': channel, 'channel_unit': _unit_list,
+            #                              'channel_device': _device_list})
+            #
+            # t.start()
 
-        t.start()
-    except Exception as e:
-        print(t.name,'-thread error--',e)
+            scheduler.add_job(schedule_jobs,
+                              'interval',
+                              kwargs={'channel': channel,
+                                      'channel_unit': _unit_list,
+                                      'channel_device': _device_list},
+                              seconds=channel.refreshtime)
+        except Exception as e:
+            print(scheduler, '-启动定时任务的时候出错了--', e)
 
 
 async def main_tcpip_task():
     for p in p_channels_list:
         if p.connettype == 'tcp' or p.connettype == 'tcp/ip' or p.protocal_id == 1:  # 只处理有线tcp或串口连接的方式
-
             await asyncio.gather(
                 process_protocalchannels(p)
             )
+    await asyncio.sleep(1)# 如果没有这行，则APScheduler的job不启动，就是等上面的gather完成了
+    scheduler.start()
 
-# asyncio.run(main_task())
 
 def schedule_tcpip_task():
-    while 1:
-        asyncio.run(main_tcpip_task())
-        time.sleep(10)
+    # while 1:
+    #     time.sleep(10)
+    #     asyncio.run(main_tcpip_task())
+    #使用APScheduler执行定期任务（根据每个通道的refreshtime），否则就使用上面的代码定期执行
+    asyncio.run(main_tcpip_task())
+
 
 if __name__ == "__main__":
     schedule_tcpip_task()

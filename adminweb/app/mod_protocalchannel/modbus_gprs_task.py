@@ -267,8 +267,7 @@ async def main_gprs_task():
     for p in p_channels_list:
         if p.connettype == 'gprs' or p.connettype == 'gprs-l': # 把gprs，4G设备单独处理，涉及到透传
             #
-            await asyncio.gather(
-                process_protocalchannels(p))
+            await asyncio.gather(process_protocalchannels(p))
 
 
 def schedule_gprs_task():
