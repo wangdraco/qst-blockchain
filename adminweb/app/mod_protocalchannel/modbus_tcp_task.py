@@ -9,11 +9,17 @@ import asyncio,threading,time,json
 from decimal import Decimal
 from app.mod_modbus import modbus_tools as mt
 from app import client_id
-from apscheduler.schedulers.blocking import BlockingScheduler
 
 
+# job_defaults = {
+#     'coalesce': False,
+#     'max_instances': 100
+# }
+#
+# scheduler = BlockingScheduler(job_defaults=job_defaults)
 
-scheduler = BlockingScheduler()
+import sched2
+sch = sched2.scheduler()
 
 
 p_channels_list = select_by_clientAndIsactive(client_id,'Y')
@@ -109,20 +115,27 @@ def process_modbus_results(channel,channel_unit,channel_devices,_result):
                              'status':True,'devices':result_list}}
     #把结果放到redis中，key=channel:channel.id:channel_unit.id
     redis_data = json.dumps(_data,ensure_ascii=False)
-    Redis.set_data(r,f'channel:{channel.id}:{channel_unit.id}',redis_data)
+    try:
+        Redis.set_data(r,f'channel:{channel.id}:{channel_unit.id}',redis_data)
+    except Exception as e:
+        print('redis set error ,',e)
 
-    print(f'the device is =={channel_unit.device_name}===key is channel:{channel.id}:{channel_unit.id}====={redis_data}')
+    # print(f'the device is =={channel_unit.device_name}===key is channel:{channel.id}:{channel_unit.id}====={redis_data}')
 
 
 
 def process_channelunit(channel,channel_units,channel_devices,m_client):
 
     #开始遍历channel_unit，执行modbus操作
+
     for cu in channel_units:
+
         try:
             if cu.function_code == '03' or cu.function_code == 'READ_HOLDING_REGISTERS':
+                print(f'开始处理unit,{channel.channel_name}---{cu.device_name}')
                 result = m_client.read_holding_registers(cu.startfrom, cu.quantity,
                                                          unit=cu.unit_id, signed=True)
+
                 print(f'{channel.channel_name}---{cu.device_name},process complete..........,result={result.registers}')
                 process_modbus_results(channel, cu, channel_devices, result.registers)
             elif cu.function_code == '02' or cu.function_code == 'READ_DISCRETE_INPUTS':
@@ -135,6 +148,8 @@ def process_channelunit(channel,channel_units,channel_devices,m_client):
                 result = m_client.read_input_registers(cu.startfrom,cu.quantity,unit=cu.unit_id)
                 process_modbus_results(channel, cu, channel_devices, result.registers)
 
+            # time.sleep(0.5)
+
         except Exception as e:
             # m_client.close()
             process_error_message(channel, None, cu, channel_devices)
@@ -146,21 +161,21 @@ def get_connect(channel):
         if channel.protocal_id == 1:  # 串口连接ModbusSerialClient(method='rtu', port='COM2', baudrate=9600,stopbits=1,parity='N'||'O'||'E',bytesize=8, timeout=1)
             client = ModbusSerialClient(method='rtu',port=channel.port,stopbits=channel.stopbit,
                                         parity=channel.parity,baudrate=channel.baudrate,
-                                        bytesize=channel.databit)
+                                        bytesize=channel.databit,timeout=3)
         elif channel.protocal_id == 2:  # modbus TCP/IP
             client = ModbusTcpClient(channel.ipaddress, port=int(channel.port), framer=ModbusSocketFramer)
         elif channel.protocal_id == 3: #modbus UDP
             client = ModbusUdpClient(channel.ipaddress, port=int(channel.port), framer=ModbusSocketFramer)
         elif channel.protocal_id == 4:  # modbus TCP/IP over RTU
-            client = ModbusTcpClient(channel.ipaddress, port=int(channel.port), framer=ModbusRtuFramer)
+            client = ModbusTcpClient(channel.ipaddress, port=int(channel.port), framer=ModbusRtuFramer,timeout=3)
 
     except Exception as e:
         print('get connect 出错了.',e)
 
     return client
 
-
-def protocalchannel_threading(**name):
+def protocalchannel_threading(name):
+# def protocalchannel_threading(**name):
     channel = name['channel']
     channel_units = name['channel_unit']
     channel_devices = name['channel_device']
@@ -170,9 +185,9 @@ def protocalchannel_threading(**name):
 
         if client and client.connect():#connected successful
             process_channelunit(channel,channel_units,channel_devices,client)
-
             #用完就关闭连接，如果不关闭，串口连接的时候会出问题，但tcp没问题
             client.close()
+
         else:
             #pass
             #连接错误，先看redis里有没有值，有的话找到后更新status=False，没有的话组装一个
@@ -187,11 +202,15 @@ def schedule_jobs(**name):
     _unit_list = name['channel_unit']
     _device_list = name['channel_device']
 
-    t = threading.Thread(name=str(channel.id), target=protocalchannel_threading,
-                         kwargs={'channel': channel, 'channel_unit': _unit_list,
-                                 'channel_device': _device_list})
+    # t = threading.Thread(name=str(channel.id), target=protocalchannel_threading,
+    #                      kwargs={'channel': channel, 'channel_unit': _unit_list,
+    #                              'channel_device': _device_list})
+    #
+    # t.start()
 
-    t.start()
+    #下面的是非多线程执行channelunit,保证顺序执行不出错，但是如果有设备timeout，就容易停顿一下
+    protocalchannel_threading(name={'channel': channel, 'channel_unit': _unit_list,
+                                      'channel_device': _device_list})
 
 async def process_protocalchannels(channel):
 
@@ -215,15 +234,11 @@ async def process_protocalchannels(channel):
             #                              'channel_device': _device_list})
             #
             # t.start()
-
-            scheduler.add_job(schedule_jobs,
-                              'interval',
-                              kwargs={'channel': channel,
+            sch.repeat(channel.refreshtime,priority=0,action=schedule_jobs, kwargs={'channel': channel,
                                       'channel_unit': _unit_list,
-                                      'channel_device': _device_list},
-                              seconds=channel.refreshtime)
+                                      'channel_device': _device_list})
         except Exception as e:
-            print(scheduler, '-启动定时任务的时候出错了--', e)
+            print(sch, '-启动定时任务的时候出错了--', e)
 
 
 async def main_tcpip_task():
@@ -232,15 +247,16 @@ async def main_tcpip_task():
             await asyncio.gather(
                 process_protocalchannels(p)
             )
-    await asyncio.sleep(1)# 如果没有这行，则APScheduler的job不启动，就是等上面的gather完成了
-    scheduler.start()
+    # await asyncio.sleep(2)# 如果没有这行，就是等上面的gather完成了
+    await asyncio.sleep(1)
+    sch.run()
 
 
 def schedule_tcpip_task():
     # while 1:
-    #     time.sleep(10)
+    #     time.sleep(130)
     #     asyncio.run(main_tcpip_task())
-    #使用APScheduler执行定期任务（根据每个通道的refreshtime），否则就使用上面的代码定期执行
+    #使用sched2执行定期任务（根据每个通道的refreshtime），否则就使用上面的代码定期执行
     asyncio.run(main_tcpip_task())
 
 

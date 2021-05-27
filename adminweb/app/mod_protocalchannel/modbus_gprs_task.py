@@ -11,6 +11,12 @@ from app.mod_modbus import modbus_tools as mt
 from app import client_socket,client_id
 from app.mod_modbus.modbus_tools import  calculateCRC
 
+# from apscheduler.schedulers.blocking import BlockingScheduler
+# scheduler = BlockingScheduler()
+
+import sched2
+sch = sched2.scheduler()
+
 p_channels_list =[]
 channel_unit_list =[]
 channel_device_list = []
@@ -20,13 +26,13 @@ try:
     channel_unit_list = cu_service.select_by_ClientAndIsactive(client_id, 'Y')
     channel_device_list = cd_service.select_by_ClientAndIsactive(client_id, 'Y')
 except Exception as e:
-    print("出错了0000000000",e)
+    print("取数据库出错了0000000000",e)
 
 
-print('-------------------',channel_unit_list)
+print('--------当前通道list-----------',p_channels_list)
 
 from app import r
-# r = Redis.connect()
+r = Redis.connect()
 
 def process_error_message(channel=None,channel_unit_list=None,channel_unit=None,channel_devices=None):
     if channel and channel_unit_list:#连接错误
@@ -117,7 +123,7 @@ def process_modbus_results(channel,channel_unit,channel_devices,_result):
     redis_data = json.dumps(_data,ensure_ascii=False)
     Redis.set_data(r,f'channel:{channel.id}:{channel_unit.id}',redis_data)
 
-    print(f'the device is =={channel_unit.device_name}===key is channel:{channel.id}:{channel_unit.id}====={redis_data}')
+    # print(f'the device is =={channel_unit.device_name}===key is channel:{channel.id}:{channel_unit.id}====={redis_data}')
 
 def process_modbus_read(channelunit,socket_client):
     # 组装_command，计算crc
@@ -178,7 +184,7 @@ def process_channelunit(channel,channel_units,channel_devices,m_client):
             # m_client.close()
             process_error_message(channel, None, cu, channel_devices)
             print(f'{channel.channel_name}---{cu.device_name},...读取错误...failure!!!!!!!!!!!', e)
-        time.sleep(1)
+        # time.sleep(1)
     # if m_client:
     #     m_client.close()
 
@@ -189,15 +195,14 @@ def process_channelunit(channel,channel_units,channel_devices,m_client):
 def get_connect(channel):
     client = None
     _sock = client_socket['gprs-socket' + str(channel.port)]
-    print('in get_connect is 9999999999999999999999999',_sock)
     if _sock and _sock['status']:
-        print('get socket from app.client_socket-------------------------','gprs-socket' + str(channel.port))
+        print('从全局变量中获取socket,  from app.client_socket-------------------------','gprs-socket' + str(channel.port))
         client = _sock['sock']
 
     return client
 
-
-def protocalchannel_threading(**name):
+def protocalchannel_threading(name):
+# def protocalchannel_threading(**name):
     channel = name['channel']
     channel_units = name['channel_unit']
     channel_devices = name['channel_device']
@@ -216,6 +221,21 @@ def protocalchannel_threading(**name):
     except Exception as e:
         print(channel.channel_name, '--超时或处理出错了----', e)
 
+def schedule_jobs(**name):
+    channel = name['channel']
+    _unit_list = name['channel_unit']
+    _device_list = name['channel_device']
+
+    # t = threading.Thread(name=str(channel.id), target=protocalchannel_threading,
+    #                      kwargs={'channel': channel, 'channel_unit': _unit_list,
+    #                              'channel_device': _device_list})
+    #
+    # t.start()
+    # 下面的是非多线程执行channelunit,保证顺序执行不出错，但是如果有设备timeout，就容易停顿一下
+    protocalchannel_threading(name={'channel': channel, 'channel_unit': _unit_list,
+                                    'channel_device': _device_list})
+
+
 
 async def process_protocalchannels(channel):
 
@@ -232,16 +252,27 @@ async def process_protocalchannels(channel):
                 if d.channelunit_id == channel_unit.id:
                     _device_list.append(d)
     #如果有channelunit和channeldevice，则启动线程进行读取操作
-    if len(_unit_list)>0 and len(_device_list)>0:
+    if len(_unit_list)>0 :
         try:
-            t = threading.Thread(name=str(channel.id), target=protocalchannel_threading,
-                                 kwargs={'channel': channel, 'channel_unit': _unit_list,
-                                         'channel_device': _device_list})
+            # t = threading.Thread(name=str(channel.id), target=protocalchannel_threading,
+            #                      kwargs={'channel': channel, 'channel_unit': _unit_list,
+            #                              'channel_device': _device_list})
+            #
+            # t.start()
 
-            t.start()
-            #time.sleep(0.2)
+            # scheduler.add_job(schedule_jobs,
+            #                   'interval',
+            #                   kwargs={'channel': channel,
+            #                           'channel_unit': _unit_list,
+            #                           'channel_device': _device_list},
+            #                   seconds=channel.refreshtime)
+            sch.repeat(channel.refreshtime, priority=0, action=schedule_jobs, kwargs={'channel': channel,
+                                                                                      'channel_unit': _unit_list,
+                                                                                      'channel_device': _device_list})
+
+
         except Exception as e:
-            print(t.name, '-thread error--', e)
+            print(sch, '-t-启动定时任务的时候出错了---', e)
 
 
 
@@ -269,13 +300,19 @@ async def main_gprs_task():
             #
             await asyncio.gather(process_protocalchannels(p))
 
+    # await asyncio.sleep(2)  # 如果没有这行，就是等上面的gather完成了
+    await asyncio.sleep(1)
+    sch.run()
+
 
 def schedule_gprs_task():
     # socket_thread()
     print('---------------------------------')
-    while 1:
-        time.sleep(126)  # m每隔126秒执行一下modbus读取命令 ,等gprs设备第一次连接以后再执行
-        asyncio.run(main_gprs_task())
+    # while 1:
+    #     time.sleep(36)  # m每隔126秒执行一下modbus读取命令 ,等gprs设备第一次连接以后再执行
+    #     asyncio.run(main_gprs_task())
+    # 使用sched2执行定期任务（根据每个通道的refreshtime），否则就使用上面的代码定期执行
+    asyncio.run(main_gprs_task())
 
 
 

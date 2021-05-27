@@ -69,7 +69,8 @@ def save_protocalchannel():
 @app.route('/redis/<int:channel_id>/<int:channel_unit>')
 def get_redis_data(channel_id,channel_unit):
     if r.exists(f'channel:{channel_id}:{channel_unit}'):
-        return r.exists(f'channel:{channel_id}:{channel_unit}')
+        # return r.exists(f'channel:{channel_id}:{channel_unit}')
+        return r.get(f'channel:{channel_id}:{channel_unit}')
     else:
         result = {}
         result['result'] = False
