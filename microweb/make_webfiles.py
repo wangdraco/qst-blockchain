@@ -1165,6 +1165,1508 @@ this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:fun
 """
         )
 
+def create_index_html():
+    with open("index.html", "w") as f:
+        f.write(
+            r"""
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>智能网关配置</title>
+    <link rel="stylesheet" href="jquery-ui.css">
+<style>
+  .ui-progressbar {
+    position: relative;
+  }
+  .progress-label {
+    position: absolute;
+    left: 30%;
+    top: 2px;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #fff;
+  }
+  </style>
+  <script>
+
+
+  </script>
+</head>
+
+    <body>
+
+<div id="accordion">
+    <h3>系统信息</h3>
+  <div>
+
+    <p>
+    <h4>当前设备编号：<label id="message"></label></h4>
+    <input type="hidden"  >
+    </p>
+
+      <input type="button" value="恢复出厂设置" onclick="operate_sys('init')"> &nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="button" onclick="operate_sys('reboot')" value="重新启动">
+    <p>
+      <div id="progressbar-sys">
+          <div class="progress-label">.</div>
+     </div>
+    </p>
+  </div>
+
+  <h3>WiFi配置</h3>
+  <div>
+
+
+      <p>
+      <span id="wifi_radio">
+      <input type="radio"  id="enable_wifi" name="project_wifi">
+          <label for="enable_wifi">启用</label>
+      <input type="radio"  id="disable_wifi" name="project_wifi">
+          <label for="disable_wifi">禁用</label>
+      </span>
+    </p>
+      <p>
+      <input type="text" id="ssid" name="ssid"  placeholder="输入WiFI的SSID">
+
+      <input type="text" id="wifipassword" name="wifipassword"  placeholder="输入WiFI密码">
+    </p>
+      <p>
+      <input type="button" value="测试" onclick="operate_wifi('connect')">
+      <input type="button" onclick="operate_wifi('save')" value="保存">
+      </p>
+
+    <p>
+      <div id="progressbar">
+          <div class="progress-label">.</div>
+     </div>
+    </p>
+  </div>
+  <h3>MODBUS RTU配置</h3>
+  <div >
+    <p>
+        <span id="rtu_radio">
+      <input type="radio"  id="enable_rtu" name="project_rtu">
+          <label for="enable_rtu">启用</label>
+      <input type="radio"  id="disable_rtu" name="project_rtu">
+          <label for="disable_rtu">禁用</label>
+      </span>
+      </p>
+      <p>
+
+        <input align="left"  type="text" id="baundrate" name="baundrate"  placeholder="默认115200">
+    </p>
+      <p>
+          <input type="checkbox"  id="shuffle"><label for="shuffle">数据位：8</label>
+           <input type="checkbox" id="shuffle2"><label for="shuffle2">停止位：1</label>
+          <input type="checkbox" id="shuffle3"><label for="shuffle3">校验：无</label>
+        </p>
+      <p>
+           <input align="center"  type="text" id="device_rtu_no" name="device_rtu_no"  placeholder="设备编号">
+          <input  type="text" id="rtu_slaveaddr" name="rtu_slaveaddr"  placeholder="从站地址(ID)">
+          <input  type="text" id="rtu_startaddr" name="rtu_startaddr"  placeholder="寄存器地址">
+          <input  type="text" id="rtu_readquantity" name="rtu_readquantity"  placeholder="读取数量">
+      </p>
+
+     <span id="check">
+
+           <input type="radio" id="fr03" name="project_rtu1">
+          <label for="fr03">功能码(03)</label>
+
+           <input type="radio" id="fr02" name="project_rtu1">
+          <label for="fr02">功能码(02)</label>
+     </span>
+      <p>
+      <input type="checkbox"  id="lora_rtu"><label for="lora_rtu">LoRa传输</label>
+         <input type="checkbox"  id="mqtt_rtu"><label for="mqtt_rtu">MQTT传输</label>
+     </p>
+      <p>
+              <input type="button" value="测试" onclick="operate_modbus_rtu('connect')">
+              <input type="button" onclick="operate_modbus_rtu('save')" value="保存">
+              <input type="button" onclick="load_modbus('rtu')" value="加载">
+      </p>
+            <p>
+              <div id="progressbar3">
+                  <div align="center" class="progress-label">.</div>
+             </div>
+              <div id="modbusrtulist">
+
+              </div>
+            </p>
+  </div>
+
+    <h3>MODBUS TCP配置</h3>
+  <div >
+      <p>
+       <span id="tcp_radio">
+      <input type="radio"  id="enable_tcp" name="project_tcp">
+          <label for="enable_tcp">启用</label>
+      <input type="radio"  id="disable_tcp" name="project_tcp">
+          <label for="disable_tcp">禁用</label>
+      </span>
+     </p>
+
+      <input align="center"  type="text" id="device_no" name="device_no"  placeholder="设备编号">
+      <p>
+      <input align="left"  type="text" id="slaveip" name="slaveip"  placeholder="输入从站的ip">
+               <input  type="text" id="slaveport" name="slaveport"  placeholder="端口号">
+              <input  type="text" id="slaveaddr" name="slaveaddr"  placeholder="从站地址(ID)">
+              <input  type="text" id="startaddr" name="startaddr"  placeholder="寄存器地址">
+               <input  type="text" id="readquantity" name="readquantity"  placeholder="读取数量"> <br/>
+     </p>
+     <span id="check2">
+
+           <input type="radio" id="ft03"  name="project_tcp1">
+          <label for="ft03">功能码03</label>
+
+           <input type="radio" id="ft02" value="ft02" name="project_tcp1">
+          <label for="ft02">功能码02</label>
+     </span>
+      <p>
+      <input type="checkbox"  id="lora_tcp"><label for="lora_tcp">LoRa传输</label>
+         <input type="checkbox"  id="mqtt_tcp"><label for="mqtt_tcp">MQTT传输</label>
+    </p>
+
+              <input type="button" value="测试" onclick="operate_modbus('connect')"> &nbsp;&nbsp;&nbsp;&nbsp;
+              <input type="button" onclick="operate_modbus('save')" value="保存"> &nbsp;&nbsp;&nbsp;&nbsp;
+              <input type="button" onclick="load_modbus('tcp')" value="加载">
+            <p>
+              <div id="progressbar2">
+                  <div align="center" class="progress-label">.</div>
+             </div>
+      <div id="modbustcplist">
+
+      </div>
+            </p>
+  </div>
+
+
+  <h3>LoRa配置(数据采集端）</h3>
+  <div>
+    <p>
+        <span id="lora_radio">
+      <input type="radio"  id="enable_lora" name="project_lora">
+          <label for="enable_lora">启用</label>
+      <input type="radio"  id="disable_lora" name="project_lora">
+          <label for="disable_lora">禁用</label>
+      </span>
+      <br/>
+     </p>
+      <p>
+        <input  type="text" id="frequency" name="frequency" title="频率(kHz),默认433000"  placeholder="默认433000(kHz)">
+   </p>
+
+              <input type="button" onclick="operate_lora('save')" value="保存">
+            <p>
+              <div id="progressbar4">
+                  <div align="center" class="progress-label">.</div>
+             </div>
+            </p>
+  </div>
+    <h3>LoRa配置（接收端&接收网关）</h3>
+  <div>
+    <p>
+        <span id="lora_receive_radio">
+      <input type="radio"  id="enable_receive_lora" name="project_receive_lora">
+          <label for="enable_receive_lora">启用</label>
+      <input type="radio"  id="disable_receive_lora" name="project_receive_lora">
+          <label for="disable_receive_lora">禁用</label>
+      </span>
+      <br/>
+     </p>
+      <p>
+        <input  type="text" id="receive_frequency" name="receive_frequency" title="频率(kHz),默认439000"  placeholder="默认439000(kHz)">
+   </p>
+<p>
+      <input type="checkbox"  id="lora_receive_mqtt"><label for="lora_receive_mqtt">MQTT转发</label>
+         <input type="checkbox"  id="lora_receive_uart"><label for="lora_receive_uart">串口转发</label>
+       </p>
+         <input type="button" onclick="operate_receive_lora('save')" value="保存">
+            <p>
+              <div id="progressbar7">
+                  <div align="center" class="progress-label">.</div>
+             </div>
+            </p>
+  </div>
+  <h3>MQTT配置</h3>
+  <div>
+    <p>
+        <span id="mqtt_radio">
+      <input type="radio"  id="enable_mqtt" name="project_mqtt">
+          <label for="enable_mqtt">启用</label>
+      <input type="radio"  id="disable_mqtt" name="project_mqtt">
+          <label for="disable_mqtt">禁用</label>
+      </span>
+      <br/>
+          </p>
+   <input align="left"  type="text" id="mqttip" name="mqttip"  placeholder="MQTT服务器的ip">
+               <input  type="text" id="mqttport" name="mqttport"  placeholder="端口号">
+              <input  type="text" id="mqtttopic" name="mqtttopic"  placeholder="主题/topic/">
+              <input  type="text" id="mqttuser" name="mqttuser"  placeholder="用户名">
+               <input  type="text" id="mqttpassword" name="mqttpassword"  placeholder="密码">
+
+      </p>
+              <input type="button" value="测试" > &nbsp;&nbsp;&nbsp;&nbsp;
+              <input type="button" onclick="operate_mqtt('save')" value="保存">
+
+              <div id="progressbar5">
+                  <div align="center" class="progress-label">.</div>
+             </div>
+
+
+  </div>
+    <h3>心跳包配置</h3>
+  <div>
+    <p>
+        <span id="heart_radio">
+      <input type="radio"  id="enable_heart" name="project_heart">
+          <label for="enable_heart">启用</label>
+      <input type="radio"  id="disable_heart" name="project_heart">
+          <label for="disable_heart">禁用</label>
+      </span>
+      <br/>
+          </p>
+      <p>
+   <input align="left"  type="text" id="heartip" name="heartip"  placeholder="服务器的ip">
+               <input  type="text" id="heartport" name="heartport"  placeholder="端口号">
+              <input  type="text" id="heartcontent" name="heartcontent"  placeholder="心跳包">
+              <input  type="text" id="heartinterval" name="heartinterval"  placeholder="发送间隔(秒)">
+    </p>
+
+      <input type="button" onclick="operate_heart('load')" value="加载">
+              <input type="button" onclick="operate_heart('save');" value="保存">
+            <p>
+              <div id="progressbar6">
+                  <div align="center" class="progress-label">.</div>
+             </div>
+            </p>
+
+  </div>
+</div>
+    <script src="jquery-3.5.1.min.js"></script>
+    <script src="jquery-ui.min.js"></script>
+<script>
+
+$(function(){
+    $("#accordion").accordion();
+    $("button, input, a" ).button();
+    $("select").selectmenu();
+    $("#check").buttonset();
+    $("#check2").buttonset();
+    //$("#wifi_radio").buttonset();
+    //$("#rtu_radio").buttonset();
+    $("#tcp_radio").buttonset();
+    $("#lora_radio").buttonset();
+    $("#lora_receive_radio").buttonset();
+    $("#mqtt_radio").buttonset();
+    $("#heart_radio").buttonset();
+    $("#shuffle").button();
+    $("#shuffle2").button();
+    $("#shuffle3").button();
+    $("#lora_tcp").button();
+    $("#mqtt_tcp").button();
+     $("#lora_rtu").button();
+    $("#mqtt_rtu").button();
+    $("#lora_receive_mqtt").button();
+    $("#lora_receive_uart").button();
+
+
+    //$("#ft02").attr("checked","checked");
+    onLoad();
+
+   });
+
+function getCookie(name) {
+        var value = "; " + document.cookie;
+        //alert(value);
+        var parts = value.split("; " + name + "=");
+        //alert(parts);
+        if (parts.length == 2)
+            //alert(parts.pop().split(";").shift());
+            return parts.pop().split(";").shift();
+        }
+function showMessage() {
+       //alert(getCookie('user_cookies')+' ssid,'+getCookie('ssid_c')+'-lora-'+getCookie('baundrate'));
+       document.getElementById('message').innerHTML = getCookie('machine_cookies');
+       $("#ssid").val(getCookie('ssid_c'));
+       $("#wifipassword").val(getCookie('wifi_c'));
+       $("#frequency").val(getCookie('frequency'));
+       $("#baundrate").val(getCookie('baundrate'));
+       //$("#baundrate option[value='57600']").attr("selected","selected");
+       $("#mqttip").val(getCookie('mqttip'));
+       $("#mqttport").val(getCookie('mqttport'));
+       $("#mqtttopic").val(getCookie('mqtttopic'));
+       $("#mqttuser").val(getCookie('mqttuser'));
+       $("#mqttpassword").val(getCookie('mqttpassword'));
+       $("#enable_wifi").prop("checked",getCookie('sta_mode')=='True'? true:false);
+       $("#enable_wifi" ).button();
+       $("#disable_wifi").prop("checked",getCookie('sta_mode')=='True'? false:true);
+       $("#disable_wifi" ).button();
+       $("#enable_rtu").prop("checked",getCookie('uart2')=='True'? true:false);
+       $("#enable_rtu" ).button();
+       $("#disable_rtu").prop("checked",getCookie('uart2')=='True'? false:true);
+       $("#disable_rtu" ).button();
+       $("#enable_tcp").prop("checked",getCookie('modbus_tcp')=='True'? true:false);
+       $("#enable_tcp" ).button();
+       $("#disable_tcp").prop("checked",getCookie('modbus_tcp')=='True'? false:true);
+       $("#disable_tcp" ).button();
+       $("#enable_lora").prop("checked",getCookie('enable_lora')=='True'? true:false);
+       $("#enable_lora" ).button();
+       $("#disable_lora").prop("checked",getCookie('enable_lora')=='True'? false:true);
+       $("#disable_lora" ).button();
+       $("#enable_mqtt").prop("checked",getCookie('enable_mqtt')=='True'? true:false);
+       $("#enable_mqtt" ).button();
+       $("#disable_mqtt").prop("checked",getCookie('enable_mqtt')=='True'? false:true);
+       $("#disable_mqtt" ).button();
+
+       $("#enable_heart").prop("checked",getCookie('enable_heart')=='True'? true:false);
+       $("#enable_heart" ).button();
+       $("#disable_heart").prop("checked",getCookie('enable_heart')=='True'? false:true);
+       $("#disable_heart" ).button();
+
+        $("#enable_receive_lora").prop("checked",getCookie('lora_receive_mode')=='True'? true:false);
+       $("#enable_receive_lora" ).button();
+       $("#disable_receive_lora").prop("checked",getCookie('lora_receive_mode')=='True'? false:true);
+       $("#disable_receive_lora" ).button();
+        $("#receive_frequency").val(getCookie('lora_receive_freq'));
+
+        $("#lora_receive_mqtt").prop("checked",getCookie('lora_receive_mqtt')=='True'? true:false);
+        $("#lora_receive_mqtt" ).button();
+        $("#lora_receive_uart").prop("checked",getCookie('lora_receive_uart2')=='True'? true:false);
+        $("#lora_receive_uart" ).button();
+
+}
+function onLoad() {
+       showMessage();
+}
+function operate_sys(p)
+{
+     var progressbar = $( "#progressbar-sys" ),
+      progressLabel = $( ".progress-label" );
+      $( "#progressbar-sys" ).progressbar({
+      value: false
+    });
+    progressLabel.text("处理中.......");
+
+    if(p == 'reboot')
+    {
+        $.ajax({
+               type:"post",//请求方式
+               url:"/post/reboot",//发送请求地址
+               timeout:10000,//超时时间：10秒
+               dataType:"html",//设置返回数据的格式,可以设置成json，后台用json.dumps转码成json再传过来
+               success:function(res){
+                   obj = JSON.parse(res);
+                   //JSON.stringify(); //JavaScript 值转换为 JSON 字符串
+                   if (obj['connected']=='True')
+                   {
+                           setTimeout(function(){
+                                  progressbar.progressbar({
+                                     value: true,
+                                });
+                              progressLabel.text("重启成功,请刷新或重新登录！");
+                          }, 6000);
+
+                   }
+                   else
+                   {
+                     progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("启动失败,重试一下吧！");
+                   }
+              },
+              //请求出错的处理
+              error:function(){
+                 progressbar.progressbar({
+                             value: true,
+                        });
+                 progressLabel.text("出错了，请重试....！");;
+              }
+           });
+    }
+    if(p == 'init')
+    {
+        $.ajax({
+               type:"post",//请求方式
+               url:"/post/init",//发送请求地址
+               timeout:10000,//超时时间：10秒
+               dataType:"html",//设置返回数据的格式,可以设置成json，后台用json.dumps转码成json再传过来
+               success:function(res){
+                   obj = JSON.parse(res);
+                   //JSON.stringify(); //JavaScript 值转换为 JSON 字符串
+                   if (obj['connected']=='True')
+                   {
+                        setTimeout(function(){
+                                  progressbar.progressbar({
+                                     value: true,
+                                });
+                              progressLabel.text("恢复成功,请刷新或重新登录！");
+                          }, 6000);
+                   }
+                   else
+                   {
+                     progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("恢复失败,重试一下吧！");
+                   }
+              },
+              //请求出错的处理
+              error:function(){
+                 progressbar.progressbar({
+                             value: true,
+                        });
+                 progressLabel.text("出错了，请重试....！");;
+              }
+           });
+    }
+}
+
+ function operate_wifi(p)
+{
+  var progressbar = $( "#progressbar" ),
+      progressLabel = $( ".progress-label" );
+      $( "#progressbar" ).progressbar({
+      value: false
+    });
+    progressLabel.text("处理中.......");
+
+    var ssid=$('#ssid').val();
+    var wifipassword=$('#wifipassword').val();
+    var json_data = JSON.stringify({
+             'ssid': ssid,
+             'wifipassword': wifipassword,
+             'enable_wifi': $('#enable_wifi').is(':checked'),
+             'disable_wifi': $('#disable_wifi').is(':checked')
+           });
+
+     alert(json_data);
+
+     if (p == 'connect')
+     {
+         $.ajax({
+               type:"post",//请求方式
+               url:"/post/connect/wifi",//发送请求地址
+               timeout:20000,//超时时间：20秒
+               data:json_data,
+               dataType:"html",//设置返回数据的格式
+               //请求成功后的回调函数 data为html格式
+               success:function(res){
+                   alert('success'+res);
+                   obj = JSON.parse(res);
+                   //JSON.stringify(); //JavaScript 值转换为 JSON 字符串
+                   if (obj['connected']=='True')
+                   {
+                        progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("连接成功,请保存！");
+                   }
+                   else
+                   {
+                     progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("连接失败,重试一下吧！");
+                   }
+
+              },
+              //请求出错的处理
+              error:function(){
+                 progressbar.progressbar({
+                             value: true,
+                        });
+                 progressLabel.text("出错了，请重试....！");;
+              }
+           });
+     }
+
+     if (p == 'save')
+     {
+         $.ajax({
+               type:"post",//请求方式
+               url:"/post/save/wifi",//发送请求地址
+               timeout:20000,//超时时间：20秒
+               data:json_data,
+               dataType:"html",//设置返回数据的格式
+               //请求成功后的回调函数 data为html格式
+               success:function(res){
+                   alert('success'+res);
+                   obj = JSON.parse(res);
+                   //JSON.stringify(); //JavaScript 值转换为 JSON 字符串
+                   if (obj['connected']=='True')
+                   {
+                        progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("保存成功！");
+                   }
+                   else
+                   {
+                     progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("保存失败,重试一下吧！");
+                   }
+
+              },
+              //请求出错的处理
+              error:function(){
+                 progressbar.progressbar({
+                             value: true,
+                        });
+                 progressLabel.text("出错了，请重试....！");;
+              }
+           });
+     }
+
+}
+
+function operate_modbus(p)
+{
+  var progressbar = $( "#progressbar2" ),
+      progressLabel = $( ".progress-label" );
+      $( "#progressbar2" ).progressbar({
+      value: false
+    });
+
+    progressLabel.text("处理中.......");
+
+    //alert($('#ft03').is(':checked'));
+    var json_data = JSON.stringify({
+             'device_no': $('#device_no').val(),
+             'slaveip': $('#slaveip').val(),
+             'slaveport': $('#slaveport').val(),
+             'slaveaddr': $('#slaveaddr').val(),
+             'startaddr': $('#startaddr').val(),
+             'readquantity': $('#readquantity').val(),
+             'ft03': $('#ft03').is(':checked'),
+             'ft02': $('#ft02').is(':checked'),
+             'lora_tcp': $('#lora_tcp').is(':checked'),
+             'mqtt_tcp': $('#mqtt_tcp').is(':checked'),
+             'enable_tcp': $('#enable_tcp').is(':checked'),
+             'disable_tcp': $('#disable_tcp').is(':checked')
+           });
+
+
+     if (p == 'connect')
+     {
+         $.ajax({
+               type:"post",//请求方式
+               url:"/post/connect/modbus",//发送请求地址
+               timeout:5000,//超时时间：5秒
+               data:json_data,
+               dataType:"html",//设置返回数据的格式
+               //请求成功后的回调函数 data为html格式
+               success:function(res){
+                   alert('success'+res);
+                   obj = JSON.parse(res);
+                   //JSON.stringify(); //JavaScript 值转换为 JSON 字符串
+                   if (obj['connected']=='True')
+                   {
+                        progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("成功:"+obj['data']);
+                   }
+                   else
+                   {
+                     progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("读取失败,重试一下吧！");
+                   }
+
+              },
+              //请求出错的处理
+              error:function(){
+                 progressbar.progressbar({
+                             value: true,
+                        });
+                 progressLabel.text("出错了，请重试....！");
+              }
+           });
+     }
+
+     if (p == 'save')
+     {
+         $.ajax({
+               type:"post",//请求方式
+               url:"/post/save/modbus",//发送请求地址
+               timeout:20000,//超时时间：20秒
+               data:json_data,
+               dataType:"html",//设置返回数据的格式
+               //请求成功后的回调函数 data为html格式
+               success:function(res){
+                   alert('success'+res);
+                   obj = JSON.parse(res);
+                   //JSON.stringify(); //JavaScript 值转换为 JSON 字符串
+                   if (obj['connected']=='True')
+                   {
+                        progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("保存成功！");
+                      load_modbus('tcp');
+                   }
+                   else
+                   {
+                     progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("保存失败,重试一下吧！");
+                   }
+
+              },
+              //请求出错的处理
+              error:function(){
+                 progressbar.progressbar({
+                             value: true,
+                        });
+                 progressLabel.text("出错了，请重试....！");
+              }
+           });
+     }
+
+
+}
+function load_modbus(p)
+{
+      if (p == 'tcp')
+     {
+
+        $("#modbustcplist").empty();
+        $("#progressbar2").css("display","none");
+         $.ajax({
+               type:"get",//请求方式
+               url:"/get/load/modbus",//发送请求地址
+               timeout:20000,//超时时间：20秒
+               dataType:"json",//设置返回数据的格式
+               //请求成功后的回调函数 data为html格式
+               success:function(res){
+               alert(res.model.lora)
+               //填充最后一次保存的数据
+               $("#device_no").val(res.model.device);
+               $("#slaveip").val(res.model.ip);
+               $("#slaveport").val(res.model.port);
+               $("#slaveaddr").val(res.model.slave_id);
+               $("#startaddr").val(res.model.address);
+               $("#readquantity").val(res.model.quantity);
+               $("#mqtt_tcp").prop("checked",res.model.mqtt);
+               $("#mqtt_tcp" ).button();
+               $("#lora_tcp").prop("checked",res.model.lora);
+               $("#lora_tcp" ).button();
+               $("#ft03").prop("checked",res.model.function=='03'? true:false);
+               $("#ft03" ).button();
+               $("#ft02").prop("checked",res.model.function=='02'? true:false);
+               $("#ft02" ).button();
+
+                   var str = "<ul>";
+                   $.each(res.data, function(idx,val) {
+                    str +="<li>"+val.device+","+val.ip+","+val.port+",F="+val.function+","+"id="+val.slave_id+","+val.address+","+val.quantity+ ",MQTT="+val.mqtt+", LoRa="+val.lora+ "&nbsp;&nbsp;"+"<input type='button' onclick='delete_modbus("+idx+")' value='删除' >"+"</li>";
+                  });
+                  str += "</ul>";
+                  $('#modbustcplist').append(str);
+
+              },
+              //请求出错的处理
+              error:function(){
+                 var str = "出错了，请重试....！";
+                $('#modbustcplist').append(str);
+              }
+           });
+     }
+
+     if (p == 'rtu')
+     {
+        $("#modbusrtulist").empty();
+        $("#progressbar3").css("display","none");
+         $.ajax({
+               type:"get",//请求方式
+               url:"/get/load/modbus_rtu",//发送请求地址
+               timeout:20000,//超时时间：20秒
+               dataType:"json",//设置返回数据的格式
+               //请求成功后的回调函数 data为html格式
+               success:function(res){
+                   var str = "<ul>";
+                   $.each(res.data, function(idx,val) {
+                    str +="<li>"+val.device+",F="+val.function+","+"id:"+val.slave_id+","+val.address+","+val.quantity+ ",MQTT="+val.mqtt+", LoRa="+val.lora+"&nbsp;&nbsp;"+"<input type='button' onclick='delete_modbus_rtu("+idx+")' value='删除' >"+"</li>";
+                  });
+                  str += "</ul>";
+                  $('#modbusrtulist').append(str);
+
+              },
+              //请求出错的处理
+              error:function(){
+                 var str = "出错了，请重试....！";
+                $('#modbusrtulist').append(str);
+              }
+           });
+     }
+}
+function delete_modbus(id)
+{
+    var json_data = JSON.stringify({
+             'id': id
+           });
+
+    $.ajax({
+               type:"post",//请求方式
+               url:"/post/delete/modbus",//发送请求地址
+               timeout:20000,//超时时间：20秒
+               data: json_data,
+               dataType:"html",//设置返回数据的格式
+               //请求成功后的回调函数 data为html格式
+               success:function(res){
+                   load_modbus('tcp');
+
+              },
+              //请求出错的处理
+              error:function(){
+                 var str = "出错了，请重试....！";
+                $('#modbustcplist').append(str);
+              }
+           });
+}
+
+function delete_modbus_rtu(id)
+{
+    var json_data = JSON.stringify({
+             'id': id
+           });
+
+    $.ajax({
+               type:"post",//请求方式
+               url:"/post/delete/modbus_rtu",//发送请求地址
+               timeout:20000,//超时时间：20秒
+               data: json_data,
+               dataType:"html",//设置返回数据的格式
+               //请求成功后的回调函数 data为html格式
+               success:function(res){
+                   load_modbus('rtu');
+
+              },
+              //请求出错的处理
+              error:function(){
+                 var str = "出错了，请重试....！";
+                $('#modbusrtulist').append(str);
+              }
+           });
+}
+
+function operate_modbus_rtu(p)
+{
+  var progressbar = $( "#progressbar3" ),
+      progressLabel = $( ".progress-label" );
+      $( "#progressbar3" ).progressbar({
+      value: false
+    });
+    progressLabel.text("处理中.......");
+
+    //alert($("#ft03").get(0).checked);
+
+
+    var json_data = JSON.stringify({
+             'baundrate': $('#baundrate').val(),
+             'device_rtu_no': $('#device_rtu_no').val(),
+             'rtu_slaveaddr': $('#rtu_slaveaddr').val(),
+             'rtu_startaddr': $('#rtu_startaddr').val(),
+             'rtu_readquantity': $('#rtu_readquantity').val(),
+             'fr03': $('#fr03').is(':checked'),
+             'fr02': $('#fr02').is(':checked'),
+             'lora_rtu': $('#lora_rtu').is(':checked'),
+             'mqtt_rtu': $('#mqtt_rtu').is(':checked'),
+             'enable_rtu': $('#enable_rtu').is(':checked')
+           });
+
+     if (p == 'connect')
+     {
+         $.ajax({
+               type:"post",//请求方式
+               url:"/post/connect/modbus_rtu",//发送请求地址
+               timeout:5000,//超时时间：5秒
+               data:json_data,
+               dataType:"html",//设置返回数据的格式
+               //请求成功后的回调函数 data为html格式
+               success:function(res){
+                   alert('success'+res);
+                   obj = JSON.parse(res);
+                   //JSON.stringify(); //JavaScript 值转换为 JSON 字符串
+                   if (obj['connected']=='True')
+                   {
+                        progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("成功:"+obj['data']);
+                   }
+                   else
+                   {
+                     progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("读取失败,重试一下吧！");
+                   }
+
+              },
+              //请求出错的处理
+              error:function(){
+                 progressbar.progressbar({
+                             value: true,
+                        });
+                 progressLabel.text("出错了，请重试....！");
+              }
+           });
+     }
+
+     if (p == 'save')
+     {
+         $.ajax({
+               type:"post",//请求方式
+               url:"/post/save/modbus_rtu",//发送请求地址
+               timeout:20000,//超时时间：20秒
+               data:json_data,
+               dataType:"html",//设置返回数据的格式
+               //请求成功后的回调函数 data为html格式
+               success:function(res){
+                   alert('success'+res);
+                   obj = JSON.parse(res);
+                   //JSON.stringify(); //JavaScript 值转换为 JSON 字符串
+                   if (obj['connected']=='True')
+                   {
+                        progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("保存成功！");
+                      load_modbus('rtu');
+                   }
+                   else
+                   {
+                     progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("保存失败,重试一下吧！");
+                   }
+
+              },
+              //请求出错的处理
+              error:function(){
+                 progressbar.progressbar({
+                             value: true,
+                        });
+                 progressLabel.text("出错了，请重试....！");;
+              }
+           });
+     }
+
+}
+
+function operate_lora(p)
+{
+   var progressbar = $( "#progressbar4" ),
+      progressLabel = $( ".progress-label" );
+      $( "#progressbar4" ).progressbar({
+      value: false
+    });
+    progressLabel.text("处理中.......");
+
+    var json_data = JSON.stringify({
+             'frequency': $('#frequency').val(),
+             'enable_lora': $('#enable_lora').is(':checked')
+           });
+
+
+     if (p == 'load')
+     {
+         $.ajax({
+               type:"post",//请求方式
+               url:"/post/load/lora",//发送请求地址
+               timeout:5000,//超时时间：5秒
+               data:json_data,
+               dataType:"html",//设置返回数据的格式
+               //请求成功后的回调函数 data为html格式
+               success:function(res){
+                   alert('success'+res);
+                   obj = JSON.parse(res);
+                   //JSON.stringify(); //JavaScript 值转换为 JSON 字符串
+                   if (obj['connected']=='True')
+                   {
+                        progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("成功:"+obj['data']);
+                   }
+                   else
+                   {
+                     progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("读取失败,重试一下吧！");
+                   }
+
+              },
+              //请求出错的处理
+              error:function(){
+                 progressbar.progressbar({
+                             value: true,
+                        });
+                 progressLabel.text("出错了，请重试....！");
+              }
+           });
+     }
+
+     if (p == 'save')
+     {
+         $.ajax({
+               type:"post",//请求方式
+               url:"/post/save/lora",//发送请求地址
+               timeout:20000,//超时时间：20秒
+               data:json_data,
+               dataType:"html",//设置返回数据的格式
+               //请求成功后的回调函数 data为html格式
+               success:function(res){
+                   alert('success'+res);
+                   obj = JSON.parse(res);
+                   //JSON.stringify(); //JavaScript 值转换为 JSON 字符串
+                   if (obj['connected']=='True')
+                   {
+                        progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("保存成功！");
+                   }
+                   else
+                   {
+                     progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("保存失败,重试一下吧！");
+                   }
+
+              },
+              //请求出错的处理
+              error:function(){
+                 progressbar.progressbar({
+                             value: true,
+                        });
+                 progressLabel.text("出错了，请重试....！");
+              }
+           });
+     }
+
+}
+
+function operate_receive_lora(p)
+{
+   var progressbar = $( "#progressbar7" ),
+      progressLabel = $( ".progress-label" );
+      $( "#progressbar7" ).progressbar({
+      value: false
+    });
+    progressLabel.text("处理中.......");
+
+    var json_data = JSON.stringify({
+             'receive_frequency': $('#receive_frequency').val(),
+             'enable_receive_lora': $('#enable_receive_lora').is(':checked'),
+             'lora_receive_mqtt': $('#lora_receive_mqtt').is(':checked'),
+             'lora_receive_uart': $('#lora_receive_uart').is(':checked')
+           });
+
+
+     if (p == 'save')
+     {
+         $.ajax({
+               type:"post",//请求方式
+               url:"/post/save/receive_lora",//发送请求地址
+               timeout:20000,//超时时间：20秒
+               data:json_data,
+               dataType:"html",//设置返回数据的格式
+               //请求成功后的回调函数 data为html格式
+               success:function(res){
+                   alert('success'+res);
+                   obj = JSON.parse(res);
+                   //JSON.stringify(); //JavaScript 值转换为 JSON 字符串
+                   if (obj['connected']=='True')
+                   {
+                        progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("保存成功！");
+                   }
+                   else
+                   {
+                     progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("保存失败,重试一下吧！");
+                   }
+
+              },
+              //请求出错的处理
+              error:function(){
+                 progressbar.progressbar({
+                             value: true,
+                        });
+                 progressLabel.text("出错了，请重试....！");
+              }
+           });
+     }
+
+}
+
+
+function operate_mqtt(p)
+{
+   var progressbar = $( "#progressbar5" ),
+      progressLabel = $( ".progress-label" );
+      $( "#progressbar5" ).progressbar({
+      value: false
+    });
+    progressLabel.text("处理中.......");
+
+    var json_data = JSON.stringify({
+             'mqttip': $('#mqttip').val(),
+             'mqttport': $('#mqttport').val(),
+             'mqtttopic': $('#mqtttopic').val(),
+             'mqttuser': $('#mqttuser').val(),
+             'mqttpassword': $('#mqttpassword').val(),
+             'enable_mqtt': $('#enable_mqtt').val()
+           });
+
+     if (p == 'load')
+     {
+         $.ajax({
+               type:"post",//请求方式
+               url:"/post/load/lora",//发送请求地址
+               timeout:5000,//超时时间：5秒
+               data:json_data,
+               dataType:"html",//设置返回数据的格式
+               //请求成功后的回调函数 data为html格式
+               success:function(res){
+                   alert('success'+res);
+                   obj = JSON.parse(res);
+                   //JSON.stringify(); //JavaScript 值转换为 JSON 字符串
+                   if (obj['connected']=='True')
+                   {
+                        progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("成功:"+obj['data']);
+                   }
+                   else
+                   {
+                     progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("读取失败,重试一下吧！");
+                   }
+
+              },
+              //请求出错的处理
+              error:function(){
+                 progressbar.progressbar({
+                             value: true,
+                        });
+                 progressLabel.text("出错了，请重试....！");
+              }
+           });
+     }
+
+     if (p == 'save')
+     {
+         $.ajax({
+               type:"post",//请求方式
+               url:"/post/save/mqtt",//发送请求地址
+               timeout:20000,//超时时间：20秒
+               data:json_data,
+               dataType:"html",//设置返回数据的格式
+               //请求成功后的回调函数 data为html格式
+               success:function(res){
+                   alert('success'+res);
+                   obj = JSON.parse(res);
+                   //JSON.stringify(); //JavaScript 值转换为 JSON 字符串
+                   if (obj['connected']=='True')
+                   {
+                        progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("保存成功！");
+                   }
+                   else
+                   {
+                     progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("保存失败,重试一下吧！");
+                   }
+              },
+              //请求出错的处理
+              error:function(){
+                 progressbar.progressbar({
+                             value: true,
+                        });
+                 progressLabel.text("出错了，请重试....！");
+              }
+           });
+     }
+}
+
+function operate_heart(p)
+{
+var progressbar = $( "#progressbar6" ),
+      progressLabel = $( ".progress-label" );
+      $( "#progressbar6" ).progressbar({
+      value: false
+    });
+    progressLabel.text("处理中.......");
+
+    var json_data = JSON.stringify({
+             'heartip': $('#heartip').val(),
+             'heartport': $('#heartport').val(),
+             'heartcontent': $('#heartcontent').val(),
+             'heartinterval': $('#heartinterval').val(),
+             'enable_heart': $('#enable_heart').is(':checked')
+           });
+
+     if (p == 'load')
+     {
+         $.ajax({
+               type:"get",//请求方式
+               url:"/get/load/heart",//发送请求地址
+               timeout:5000,//超时时间：5秒
+               dataType:'json',
+               success:function(res){
+                    //填充最后一次保存的数据
+               $("#heartip").val(res.heart_address);
+               $("#heartport").val(res.heart_port);
+               $("#heartcontent").val(res.heart_content);
+               $("#heartinterval").val(res.interval);
+               progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("加载成功！");
+
+              },
+              //请求出错的处理
+              error:function(){
+                 progressbar.progressbar({
+                             value: true,
+                        });
+                 progressLabel.text("出错了，请重试....！");
+              }
+           });
+     }
+
+     if (p == 'save')
+     {
+         $.ajax({
+               type:"post",//请求方式
+               url:"/post/save/heart",//发送请求地址
+               timeout:20000,//超时时间：20秒
+               data:json_data,
+               dataType:"html",//设置返回数据的格式
+               //请求成功后的回调函数 data为html格式
+               success:function(res){
+                   alert('success'+res);
+                   obj = JSON.parse(res);
+                   //JSON.stringify(); //JavaScript 值转换为 JSON 字符串
+                   if (obj['connected']=='True')
+                   {
+                        progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("保存成功！");
+                   }
+                   else
+                   {
+                     progressbar.progressbar({
+                             value: true,
+                        });
+                      progressLabel.text("保存失败,重试一下吧！");
+                   }
+              },
+              //请求出错的处理
+              error:function(){
+                 progressbar.progressbar({
+                             value: true,
+                        });
+                 progressLabel.text("出错了，请重试....！");
+              }
+           });
+     }
+}
+
+</script>
+
+</body>
+
+</html>
+
+"""
+        )
+
+def create_login_html():
+    with open("login.html", "w") as f:
+        f.write(
+            r"""
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>智能终端配置系统</title>
+    <meta name="description" content="Login - Register Template">
+    <meta name="author" content="Lorenzo Angelino aka MrLolok">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Raleway', sans-serif;
+    color: #F2F2F2;
+    background-color: #F2F2F2;
+}
+
+#container-login {
+    background-color: #FCFCFC;
+    position: relative;
+    top: 20%;
+    margin: auto;
+    width: 340px;
+    height: 445px;
+    border-radius: 0.35em;
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.25);
+    text-align: center;
+}
+
+#container-register {
+    background-color: #FCFCFC;
+    position: relative;
+    top: 10%;
+    margin: auto;
+    width: 340px;
+    height: 580px;
+    border-radius: 0.35em;
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.25);
+    text-align: center;
+}
+
+#title {
+    position: relative;
+    background-color: #DD575C;
+    width: 100%;
+    padding: 10px 0px;
+    border-top-left-radius: 0.22em;
+    border-top-right-radius: 0.22em;
+    font-size: 22px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.lock {
+	position: relative;
+	top: 2px;
+}
+
+.input {
+	margin: auto;
+    width: 240px;
+    border-radius: 4px;
+    background-color: #ededed;
+    padding: 8px 0px;
+    margin-top: 15px;
+}
+
+.input-addon {
+	position: relative;
+	top: -2px;
+    float: left;
+    background-color: #ededed;
+    border: 1px solid #ededed;
+    padding: 4px 8px;
+	color: #757575;
+    border-right: 1px solid #757575;
+}
+
+input[type=checkbox] {
+	cursor: pointer;
+}
+
+input[type=text] {
+	color: #949494;
+    margin: 0;
+    background-color: #ededed;
+    border: 1px solid #ededed;
+    padding: 6px 0px;
+    border-radius: 3px;
+}
+
+input[type=text]:focus {
+    border: 1px solid #ededed;
+}
+
+input[type=password] {
+	color: #949494;
+    margin: 0;
+    background-color: #ededed;
+    border: 1px solid #ededed;
+    padding: 6px 0px;
+    border-radius: 3px;
+}
+
+input[type=password]:focus {
+    border: 1px solid #ededed;
+}
+
+input[type=email] {
+	color: #949494;
+    margin: 0;
+    background-color: #ededed;
+    border: 1px solid #ededed;
+    padding: 6px 0px;
+    border-radius: 3px;
+}
+
+input[type=email]:focus {
+    border: 1px solid #ededed;
+}
+
+.forgot-password {
+    position: relative;
+    bottom: 0%;
+}
+
+.forgot-password a:link {
+    color: #f7c899;
+    text-decoration: none;
+}
+
+.forgot-password a:visited {
+    color: #f7c899;
+    text-decoration: none;
+}
+
+.forgot-password a:hover {
+    color: #449494;
+    transition: color 1s;
+}
+
+.privacy {
+    margin-top: 5px;
+    position: relative;
+    font-size: 12px;
+    bottom: 0%;
+}
+
+.privacy a:link {
+    color: #eaa05b;
+    text-decoration: none;
+}
+
+.privacy a:visited {
+    color: #eaa05b;
+    text-decoration: none;
+}
+
+.privacy a:hover {
+    color: #549494;
+    transition: color 1s;
+}
+
+*:focus {
+    outline: none;
+}
+
+.remember-me {
+    margin: 10px 0;
+}
+
+input[type=submit] {
+    padding: 6px 25px;
+    background: #FF7F4F;
+    color: #fff;
+    font-weight: bold;
+    border: 0 none;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.register {
+	margin: auto;
+    padding: 16px 0;
+    text-align: center;
+    margin-top: 20px;
+    width: 85%;
+    border-top: 1px solid #C1C3C6;
+}
+
+.clearfix {
+	clear: both;
+}
+
+#register-link {
+    margin-top: 10px;
+    padding: 6px 25px;
+    background: #FF7F4F;
+    color: #fff;
+    font-weight: bold;
+    border: 0 none;
+    cursor: pointer;
+    border-radius: 3px;
+}
+    </style>
+
+    <script>
+            function getCookie(name) {
+                var value = "; " + document.cookie;
+                var parts = value.split("; " + name + "=");
+                if (parts.length == 2)
+                    return parts.pop().split(";").shift();
+            }
+            function showMessage() {
+                document.getElementById('message').innerHTML = getCookie('message');
+
+            }
+            function onLoad() {
+                showMessage();
+             }
+     </script>
+</head>
+
+<body onload="onLoad();">
+    <div id="container-login">
+        <div id="title">
+            Login
+        </div>
+
+        <form action="/" method="post">
+            <div class="input">
+
+                <input id="username" name="username" placeholder="Username" type="text" required class="validate" autocomplete="off">
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="input">
+
+                <input id="password" placeholder="Password" name="password" type="password" required class="validate" autocomplete="off">
+            </div>
+
+            <br/>
+
+            <input type="submit" value="Log In" /> <br>
+
+                 <span style="color: #757575" id="message"></span>
+
+        </form>
+
+    </div>
+</body>
+
+</html>
+
+"""
+        )
 
 import uos
 
@@ -1180,4 +2682,9 @@ if not 'jquery-ui.css' in _fileslist:
 if not 'jquery-ui.min.js' in _fileslist:
     print('create jquery-ui.min.js')
     create_jquery_ui_js()
-
+if not 'index.html' in _fileslist:
+    print('create index.html')
+    create_index_html()
+if not 'login.html' in _fileslist:
+    print('create login.html')
+    create_login_html()
