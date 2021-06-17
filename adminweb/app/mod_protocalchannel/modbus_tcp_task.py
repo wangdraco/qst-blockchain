@@ -148,7 +148,7 @@ def process_channelunit(channel,channel_units,channel_devices,m_client):
                 result = m_client.read_input_registers(cu.startfrom,cu.quantity,unit=cu.unit_id)
                 process_modbus_results(channel, cu, channel_devices, result.registers)
 
-            # time.sleep(0.5)
+            time.sleep(0.5)
 
         except Exception as e:
             # m_client.close()
@@ -175,7 +175,7 @@ def get_connect(channel):
     return client
 
 def protocalchannel_threading(name):
-# def protocalchannel_threading(**name):
+#def protocalchannel_threading(**name):
     channel = name['channel']
     channel_units = name['channel_unit']
     channel_devices = name['channel_device']

@@ -1,5 +1,5 @@
 import struct,asyncio,json,datetime
-from app.mod_redis.redis_class import Redis
+
 from app.mod_modbus.water_electronic_devices import device_list
 
 # r =  Redis.connect()
@@ -9,7 +9,7 @@ def generate_redis_data(_device,_value):
                       "equipmentName":_device["equipmentName"],"community_status":"true","startstop_status":"true",
                       "update_time":datetime.datetime.strftime(datetime.datetime.now(), "%Y-%m-%d %H:%M:%S"),"current_value":_value}]}
     redis_data = json.dumps(_data)
-    r.publish('wsdata', str(redis_data))
+    # r.publish('wsdata', str(redis_data))
 
 #just for modbus CRC
 def calculateCRC(data, numberOfBytes, startByte):
@@ -98,6 +98,17 @@ def WriteLongInt(value,reverse=False):
         v = [m,n]
     return v
 
+
+#有些modbus设备得到的数据是负数，比如温度，一般是以补码形式上传，
+#比如modbus读到一条温度数据是 65435, 或者0xFF9B，实际应该是-101
+def get_negative(original):
+    # 补码取反，再加1，得到负数的原码，0xFFFF表示是对16位数而言
+    return 0 - ((original ^ 0xFFFF) + 1)  # original=65435，得到101,再取负
+
+def get_positive(original):
+    # 与运算，得到负数的补码，0xFFFF表示是对16位数而言
+    return original & 0xFFFF  # original = -101,得到 65435
+
 from pymodbus.client.sync import ModbusTcpClient,ModbusRtuFramer
 
 
@@ -156,5 +167,5 @@ def run(duration=10):
         print('asyncio run again.')
 
 if __name__ == "__main__":
-    run()
+    # run()
     print('after asyncio')

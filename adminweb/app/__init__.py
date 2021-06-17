@@ -30,7 +30,7 @@ try:
                         manage_session=False)
     print('redis starting...............',r)
 except Exception as e:
-    print(e)
+    #如果没有redis，则使用后台登录系统， 没法登录?
     socketio = SocketIO(app, async_mode='eventlet',ping_interval=20)
     # runit的主程序里，必须使用以下的方式运行：
     # socketio.run(app, host='127.0.0.1', debug=False, port=5000, socket_timeout=30, custom_pool=pool)
@@ -64,19 +64,19 @@ t1 = threading.Thread(target=schedule_tcpip_task)
 t1.start()
 
 #schedule_gprs_task是针对 4G/gprs的DTU透传设备
-# from app.mod_protocalchannel.modbus_gprs_task import schedule_gprs_task
-# t2 = threading.Thread(target=schedule_gprs_task)
-# t2.start()
+from app.mod_protocalchannel.modbus_gprs_task import schedule_gprs_task
+t2 = threading.Thread(target=schedule_gprs_task)
+t2.start()
 
 #系统启动的时候，自动启动一次gprs连接
-# from app.mod_socket.gprs_long_socket import schedule_long_gprs_task
-# t3 = threading.Thread(target=schedule_long_gprs_task)
-# t3.start()
+from app.mod_socket.gprs_long_socket import schedule_long_gprs_task
+t3 = threading.Thread(target=schedule_long_gprs_task)
+t3.start()
 
 #定期检查gprs的连接状态
-# from app.mod_socket.gprs_long_socket import schedule_socket_status
-# t4 = threading.Thread(target=schedule_socket_status)
-# t4.start()
+from app.mod_socket.gprs_long_socket import schedule_socket_status
+t4 = threading.Thread(target=schedule_socket_status)
+t4.start()
 
 print('begin in app.__init__ ===============================')
 

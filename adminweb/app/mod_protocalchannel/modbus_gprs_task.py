@@ -112,6 +112,7 @@ def process_modbus_results(channel,channel_unit,channel_devices,_result):
                 cd.final_result = _r
 
         result_list.append(cd.toDict())
+        print(f'{cd.device_name}---------的最终结果是{cd.final_result}')
 
     _data = {'channel_id':channel.id, "channel_name":channel.channel_name, 'ip':channel.ipaddress,
              'port':channel.port,'status':True,'record_time':time.strftime('%Y-%m-%d %H:%M:%S'),
@@ -219,7 +220,7 @@ def protocalchannel_threading(name):
             process_error_message(channel,channel_units,None,channel_devices)
 
     except Exception as e:
-        print(channel.channel_name, '--超时或处理出错了----', e)
+        print(channel.channel_name, '--protocalchannel_threading--超时或处理出错了----', e)
 
 def schedule_jobs(**name):
     channel = name['channel']
@@ -272,7 +273,7 @@ async def process_protocalchannels(channel):
 
 
         except Exception as e:
-            print(sch, '-t-启动定时任务的时候出错了---', e)
+            print(sch, '---process_protocalchannels---启动定时任务的时候出错了---', e)
 
 
 
