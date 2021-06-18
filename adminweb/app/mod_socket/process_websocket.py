@@ -1,7 +1,7 @@
 # coding: utf-8
 from threading import Lock
 from app import socketio,app
-import json
+import json,threading
 
 
 
@@ -15,7 +15,7 @@ thread_lock = Lock()
 #web socket listner
 @socketio.on('connect', namespace='/ws/main')
 def on_connect():
-    print('dust web connected..................')
+    print('ws/main namespace  connected..................')
 
     # start a background thread
     # global temp_thread,tower_thread,mqtt_thread,elec_thread,water_thread
@@ -23,6 +23,10 @@ def on_connect():
     #     if temp_thread is None:
     #         temp_thread = socketio.start_background_task(target=background_temp_thread)
 
+
+@socketio.on('connect', namespace='/ws/index')
+def on_connect_index():
+    print('ws/index namespace  connected..................')
 
 
 #temp and humidity data in background thread
@@ -39,9 +43,24 @@ def background_temp_thread():
 
 
 
-@app.route('/test/socketio')
-def test_socket():
-    socketio.emit('temp_data', {'data': 'dddddd'}, namespace='/ws/main')
-    # socketio.sleep(3)#同时发送消息的时候，必须有个时间间隔
+@app.route('/test/socketio/<namespace>')
+def test_socket(namespace):
+    _namespace = f'/ws/{namespace}'
+    socketio.emit('temp_data', {'data': 'dddddd'}, namespace=_namespace)
+    socketio.sleep(2)#同时发送消息的时候，必须有个时间间隔
     # socketio.emit('alert_data', {'data': 'eeee'}, namespace='/ws/main')
+
+    _data = {'data': 'threading data'}
+    t = threading.Thread(target=websocket_thread,
+                         kwargs={'event_id': 'temp_data', 'data': _data, 'namespace':_namespace})
+    t.start()
+
     return 'send socket successful'
+
+def websocket_thread(**data):
+    event_id = data['event_id']
+    _data = data['data']
+    _namespace = data['namespace']
+    print('begin emit data---------------',_data)
+    socketio.emit(event_id, _data, namespace=_namespace)
+    socketio.sleep(2)  # 同时发送消息的时候，必须有个时间间隔

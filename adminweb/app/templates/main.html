@@ -67,7 +67,7 @@
         <!-- Info boxes -->
         <div class="row">
 
-          <div class="card">
+            <div class="card">
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="fas fa-chart-pie mr-1"></i>
@@ -87,7 +87,7 @@
               </div><!-- /.card-body -->
             </div>
 
-          <div class="card">
+            <div class="card">
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="fas fa-chart-pie mr-1"></i>
@@ -105,7 +105,7 @@
               </div><!-- /.card-body -->
             </div>
 
-          <div class="card">
+            <div class="card">
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="fas fa-user-md mr-1"></i>
@@ -116,15 +116,32 @@
               <div class="card-body">
                 <div class="tab-content p-0">
 
-                    <div class="blue" id="red-alert" style="position: relative;width: 200px;height:250px;"></div>
+                    <div class="blue" id="red-alert" style="position: relative;width: 130px;height:250px;"></div>
                 </div>
               </div><!-- /.card-body -->
             </div>
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">
+                      <i class="fas fa-user-md mr-1"></i>
+                      倾角传感器
+                    </h3>
 
-
+                  </div><!-- /.card-header -->
+              <div class="card-body">
+                    <div class="tab-content p-0">
+                        <div class="small-box bg-warning">
+                          <div class="inner">
+                            <h5>X轴：1.2°</h5>
+                            <h5> Y轴：-2.5°</h5>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+              </div><!-- /.card-body -->
 
           <!-- fix for small devices only -->
-          <div class="clearfix hidden-md-up"></div>
+            <div class="clearfix hidden-md-up"></div>
 
 
           <!-- /.col -->
@@ -415,7 +432,7 @@ setInterval(function() {
     //打开定时器
     function open_alert(){
         if(alert_interval!=undefined){
-            alert("已经启动");
+            //alert("已经启动");
  }else{
             alert_interval = setInterval(function(){
               $("#red-alert").toggleClass("red");
@@ -435,6 +452,10 @@ $(function(){
       open_alert();
     });
 });
+
+setInterval(function() {
+    open_alert();
+}, 3000);
 
 </script>
 </body>
